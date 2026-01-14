@@ -78,22 +78,3 @@ docker-compose up --build --force-recreate
 ```bash
 docker-compose down -v
 ```
-
-## 📦 Funcionalidades
-
-La aplicación incluye un CRUD simple de items con:
-- Crear items (nombre y descripción)
-- Listar todos los items
-- Eliminar items
-
-## 🔌 API Endpoints
-
-- `GET /api/items` - Obtener todos los items
-- `POST /api/items` - Crear un nuevo item
-- `DELETE /api/items/:id` - Eliminar un item
-
-## 💡 Notas
-
-- Los cambios en el código se reflejan automáticamente (hot reload)
-- Los datos de MongoDB se persisten en un volumen Docker
-- El backend se conecta a MongoDB usando el nombre del servicio `mongodb`
