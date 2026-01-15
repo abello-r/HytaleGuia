@@ -1,0 +1,20 @@
+{
+  "header": {
+    "title": "Hytale Guide",
+    "subtitle": "Your complete guide to the Hytale universe"
+  },
+  "systemStatus": {
+    "title": "System Status",
+    "backend": "Backend API",
+    "frontend": "Frontend",
+    "ssl": "SSL",
+    "serverTime": "Server Time (Madrid)",
+    "active": "Active",
+    "configured": "Configured",
+    "loading": "Loading..."
+  },
+  "welcome": "🎮 Welcome to the ultimate Hytale guide",
+  "errors": {
+    "backendConnection": "Error connecting to backend"
+  }
+}

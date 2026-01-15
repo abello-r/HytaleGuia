@@ -1,5 +1,4 @@
 services:
-  # Backend Node.js
   backend:
     build:
       context: ./backend
@@ -13,25 +12,18 @@ services:
     networks:
       - app-network
 
-  # Frontend React
   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
     container_name: frontend
     expose:
-      - "3000"
-    environment:
-      REACT_APP_API_URL: https://hytaleguia.com
+      - "80"
     depends_on:
       - backend
     networks:
       - app-network
-    volumes:
-      - ./frontend/src:/app/src:ro
-      - ./frontend/public:/app/public:ro
 
-  # Nginx Reverse Proxy
   nginx:
     image: nginx:alpine
     container_name: nginx
