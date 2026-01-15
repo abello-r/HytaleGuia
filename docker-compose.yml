@@ -5,16 +5,13 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     container_name: backend
-    ports:
-      - "0.0.0.0:5000:5000"
+    expose:
+      - "5000"
     environment:
       MONGO_URI: ${MONGO_URI}
       PORT: 5000
     networks:
       - app-network
-    volumes:
-      - ./backend:/app
-      - /app/node_modules
 
   # Frontend React
   frontend:
@@ -22,17 +19,33 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     container_name: frontend
-    ports:
-      - "0.0.0.0:80:3000"
+    expose:
+      - "3000"
     environment:
-      REACT_APP_API_URL: http://217.154.106.80:5000
+      REACT_APP_API_URL: https://hytaleguia.com
     depends_on:
       - backend
     networks:
       - app-network
     volumes:
-      - ./frontend:/app
-      - /app/node_modules
+      - ./frontend/src:/app/src:ro
+      - ./frontend/public:/app/public:ro
+
+  # Nginx Reverse Proxy
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/certs:/etc/nginx/certs:ro
+    depends_on:
+      - frontend
+      - backend
+    networks:
+      - app-network
 
 networks:
   app-network:
