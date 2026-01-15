@@ -1,3 +1,9 @@
+# Certificados y claves privadas
+*.key
+*.pem
+*.crt
+nginx/certs/
+
 # Logs
 logs
 *.log
