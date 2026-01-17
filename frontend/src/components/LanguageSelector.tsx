@@ -23,11 +23,12 @@ const LanguageSelector: React.FC = () => {
   return (
     <div className="relative">
       <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center space-x-2 bg-white/10 hover:bg-white/20 backdrop-blur-lg rounded-lg px-4 py-2 border border-white/20 transition-all duration-200"
-      >
-        <span className="text-2xl">{currentLanguage.flag}</span>
-        <span className="text-white font-medium">{currentLanguage.name}</span>
+  onClick={() => setIsOpen(!isOpen)}
+  className="flex items-center space-x-2 bg-white/10 hover:bg-white/20 backdrop-blur-lg rounded-lg px-6 py-2 border border-white/20 transition-all duration-200 font-bold"
+  style={{ height: '42px' }}
+>
+        <span className="text-xl">{currentLanguage.flag}</span>
+        <span className="text-white">{currentLanguage.name}</span>
         <svg 
           className={`w-4 h-4 text-white transition-transform ${isOpen ? 'rotate-180' : ''}`}
           fill="none" 
@@ -44,7 +45,7 @@ const LanguageSelector: React.FC = () => {
             className="fixed inset-0 z-10" 
             onClick={() => setIsOpen(false)}
           />
-          <div className="absolute right-0 mt-2 w-48 bg-white/10 backdrop-blur-lg rounded-lg border border-white/20 shadow-xl z-20 overflow-hidden">
+          <div className="absolute right-0 mt-2 w-56 bg-[#0b0d12]/95 backdrop-blur-lg rounded-lg border border-white/20 shadow-xl z-20 overflow-hidden">
             {languages.map((lang) => (
               <button
                 key={lang.code}
@@ -53,10 +54,10 @@ const LanguageSelector: React.FC = () => {
                   lang.code === i18n.language ? 'bg-white/10' : ''
                 }`}
               >
-                <span className="text-2xl">{lang.flag}</span>
+                <span className="text-xl">{lang.flag}</span>
                 <span className="text-white font-medium">{lang.name}</span>
                 {lang.code === i18n.language && (
-                  <svg className="w-5 h-5 text-green-400 ml-auto" fill="currentColor" viewBox="0 0 20 20">
+                  <svg className="w-5 h-5 text-[#00d2ff] ml-auto" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                   </svg>
                 )}

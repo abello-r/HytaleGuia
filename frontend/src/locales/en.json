@@ -1,20 +1,53 @@
 {
-  "header": {
-    "title": "Hytale Guide",
-    "subtitle": "Your complete guide to the Hytale universe"
+  "nav": {
+    "home": "HOME",
+    "news": "NEWS",
+    "guides": "GUIDES",
+    "mods": "MODS",
+    "serverList": "SERVER LIST"
   },
-  "systemStatus": {
-    "title": "System Status",
-    "backend": "Backend API",
-    "frontend": "Frontend",
-    "ssl": "SSL",
-    "serverTime": "Server Time (Madrid)",
-    "active": "Active",
-    "configured": "Configured",
-    "loading": "Loading..."
+  "hero": {
+    "betaBadge": "BETA COMING SOON",
+    "title": "DISCOVER",
+    "titleHighlight": "HYTALE",
+    "subtitle": "The ultimate guide in English",
+    "description": "The definitive encyclopedia. Explore biomes, discover crafting recipes and join the largest Hytale community.",
+    "searchPlaceholder": "Ask anything, AI will help you...",
+    "searchButton": "SEARCH",
+    "searchHint": "Use keywords like \"How to craft a sword?\" or \"Where to find water biomes?\""
   },
-  "welcome": "🎮 Welcome to the ultimate Hytale guide",
-  "errors": {
-    "backendConnection": "Error connecting to backend"
+  "trending": {
+    "title": "Trending in",
+    "titleHighlight": "Orbis",
+    "readArticle": "Read Article",
+    "online": "Online"
+  },
+  "footer": {
+    "description": "The largest Spanish-speaking Hytale community. Guides, mods, servers and news.",
+    "quickLinks": "Quick Links",
+    "community": "Community",
+    "legal": "Legal",
+    "home": "Home",
+    "news": "News",
+    "guides": "Guides",
+    "mods": "Mods",
+    "serverList": "Server List",
+    "discord": "Discord",
+    "twitter": "Twitter",
+    "youtube": "YouTube",
+    "reddit": "Reddit",
+    "terms": "Terms of Use",
+    "privacy": "Privacy Policy",
+    "cookies": "Cookies",
+    "contact": "Contact",
+    "copyright": "© 2026 HytaleGuía. All rights reserved.",
+    "madeWith": "Made with ❤️ for the community",
+    "disclaimer": "This site is not affiliated with Hypixel Studios or Riot Games."
+  },
+  "discord": {
+    "tooltip": "Join Discord"
+  },
+  "auth": {
+    "login": "LOGIN"
   }
 }

@@ -1,20 +1,53 @@
 {
-  "header": {
-    "title": "Hytale Guide",
-    "subtitle": "La tua guida completa all'universo Hytale"
+  "nav": {
+    "home": "HOME",
+    "news": "NOTIZIE",
+    "guides": "GUIDE",
+    "mods": "MODS",
+    "serverList": "LISTA SERVER"
   },
-  "systemStatus": {
-    "title": "Stato del Sistema",
-    "backend": "API Backend",
-    "frontend": "Frontend",
-    "ssl": "SSL",
-    "serverTime": "Ora del Server (Madrid)",
-    "active": "Attivo",
-    "configured": "Configurato",
-    "loading": "Caricamento..."
+  "hero": {
+    "betaBadge": "BETA PROSSIMAMENTE",
+    "title": "SCOPRI",
+    "titleHighlight": "HYTALE",
+    "subtitle": "La guida definitiva in italiano",
+    "description": "L'enciclopedia definitiva. Esplora i biomi, scopri il crafting e unisciti alla più grande comunità di Hytale.",
+    "searchPlaceholder": "Chiedi qualsiasi cosa, l'IA ti aiuterà...",
+    "searchButton": "CERCA",
+    "searchHint": "Usa parole chiave come \"Come creare una spada?\" o \"Dove trovare biomi acquatici?\""
   },
-  "welcome": "🎮 Benvenuto nella guida definitiva di Hytale",
-  "errors": {
-    "backendConnection": "Errore di connessione al backend"
+  "trending": {
+    "title": "Tendenze in",
+    "titleHighlight": "Orbis",
+    "readArticle": "Leggi Articolo",
+    "online": "Online"
+  },
+  "footer": {
+    "description": "La più grande comunità ispanofona di Hytale. Guide, mods, server e notizie.",
+    "quickLinks": "Link Rapidi",
+    "community": "Comunità",
+    "legal": "Legale",
+    "home": "Home",
+    "news": "Notizie",
+    "guides": "Guide",
+    "mods": "Mods",
+    "serverList": "Lista Server",
+    "discord": "Discord",
+    "twitter": "Twitter",
+    "youtube": "YouTube",
+    "reddit": "Reddit",
+    "terms": "Termini di Utilizzo",
+    "privacy": "Privacy Policy",
+    "cookies": "Cookies",
+    "contact": "Contatto",
+    "copyright": "© 2026 HytaleGuía. Tutti i diritti riservati.",
+    "madeWith": "Fatto con ❤️ per la comunità",
+    "disclaimer": "Questo sito non è affiliato con Hypixel Studios né con Riot Games."
+  },
+  "discord": {
+    "tooltip": "Unisciti a Discord"
+  },
+  "auth": {
+    "login": "ACCEDI"
   }
 }
