@@ -18,17 +18,20 @@
 
 ## 📋 Descripción
 
-HytaleGuía es la comunidad hispana más grande dedicada a Hytale. Una plataforma completa que ofrece guías, noticias, mods, listado de servidores y mucho más, todo con una interfaz moderna y multiidioma.
+HytaleGuía es una plataforma web completa dedicada a Hytale, desarrollada como proyecto personal. Combina frontend moderno con React/TypeScript, backend con Node.js, y automatización de contenido mediante N8N, todo desplegado con Docker.
+
+Este proyecto demuestra habilidades en desarrollo full-stack, DevOps, internacionalización y arquitectura de microservicios.
 
 ### ✨ Características
 
-- 🌍 **Multiidioma** - Soporte para Español, Inglés, Francés, Italiano y Portugués
-- 🎨 **Diseño Moderno** - UI con Glassmorphism y animaciones suaves
+- 🌍 **Multiidioma** - Sistema de internacionalización con 5 idiomas
+- 🎨 **Diseño Moderno** - UI con Glassmorphism y animaciones fluidas
 - 🔍 **Búsqueda IA** - Motor de búsqueda potenciado por inteligencia artificial
-- 🎯 **Hot Reload** - Desarrollo ágil con recarga automática
-- 📱 **Responsive** - Diseño adaptable a todos los dispositivos
-- 🐳 **Docker** - Despliegue fácil con contenedores
-- 🔒 **SSL** - Certificados SSL configurados
+- 🤖 **Automatización N8N** - Actualización automática de contenido mediante workflows
+- 🎯 **Hot Reload** - Desarrollo ágil con recarga en tiempo real
+- 📱 **Responsive Design** - Adaptable a todos los dispositivos
+- 🐳 **Dockerizado** - Infraestructura completa en contenedores
+- 🔒 **SSL/HTTPS** - Certificados configurados con Nginx
 - 📊 **Analytics** - Google Analytics integrado
 
 ---
@@ -47,20 +50,23 @@ HytaleGuía es la comunidad hispana más grande dedicada a Hytale. Una plataform
 - **Express** - Framework web
 - **MongoDB** - Base de datos NoSQL
 
-### DevOps
+### DevOps & Automation
 - **Docker & Docker Compose** - Contenedores
 - **Nginx** - Reverse proxy y servidor web
-- **GitHub Actions** - CI/CD (próximamente)
+- **N8N** - Automatización de workflows y actualización de contenido
 
 ---
 
-## 📦 Instalación
+## 📦 Instalación y Despliegue
+
+> **Nota:** Este es un proyecto personal. El código está disponible para propósitos de portfolio y demostración.
 
 ### Requisitos Previos
 
 - Node.js 20+
 - Docker & Docker Compose
-- Git
+- MongoDB
+- N8N (para automatización de contenido)
 
 ### Desarrollo Local
 
@@ -146,6 +152,44 @@ HytaleGuia/
 
 ---
 
+## 🎯 Arquitectura
+
+```
+┌─────────────┐
+│   Usuario   │
+└──────┬──────┘
+       │
+       ▼
+┌─────────────────┐
+│  Nginx (HTTPS)  │  ← Reverse Proxy + SSL
+└────────┬────────┘
+         │
+    ┌────┴────┐
+    │         │
+    ▼         ▼
+┌─────────┐ ┌──────────┐
+│ React   │ │ Node.js  │
+│Frontend │ │ Backend  │
+└─────────┘ └────┬─────┘
+                 │
+            ┌────┴────┐
+            │         │
+            ▼         ▼
+      ┌──────────┐ ┌─────────┐
+      │ MongoDB  │ │   N8N   │  ← Automatización
+      └──────────┘ └─────────┘
+```
+
+### Flujo de Actualización de Contenido con N8N
+
+1. **N8N** ejecuta workflows programados
+2. Recopila información de fuentes externas (RSS, APIs, web scraping)
+3. Procesa y formatea el contenido
+4. Actualiza MongoDB con nuevo contenido
+5. Frontend consume datos actualizados en tiempo real
+
+---
+
 ## 🌐 Multiidioma
 
 El proyecto usa **i18next** para la internacionalización. Para añadir un nuevo idioma:
@@ -179,26 +223,7 @@ El proyecto usa **i18next** para la internacionalización. Para añadir un nuevo
 
 ---
 
-## 🤝 Contribuir
-
-¡Las contribuciones son bienvenidas! Sigue estos pasos:
-
-1. Fork el proyecto
-2. Crea una rama para tu feature (`git checkout -b feature/AmazingFeature`)
-3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
-4. Push a la rama (`git push origin feature/AmazingFeature`)
-5. Abre un Pull Request
-
-### Guía de Estilo
-
-- Usa TypeScript para todo el código nuevo
-- Sigue las convenciones de Tailwind CSS
-- Mantén los componentes pequeños y reutilizables
-- Añade traducciones para todos los textos visibles
-
----
-
-## 📝 Scripts Disponibles
+## 🎯 Arquitectura
 
 ### Frontend
 
@@ -276,8 +301,10 @@ Este proyecto está bajo la Licencia MIT. Ver el archivo [LICENSE](LICENSE) para
 
 <div align="center">
 
-**⭐ Si te gusta el proyecto, dale una estrella en GitHub ⭐**
+**💼 Proyecto Personal de Portfolio**
 
-Hecho con ❤️ para la comunidad de Hytale
+Desarrollado por **abello-r** • [GitHub](https://github.com/abello-r)
+
+Hecho con ❤️ como demostración de habilidades full-stack
 
 </div>
