@@ -298,14 +298,14 @@ This project is under the MIT License. See the [LICENSE](LICENSE) file for more 
     </td>
     <td align="center">
       <a href="#">
-        <img src="#" width="100px;" alt="Olman Zapata"/><br />
+        <img src="https://images.rawpixel.com/image_png_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDI0LTExL3Jhd3BpeGVsX29mZmljZV8zMl9ibGFja19mbGF0X3ZlY3Rvcl9pbGx1c3RyYXRpb25fb2Zfc2V0X29mXzRfc18zMWNhYTI1MS0xMWMxLTRmMDktYjQzMS00ZTM0MmExMDBkOGQtMDAxLnBuZw.png" width="100px;" alt="Olman Zapata"/><br />
         <sub><b>Olman Zapata</b></sub>
       </a><br />
       <sub>Frontend Engineer</sub>
     </td>
     <td align="center">
       <a href="#">
-        <img src="#" width="100px;" alt="Alexander Romero"/><br />
+        <img src="https://images.rawpixel.com/image_png_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDI0LTExL3Jhd3BpeGVsX29mZmljZV8zMl9ibGFja19mbGF0X3ZlY3Rvcl9pbGx1c3RyYXRpb25fb2Zfc2V0X29mXzRfc18zMWNhYTI1MS0xMWMxLTRmMDktYjQzMS00ZTM0MmExMDBkOGQtMDAxLnBuZw.png" width="100px;" alt="Alexander Romero"/><br />
         <sub><b>Alexander Romero</b></sub>
       </a><br />
       <sub>Legal & Compliance Advisor</sub>
@@ -321,7 +321,7 @@ This project is under the MIT License. See the [LICENSE](LICENSE) file for more 
     </td>
     <td align="center">
       <a href="#">
-        <img src="#" width="100px;" alt="Diego Corado"/><br />
+        <img src="https://images.rawpixel.com/image_png_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDI0LTExL3Jhd3BpeGVsX29mZmljZV8zMl9ibGFja19mbGF0X3ZlY3Rvcl9pbGx1c3RyYXRpb25fb2Zfc2V0X29mXzRfc18zMWNhYTI1MS0xMWMxLTRmMDktYjQzMS00ZTM0MmExMDBkOGQtMDAxLnBuZw.png" width="100px;" alt="Diego Corado"/><br />
         <sub><b>Diego Corado</b></sub>
       </a><br />
       <sub>UX/UI Designer</sub>
