@@ -1,4 +1,4 @@
-# 🎮 HytaleGuía
+# 🎮 HytaleGuide
 
 <div align="center">
 
@@ -8,104 +8,104 @@
 ![Vite](https://img.shields.io/badge/Vite-6.0-646CFF?style=for-the-badge&logo=vite)
 ![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?style=for-the-badge&logo=docker)
 
-**La enciclopedia definitiva de Hytale en español**
+**The ultimate Hytale encyclopedia in Spanish**
 
-[🌐 Demo](https://hytaleguia.com) • [📖 Documentación](#características) • [🐛 Reportar Bug](https://github.com/abello-r/HytaleGuia/issues)
+[🌐 Live Demo](https://hytaleguia.com) • [📖 Documentation](#features) • [🐛 Report Bug](https://github.com/abello-r/HytaleGuia/issues)
 
 </div>
 
 ---
 
-## 📋 Descripción
+## 📋 Description
 
-HytaleGuía es una plataforma web completa dedicada a Hytale, desarrollada como proyecto personal. Combina frontend moderno con React/TypeScript, backend con Node.js, y automatización de contenido mediante N8N, todo desplegado con Docker.
+HytaleGuide is a comprehensive web platform dedicated to Hytale, developed as a commercial project. It combines modern frontend with React/TypeScript, Node.js backend, and content automation through N8N, all deployed with Docker.
 
-Este proyecto demuestra habilidades en desarrollo full-stack, DevOps, internacionalización y arquitectura de microservicios.
+This project showcases full-stack development, DevOps, internationalization, and microservices architecture skills.
 
-### ✨ Características
+### ✨ Features
 
-- 🌍 **Multiidioma** - Sistema de internacionalización con 5 idiomas
-- 🎨 **Diseño Moderno** - UI con Glassmorphism y animaciones fluidas
-- 🔍 **Búsqueda IA** - Motor de búsqueda potenciado por inteligencia artificial
-- 🤖 **Automatización N8N** - Actualización automática de contenido mediante workflows
-- 🎯 **Hot Reload** - Desarrollo ágil con recarga en tiempo real
-- 📱 **Responsive Design** - Adaptable a todos los dispositivos
-- 🐳 **Dockerizado** - Infraestructura completa en contenedores
-- 🔒 **SSL/HTTPS** - Certificados configurados con Nginx
-- 📊 **Analytics** - Google Analytics integrado
+- 🌍 **Multilingual** - Internationalization system with 5 languages
+- 🎨 **Modern Design** - UI with Glassmorphism and smooth animations
+- 🔍 **AI Search** - AI-powered search engine
+- 🤖 **N8N Automation** - Automatic content updates through workflows
+- 🎯 **Hot Reload** - Agile development with real-time reloading
+- 📱 **Responsive Design** - Adaptable to all devices
+- 🐳 **Dockerized** - Complete containerized infrastructure
+- 🔒 **SSL/HTTPS** - Certificates configured with Nginx
+- 📊 **Analytics** - Google Analytics integrated
 
 ---
 
 ## 🚀 Tech Stack
 
 ### Frontend
-- **React 18.3** - Biblioteca UI
-- **TypeScript 5.6** - Tipado estático
-- **Vite 6.0** - Build tool ultra-rápido
-- **Tailwind CSS 3.4** - Framework CSS utility-first
-- **i18next** - Internacionalización
+- **React 18.3** - UI Library
+- **TypeScript 5.6** - Static typing
+- **Vite 6.0** - Ultra-fast build tool
+- **Tailwind CSS 3.4** - Utility-first CSS framework
+- **i18next** - Internationalization
 
 ### Backend
-- **Node.js 20** - Runtime JavaScript
-- **Express** - Framework web
-- **MongoDB** - Base de datos NoSQL
+- **Node.js 20** - JavaScript runtime
+- **Express** - Web framework
+- **MongoDB** - NoSQL database
 
 ### DevOps & Automation
-- **Docker & Docker Compose** - Contenedores
-- **Nginx** - Reverse proxy y servidor web
-- **N8N** - Automatización de workflows y actualización de contenido
+- **Docker & Docker Compose** - Containers
+- **Nginx** - Reverse proxy and web server
+- **N8N** - Workflow automation and content updates
 
 ---
 
-## 📦 Instalación y Despliegue
+## 📦 Installation & Deployment
 
-> **Nota:** Este es un proyecto personal. El código está disponible para propósitos de portfolio y demostración.
+> **Note:** This is a commercial project and fansite dedicated to Hytale. Code is available for portfolio and technical demonstration purposes. Not officially affiliated with Hypixel Studios or Riot Games.
 
-### Requisitos Previos
+### Prerequisites
 
 - Node.js 20+
 - Docker & Docker Compose
 - MongoDB
-- N8N (para automatización de contenido)
+- N8N (for content automation)
 
-### Desarrollo Local
+### Local Development
 
 ```bash
-# Clonar el repositorio
+# Clone the repository
 git clone https://github.com/abello-r/HytaleGuia.git
 cd HytaleGuia
 
-# Instalar dependencias del frontend
+# Install frontend dependencies
 cd frontend
 npm install
 
-# Instalar dependencias del backend
+# Install backend dependencies
 cd ../backend
 npm install
 
-# Volver a la raíz
+# Return to root
 cd ..
 ```
 
-### Con Docker (Recomendado)
+### With Docker (Recommended)
 
 ```bash
-# Levantar todos los servicios
+# Start all services
 docker-compose up
 ```
 
-La aplicación estará disponible en:
+The application will be available at:
 - **Frontend**: http://localhost:3000
 - **Backend API**: http://localhost:5000
 - **Nginx**: http://localhost
 
 ---
 
-## 🛠️ Configuración
+## 🛠️ Configuration
 
-### Variables de Entorno
+### Environment Variables
 
-Crea un archivo `.env` en la raíz del proyecto:
+Create a `.env` file in the project root:
 
 ```env
 # MongoDB
@@ -114,49 +114,49 @@ MONGO_URI=mongodb://localhost:27017/hytaleguia
 # Backend
 PORT=5000
 
-# Frontend (opcional)
+# Frontend (optional)
 VITE_API_URL=http://localhost:5000
 ```
 
-### Hot Reload en Docker
+### Hot Reload in Docker
 
-El proyecto está configurado con hot reload automático. Los cambios en `frontend/src` se reflejan instantáneamente sin reiniciar el contenedor.
+The project is configured with automatic hot reload. Changes in `frontend/src` are reflected instantly without restarting the container.
 
 ---
 
-## 📁 Estructura del Proyecto
+## 📁 Project Structure
 
 ```
 HytaleGuia/
-├── frontend/                # Aplicación React
+├── frontend/                # React application
 │   ├── src/
-│   │   ├── components/     # Componentes reutilizables
-│   │   ├── locales/        # Traducciones i18n
-│   │   ├── App.tsx         # Componente principal
+│   │   ├── components/     # Reusable components
+│   │   ├── locales/        # i18n translations
+│   │   ├── App.tsx         # Main component
 │   │   └── main.tsx        # Entry point
-│   ├── public/             # Assets estáticos
-│   └── Dockerfile          # Docker para producción
+│   ├── public/             # Static assets
+│   └── Dockerfile          # Production Docker
 │
-├── backend/                 # API Node.js
-│   ├── server.js           # Servidor Express
-│   ├── routes/             # Rutas API
-│   ├── models/             # Modelos MongoDB
+├── backend/                 # Node.js API
+│   ├── server.js           # Express server
+│   ├── routes/             # API routes
+│   ├── models/             # MongoDB models
 │   └── Dockerfile
 │
-├── nginx/                   # Configuración Nginx
-│   ├── nginx.conf          # Config principal
-│   └── certs/              # Certificados SSL
+├── nginx/                   # Nginx configuration
+│   ├── nginx.conf          # Main config
+│   └── certs/              # SSL certificates
 │
 └── docker-compose.yml       # Docker compose
 ```
 
 ---
 
-## 🎯 Arquitectura
+## 🎯 Architecture
 
 ```
 ┌─────────────┐
-│   Usuario   │
+│    User     │
 └──────┬──────┘
        │
        ▼
@@ -176,29 +176,29 @@ HytaleGuia/
             │         │
             ▼         ▼
       ┌──────────┐ ┌─────────┐
-      │ MongoDB  │ │   N8N   │  ← Automatización
+      │ MongoDB  │ │   N8N   │  ← Automation
       └──────────┘ └─────────┘
 ```
 
-### Flujo de Actualización de Contenido con N8N
+### Content Update Flow with N8N
 
-1. **N8N** ejecuta workflows programados
-2. Recopila información de fuentes externas (RSS, APIs, web scraping)
-3. Procesa y formatea el contenido
-4. Actualiza MongoDB con nuevo contenido
-5. Frontend consume datos actualizados en tiempo real
+1. **N8N** executes scheduled workflows
+2. Collects information from external sources (RSS, APIs, web scraping)
+3. Processes and formats content
+4. Updates MongoDB with new content
+5. Frontend consumes updated data in real-time
 
 ---
 
-## 🌐 Multiidioma
+## 🌐 Multilingual
 
-El proyecto usa **i18next** para la internacionalización. Para añadir un nuevo idioma:
+The project uses **i18next** for internationalization. To add a new language:
 
-1. Crea un archivo en `frontend/src/locales/{codigo}/translation.json`
-2. Añade el idioma al selector en `frontend/src/components/LanguageSelector.tsx`
-3. Las traducciones se cargan automáticamente
+1. Create a file in `frontend/src/locales/{code}/translation.json`
+2. Add the language to the selector in `frontend/src/components/LanguageSelector.tsx`
+3. Translations load automatically
 
-**Idiomas soportados:**
+**Supported languages:**
 - 🇪🇸 Español
 - 🇬🇧 English
 - 🇫🇷 Français
@@ -207,104 +207,150 @@ El proyecto usa **i18next** para la internacionalización. Para añadir un nuevo
 
 ---
 
-## 🎨 Paleta de Colores
+## 🎨 Color Palette
 
 ```css
-/* Colores principales */
---negro-profundo: #0b0d12
---azul-cyan: #00d2ff
---azul-oscuro: #0099cc
---gris-plata: #a0a0a0
+/* Main colors */
+--deep-black: #0b0d12
+--cyan-blue: #00d2ff
+--dark-blue: #0099cc
+--silver-gray: #a0a0a0
 
 /* Glassmorphism */
---cristal: rgba(255, 255, 255, 0.05)
---borde-cristal: rgba(255, 255, 255, 0.1)
+--glass: rgba(255, 255, 255, 0.05)
+--glass-border: rgba(255, 255, 255, 0.1)
 ```
 
 ---
 
-## 🎯 Arquitectura
+## 📝 Available Scripts
 
 ### Frontend
 
 ```bash
-npm run dev          # Servidor de desarrollo
-npm run build        # Build de producción
-npm run preview      # Preview del build
-npm run lint         # Linter ESLint
+npm run dev          # Development server
+npm run build        # Production build
+npm run preview      # Preview build
+npm run lint         # ESLint linter
 ```
 
 ### Backend
 
 ```bash
-npm start            # Iniciar servidor
-npm run dev          # Modo desarrollo con nodemon
+npm start            # Start server
+npm run dev          # Development mode with nodemon
 ```
 
 ### Docker
 
 ```bash
-docker-compose up              # Iniciar servicios
-docker-compose down            # Parar servicios
-docker-compose logs -f         # Ver logs
+docker-compose up              # Start services
+docker-compose down            # Stop services
+docker-compose logs -f         # View logs
 ```
 
 ---
 
 ## 🐛 Troubleshooting
 
-### El hot reload no funciona
+### Hot reload not working
 
-Asegúrate de tener las variables de entorno en el contenedor:
+Make sure you have the environment variables in the container:
 ```yaml
 environment:
   - CHOKIDAR_USEPOLLING=true
   - WATCHPACK_POLLING=true
 ```
 
-### Error de puertos ocupados
+### Port already in use error
 
-Cambia los puertos en `docker-compose.yml`:
+Change the ports in `docker-compose.yml`:
 ```yaml
 ports:
-  - "3001:3000"  # Cambiar 3000 por otro puerto
+  - "3001:3000"  # Change 3000 to another port
 ```
 
-### Problemas con MongoDB
+### MongoDB connection issues
 
-Verifica que MongoDB esté corriendo:
+Verify MongoDB is running:
 ```bash
 docker-compose logs backend
 ```
 
 ---
 
-## 📄 Licencia
+## 📄 License
 
-Este proyecto está bajo la Licencia MIT. Ver el archivo [LICENSE](LICENSE) para más detalles.
-
----
-
-## 👥 Autores
-
-- **abello-r** - *Trabajo inicial* - [GitHub](https://github.com/abello-r)
+This project is under the MIT License. See the [LICENSE](LICENSE) file for more details.
 
 ---
 
-## 🙏 Agradecimientos
+## 👥 Team
 
-- Comunidad de Hytale
-- Hypixel Studios por crear Hytale
-- Todos los contribuidores del proyecto
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/abello-r">
+        <img src="https://github.com/abello-r.png" width="100px;" alt="Alexander Bello"/><br />
+        <sub><b>Alexander Bello</b></sub>
+      </a><br />
+      <sub>💻 Full-Stack Development</sub>
+    </td>
+    <td align="center">
+      <a href="https://github.com/olmanzap">
+        <img src="https://github.com/olmanzap.png" width="100px;" alt="Olman Zapata"/><br />
+        <sub><b>Olman Zapata</b></sub>
+      </a><br />
+      <sub>🎨 Mods & Frontend</sub>
+    </td>
+    <td align="center">
+      <a href="https://github.com/alexander">
+        <img src="https://github.com/alexander.png" width="100px;" alt="Alexander"/><br />
+        <sub><b>Alexander</b></sub>
+      </a><br />
+      <sub>⚖️ Legal & Routing</sub>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/davidgomez">
+        <img src="https://github.com/davidgomez.png" width="100px;" alt="David Gomez"/><br />
+        <sub><b>David Gomez</b></sub>
+      </a><br />
+      <sub>🤖 N8N & Servers</sub>
+    </td>
+    <td align="center">
+      <a href="https://github.com/diegocorado">
+        <img src="https://github.com/diegocorado.png" width="100px;" alt="Diego Corado"/><br />
+        <sub><b>Diego Corado</b></sub>
+      </a><br />
+      <sub>🎨 UX & Design</sub>
+    </td>
+  </tr>
+</table>
+
+---
+
+## 🙏 Acknowledgments
+
+- Hytale Community
+- Hypixel Studios for creating Hytale
+- All project contributors
 
 ---
 
 <div align="center">
 
-**💼 Proyecto Personal de Portfolio**
+### 🌟 Commercial Hytale Fansite
 
-Desarrollado por **abello-r** • [GitHub](https://github.com/abello-r)
+**[HytaleGuide](https://hytaleguia.com)** - The Spanish Hytale Community Hub
 
-Hecho con ❤️ como demostración de habilidades full-stack
+[🌐 Visit Site](https://hytaleguia.com) • [📧 Contact](https://github.com/abello-r) • [⭐ Star on GitHub](https://github.com/abello-r/HytaleGuia)
+
+---
+
+*Built with ❤️ by the HytaleGuide Team*
+
+*Not affiliated with Hypixel Studios or Riot Games*
 
 </div>
