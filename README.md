@@ -294,37 +294,37 @@ This project is under the MIT License. See the [LICENSE](LICENSE) file for more 
         <img src="https://github.com/abello-r.png" width="100px;" alt="Alexander Bello"/><br />
         <sub><b>Alexander Bello</b></sub>
       </a><br />
-      <sub>💻 Full-Stack Development</sub>
+      <sub>Full Stack Engineer</sub>
     </td>
     <td align="center">
-      <a href="https://github.com/olmanzap">
-        <img src="https://github.com/olmanzap.png" width="100px;" alt="Olman Zapata"/><br />
+      <a href="#">
+        <img src="#" width="100px;" alt="Olman Zapata"/><br />
         <sub><b>Olman Zapata</b></sub>
       </a><br />
-      <sub>🎨 Mods & Frontend</sub>
+      <sub>Frontend Engineer</sub>
     </td>
     <td align="center">
-      <a href="https://github.com/alexander">
-        <img src="https://github.com/alexander.png" width="100px;" alt="Alexander"/><br />
-        <sub><b>Alexander</b></sub>
+      <a href="#">
+        <img src="#" width="100px;" alt="Alexander Romero"/><br />
+        <sub><b>Alexander Romero</b></sub>
       </a><br />
-      <sub>⚖️ Legal & Routing</sub>
+      <sub>Legal & Compliance Advisor</sub>
     </td>
   </tr>
   <tr>
     <td align="center">
-      <a href="https://github.com/davidgomez">
-        <img src="https://github.com/davidgomez.png" width="100px;" alt="David Gomez"/><br />
+      <a href="https://github.com/Davi-G">
+        <img src="https://github.com/Davi-G.png" width="100px;" alt="David Gomez"/><br />
         <sub><b>David Gomez</b></sub>
       </a><br />
-      <sub>🤖 N8N & Servers</sub>
+      <sub>Automation & Infrastructure Engineer</sub>
     </td>
     <td align="center">
-      <a href="https://github.com/diegocorado">
-        <img src="https://github.com/diegocorado.png" width="100px;" alt="Diego Corado"/><br />
+      <a href="#">
+        <img src="#" width="100px;" alt="Diego Corado"/><br />
         <sub><b>Diego Corado</b></sub>
       </a><br />
-      <sub>🎨 UX & Design</sub>
+      <sub>UX/UI Designer</sub>
     </td>
   </tr>
 </table>
