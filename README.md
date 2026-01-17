@@ -297,8 +297,8 @@ This project is under the MIT License. See the [LICENSE](LICENSE) file for more 
       <sub>Full Stack Engineer</sub>
     </td>
     <td align="center">
-      <a href="#">
-        <img src="https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg?semt=ais_hybrid&w=740&q=80" width="100px;" alt="Olman Zapata"/><br />
+      <a href="https://github.com/Olman-dep">
+        <img src="https://github.com/Olman-dep.png" width="100px;" alt="Olman Zapata"/><br />
         <sub><b>Olman Zapata</b></sub>
       </a><br />
       <sub>Frontend Engineer</sub>

@@ -40,7 +40,7 @@ export default function TrendingSection() {
 	];
 
 	return (
-		<div className="relative bg-[#0b0d12] py-16">
+		<div className="relative bg-[#0b0d12] py-16 pt-32">  {/* Añadido pt-32 para espacio arriba */}
 			<div className="container mx-auto px-4">
 				<div className="flex items-center justify-center space-x-3 mb-12">
 					<h2 className="text-4xl font-bold text-white">
@@ -49,7 +49,7 @@ export default function TrendingSection() {
 				</div>
 
 				<div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
-					{trendingTopics.map((topic) => (
+					{trendingTopics.map((topic, index) => (
 						<TrendingCard
 							key={topic.id}
 							title={topic.title}
@@ -57,6 +57,7 @@ export default function TrendingSection() {
 							badge={topic.badge}
 							badgeColor={topic.badgeColor}
 							image={topic.image}
+							isLast={index === trendingTopics.length - 1}
 						/>
 					))}
 				</div>

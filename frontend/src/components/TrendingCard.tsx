@@ -6,13 +6,25 @@ interface TrendingCardProps {
 	badge: string;
 	badgeColor: string;
 	image: string;
+	isLast?: boolean;
 }
 
-export default function TrendingCard({ title, description, badge, badgeColor, image }: TrendingCardProps) {
+export default function TrendingCard({ title, description, badge, badgeColor, image, isLast }: TrendingCardProps) {
 	const { t } = useTranslation();
 
 	return (
-		<div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl overflow-hidden hover:border-[#00d2ff]/50 hover:bg-white/10 transition-all duration-300 group cursor-pointer">
+		<div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl hover:border-[#00d2ff]/50 hover:bg-white/10 transition-all duration-300 group cursor-pointer relative">
+			{/* Kweebec */}
+			{isLast && (
+				<div className="absolute -top-20 right-8 z-20">
+					<img 
+						src="/kweebec.gif" 
+						alt="Kweebec" 
+						className="w-28 h-28 drop-shadow-2xl"
+					/>
+				</div>
+			)}
+
 			{/* Image/Icon */}
 			<div className="h-48 bg-gradient-to-br from-white/5 to-white/0 flex items-center justify-center text-6xl group-hover:scale-110 transition-transform">
 				{image}

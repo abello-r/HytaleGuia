@@ -11,7 +11,13 @@ export default function Header() {
 					<div className="flex items-center justify-between">
 						{/* Logo */}
 						<div className="flex items-center space-x-2 cursor-pointer">
-							<div className="w-8 h-8 bg-gradient-to-br from-[#00d2ff] to-[#0099cc] rounded"></div>
+							<div className="w-8 h-8 bg-gradient-to-br from-[#00d2ff] to-[#0099cc] rounded flex items-center justify-center overflow-hidden">
+								<img 
+									src="/logo-96.png" 
+									alt="Hytale Guía Logo" 
+									className="w-full h-full object-cover"
+								/>
+							</div>
 							<span className="text-white font-bold text-xl">
 								HYTALE<span className="text-[#00d2ff]"> GUÍA</span>
 							</span>
