@@ -15,7 +15,15 @@ export default function HeroSection() {
 		'A guia definitiva em Português'
 	];
 
-	// Rotación automática con animación roll
+	const languageFlags = [
+		{ src: '/Spain.png', alt: 'Spanish' },
+		{ src: '/UK.png', alt: 'English' },
+		{ src: '/France.png', alt: 'French' },
+		{ src: '/Italy.png', alt: 'Italian' },
+		{ src: '/Portugal.png', alt: 'Portuguese' }
+	];
+
+	// Automatic rotation with roll animation
 	useEffect(() => {
 		const interval = setInterval(() => {
 			setIsAnimating(true);
@@ -30,22 +38,42 @@ export default function HeroSection() {
 
 	const handleSearch = (e: React.FormEvent) => {
 		e.preventDefault();
-		console.log('Buscando:', searchQuery);
+		console.log('Searching:', searchQuery);
 	};
 
 	return (
 		<div className="relative flex-1 flex items-center z-10">
 			<div className="container mx-auto px-4 py-24">
 				<div className="max-w-3xl mx-auto text-center">
-					<div className="inline-block bg-[#00d2ff]/20 backdrop-blur-sm border border-[#00d2ff] text-[#00d2ff] px-4 py-1 rounded-full text-sm font-medium mb-6">
-						{t('hero.betaBadge')}
+					{/* Badges container */}
+					<div className="flex items-center justify-center gap-3 mb-6 flex-wrap">
+						<div className="inline-block bg-[#00d2ff]/20 backdrop-blur-sm border border-[#00d2ff] text-[#00d2ff] px-4 py-1 rounded-full text-sm font-medium">
+							{t('hero.betaBadge')}
+						</div>
+						
+						{/* Multi-language badge */}
+						<div className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-500/20 to-pink-500/20 backdrop-blur-sm border border-purple-400/50 text-white px-4 py-1 rounded-full text-sm font-medium">
+							<span className="flex items-center gap-1">
+								{languageFlags.map((flag, index) => (
+									<img
+										key={index}
+										src={flag.src}
+										alt={flag.alt}
+										className={`w-4 h-4 rounded-sm object-cover transition-all duration-300 ${
+											index === currentLanguageIndex ? 'scale-125 opacity-100' : 'scale-100 opacity-60'
+										}`}
+									/>
+								))}
+							</span>
+							<span className="text-xs font-semibold">5 Languages</span>
+						</div>
 					</div>
 
 					<h1 className="text-6xl md:text-7xl font-bold text-white mb-6 leading-tight">
 						{t('hero.title')} <span className="text-[#00d2ff]">{t('hero.titleHighlight')}</span>
 					</h1>
 
-					{/* Subtítulo rotativo */}
+					{/* Rotating subtitle */}
 					<div className="h-20 flex items-center justify-center mb-4 overflow-hidden">
 						<p
 							className={`text-3xl md:text-4xl font-bold text-white transition-all duration-300 ${
@@ -56,12 +84,12 @@ export default function HeroSection() {
 						</p>
 					</div>
 
-					{/* Descripción */}
+					{/* Description */}
 					<p className="text-2xl font-medium text-white mb-8 leading-relaxed">
 						{t('hero.description')}
 					</p>
 
-					{/* Search Bar con IA */}
+					{/* Search Bar with AI */}
 					<form onSubmit={handleSearch} className="relative">
 						<div className="flex items-center bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl overflow-hidden">
 							<span className="pl-6 text-[#00d2ff] text-xl">✨</span>

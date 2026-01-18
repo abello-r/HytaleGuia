@@ -2,11 +2,11 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 const languages = [
-  { code: 'es', name: 'Español', flag: '🇪🇸' },
-  { code: 'en', name: 'English', flag: '🇬🇧' },
-  { code: 'fr', name: 'Français', flag: '🇫🇷' },
-  { code: 'it', name: 'Italiano', flag: '🇮🇹' },
-  { code: 'pt', name: 'Português', flag: '🇵🇹' }
+  { code: 'es', name: 'Español', flag: '/Spain.png' },
+  { code: 'en', name: 'English', flag: '/UK.png' },
+  { code: 'fr', name: 'Français', flag: '/France.png' },
+  { code: 'it', name: 'Italiano', flag: '/Italy.png' },
+  { code: 'pt', name: 'Português', flag: '/Portugal.png' }
 ];
 
 const LanguageSelector: React.FC = () => {
@@ -23,11 +23,15 @@ const LanguageSelector: React.FC = () => {
   return (
     <div className="relative">
       <button
-  onClick={() => setIsOpen(!isOpen)}
-  className="flex items-center space-x-2 bg-white/10 hover:bg-white/20 backdrop-blur-lg rounded-lg px-6 py-2 border border-white/20 transition-all duration-200 font-bold"
-  style={{ height: '42px' }}
->
-        <span className="text-xl">{currentLanguage.flag}</span>
+        onClick={() => setIsOpen(!isOpen)}
+        className="flex items-center space-x-2 bg-white/10 hover:bg-white/20 backdrop-blur-lg rounded-lg px-6 py-2 border border-white/20 transition-all duration-200 font-bold"
+        style={{ height: '42px' }}
+      >
+        <img 
+          src={currentLanguage.flag} 
+          alt={currentLanguage.name}
+          className="w-5 h-5 rounded-sm object-cover"
+        />
         <span className="text-white">{currentLanguage.name}</span>
         <svg 
           className={`w-4 h-4 text-white transition-transform ${isOpen ? 'rotate-180' : ''}`}
@@ -54,7 +58,11 @@ const LanguageSelector: React.FC = () => {
                   lang.code === i18n.language ? 'bg-white/10' : ''
                 }`}
               >
-                <span className="text-xl">{lang.flag}</span>
+                <img 
+                  src={lang.flag} 
+                  alt={lang.name}
+                  className="w-4 h-4rounded-sm object-cover"
+                />
                 <span className="text-white font-medium">{lang.name}</span>
                 {lang.code === i18n.language && (
                   <svg className="w-5 h-5 text-[#00d2ff] ml-auto" fill="currentColor" viewBox="0 0 20 20">

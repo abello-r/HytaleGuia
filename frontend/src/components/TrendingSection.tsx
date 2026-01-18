@@ -10,7 +10,7 @@ interface TrendingTopic {
   badgeColor: string;
   image: string;
   url?: string;
-  date?: string;
+  author?: string;
 }
 
 // Helper function to truncate text
@@ -54,8 +54,7 @@ export default function TrendingSection() {
               badge: 'NEWS',
               badgeColor: 'bg-[#00d2ff]',
               image: '📰',
-              url: noticia.url,
-              date: noticia.fecha
+              url: noticia.url
             });
           }
         }
@@ -72,26 +71,26 @@ export default function TrendingSection() {
               badge: 'BUG',
               badgeColor: 'bg-red-500',
               image: '🐛',
-              url: bugReport.url,
-              date: bugReport.fecha
+              url: bugReport.url
             });
           }
         }
 
-        // Process mods (first one)
+        // Process mods (first one) - Different structure
         if (mods && Array.isArray(mods) && mods.length > 0) {
-          const firstMod = mods[0];
-          if (firstMod.output && firstMod.output.noticias && firstMod.output.noticias.length > 0) {
-            const modInfo = firstMod.output.noticias[0];
+          const firstModData = mods[0];
+          // Mods have a different structure: array with objects containing "mods" array
+          if (firstModData.mods && Array.isArray(firstModData.mods) && firstModData.mods.length > 0) {
+            const modInfo = firstModData.mods[0];
             topics.push({
               id: 3,
               title: truncateText(modInfo.titulo || 'Mod', 60),
-              description: truncateText(modInfo.resumen || 'No description available', 120),
+              description: truncateText(modInfo.resumen || modInfo.descripcion || 'No description available', 120),
               badge: 'MOD',
               badgeColor: 'bg-purple-500',
               image: '🔧',
-              url: modInfo.url,
-              date: modInfo.fecha
+              url: modInfo.link_descarga,
+              author: modInfo.autor
             });
           }
         }
@@ -107,8 +106,7 @@ export default function TrendingSection() {
               badge: 'NEWS',
               badgeColor: 'bg-[#00d2ff]',
               image: '📰',
-              url: noticia.url,
-              date: noticia.fecha
+              url: noticia.url
             });
           });
         }
@@ -183,6 +181,7 @@ export default function TrendingSection() {
               badgeColor={topic.badgeColor}
               image={topic.image}
               url={topic.url}
+              author={topic.author}
               isLast={index === trendingTopics.length - 1}
             />
           ))}

@@ -7,10 +7,16 @@ export default function Footer() {
 		<footer className="relative bg-[#0b0d12] border-t border-white/10">
 			<div className="container mx-auto px-4 py-12">
 				<div className="grid md:grid-cols-4 gap-8 max-w-7xl mx-auto">
-					{/* Columna 1 - Logo y descripción */}
+					{/* Column 1 - Logo and description */}
 					<div className="md:col-span-1">
 						<div className="flex items-center space-x-2 mb-4 cursor-pointer">
-							<div className="w-10 h-10 bg-gradient-to-br from-[#00d2ff] to-[#0099cc] rounded"></div>
+							<div className="w-10 h-10 bg-gradient-to-br from-[#00d2ff] to-[#0099cc] rounded flex items-center justify-center overflow-hidden">
+								<img 
+									src="/logo-96.png" 
+									alt="Hytale Guía Logo" 
+									className="w-full h-full object-cover"
+								/>
+							</div>
 							<span className="text-white font-bold text-xl">
 								HYTALE<span className="text-[#00d2ff]"> GUÍA</span>
 							</span>
@@ -20,7 +26,7 @@ export default function Footer() {
 						</p>
 					</div>
 
-					{/* Columna 2 - Enlaces rápidos */}
+					{/* Column 2 - Quick links */}
 					<div>
 						<h3 className="text-white font-bold mb-4">{t('footer.quickLinks')}</h3>
 						<ul className="space-y-2">
@@ -32,18 +38,17 @@ export default function Footer() {
 						</ul>
 					</div>
 
-					{/* Columna 3 - Comunidad */}
+					{/* Column 3 - Community */}
 					<div>
 						<h3 className="text-white font-bold mb-4">{t('footer.community')}</h3>
 						<ul className="space-y-2">
-							<li><a href="#" className="text-[#a0a0a0] hover:text-[#00d2ff] transition text-sm cursor-pointer">{t('footer.discord')}</a></li>
-							<li><a href="#" className="text-[#a0a0a0] hover:text-[#00d2ff] transition text-sm cursor-pointer">{t('footer.twitter')}</a></li>
-							<li><a href="#" className="text-[#a0a0a0] hover:text-[#00d2ff] transition text-sm cursor-pointer">{t('footer.youtube')}</a></li>
-							<li><a href="#" className="text-[#a0a0a0] hover:text-[#00d2ff] transition text-sm cursor-pointer">{t('footer.reddit')}</a></li>
+							<li><a href="https://discord.com/invite/hytale" className="text-[#a0a0a0] hover:text-[#00d2ff] transition text-sm cursor-pointer">{t('footer.discord')}</a></li>
+							<li><a href="https://x.com/Hytale" className="text-[#a0a0a0] hover:text-[#00d2ff] transition text-sm cursor-pointer">{t('footer.twitter')}</a></li>
+							<li><a href="https://www.youtube.com/Hytale" className="text-[#a0a0a0] hover:text-[#00d2ff] transition text-sm cursor-pointer">{t('footer.youtube')}</a></li>
 						</ul>
 					</div>
 
-					{/* Columna 4 - Legal */}
+					{/* Column 4 - Legal */}
 					<div>
 						<h3 className="text-white font-bold mb-4">{t('footer.legal')}</h3>
 						<ul className="space-y-2">
