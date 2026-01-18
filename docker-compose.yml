@@ -11,6 +11,8 @@ services:
       PORT: 5000
     networks:
       - app-network
+    volumes:
+      - ../Workers_N8n:/app/Workers_N8n
 
   frontend:
     image: node:20-alpine
