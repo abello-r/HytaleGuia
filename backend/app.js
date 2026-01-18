@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const connectDB = require('./config/database');
 const trendingRoutes = require('./routes/trending');
+const newsRoutes = require('./routes/news'); // ← Añade esto
 
 const app = express();
 connectDB();
@@ -25,8 +26,9 @@ app.get('/api/health', (req, res) => {
 
 // Routes
 app.use('/api/trending', trendingRoutes);
+app.use('/api/news', newsRoutes); // ← Añade esto
 
-// Err 404
+// 404 handler
 app.use((req, res) => {
   res.status(404).json({ error: 'Endpoint not found' });
 });

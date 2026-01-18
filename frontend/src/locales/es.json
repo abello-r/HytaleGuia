@@ -4,7 +4,8 @@
     "news": "NOTICIAS",
     "guides": "GUÍAS",
     "mods": "MODS",
-    "serverList": "SERVER LIST"
+    "serverList": "SERVER LIST",
+	"devBadge": "La web está en desarrollo."
   },
   "hero": {
     "betaBadge": "BETA PRÓXIMAMENTE",
@@ -50,5 +51,19 @@
   },
   "auth": {
     "login": "ACCEDER"
+  },
+  "news": {
+    "title": "Todas las",
+    "titleHighlight": "Noticias",
+    "description": "Todos los anuncios, actualizaciones y novedades sobre Hytale en un solo lugar. El contenido se actualiza diariamente de forma automática para ofrecer información fresca y relevante, tanto del desarrollo del juego como de su comunidad. Un espacio centralizado para mantenerte siempre al día con lo último de Hytale, sin necesidad de consultar múltiples fuentes.",
+    "searchPlaceholder": "Buscar noticias...",
+    "filterBySource": "Filtrar por fuente",
+    "allSources": "Todas",
+    "showing": "Mostrando",
+    "of": "de",
+    "results": "resultados",
+    "noResults": "No se encontraron noticias",
+    "readMore": "Leer más",
+    "loadMore": "Cargar más"
   }
 }

@@ -4,51 +4,66 @@
     "news": "ACTUALITÉS",
     "guides": "GUIDES",
     "mods": "MODS",
-    "serverList": "LISTE SERVEURS"
+    "serverList": "SERVER LIST",
+	"devBadge": "Le site est en cours de développement."
   },
   "hero": {
-    "betaBadge": "BÊTA PROCHAINEMENT",
+    "betaBadge": "BÊTA BIENTÔT DISPONIBLE",
     "title": "DÉCOUVREZ",
     "titleHighlight": "HYTALE",
-    "subtitle": "Le guide ultime en français",
-    "description": "L'encyclopédie définitive. Explorez les biomes, découvrez le crafting et rejoignez la plus grande communauté Hytale.",
-    "searchPlaceholder": "Posez n'importe quelle question, l'IA vous aidera...",
+    "subtitle": "Le guide ultime en espagnol",
+    "description": "L’encyclopédie ultime. Explorez les biomes, découvrez les crafts et rejoignez la plus grande communauté Hytale.",
+    "searchPlaceholder": "Posez vos questions, l’IA vous aidera...",
     "searchButton": "RECHERCHER",
-    "searchHint": "Utilisez des mots-clés comme \"Comment créer une épée?\" ou \"Où trouver des biomes aquatiques?\""
+    "searchHint": "Utilisez des mots-clés comme \"Comment fabriquer une épée ?\" ou \"Où trouver des biomes aquatiques ?\""
   },
   "trending": {
-    "title": "Tendances dans",
+    "title": "Tendances sur",
     "titleHighlight": "Orbis",
-    "readArticle": "Lire l'Article",
+    "readArticle": "Lire l’article",
     "online": "En ligne",
-	"download": "Télécharger"
+    "download": "Télécharger"
   },
   "footer": {
-    "description": "La plus grande communauté hispanophone d'Hytale. Guides, mods, serveurs et actualités.",
-    "quickLinks": "Liens Rapides",
+    "description": "La plus grande communauté hispanophone de Hytale. Guides, mods, serveurs et actualités.",
+    "quickLinks": "Liens rapides",
     "community": "Communauté",
-    "legal": "Légal",
+    "legal": "Mentions légales",
     "home": "Accueil",
     "news": "Actualités",
     "guides": "Guides",
     "mods": "Mods",
-    "serverList": "Liste Serveurs",
+    "serverList": "Server List",
     "discord": "Discord",
     "twitter": "Twitter",
     "youtube": "YouTube",
     "reddit": "Reddit",
-    "terms": "Conditions d'Utilisation",
-    "privacy": "Politique de Confidentialité",
+    "terms": "Conditions d’utilisation",
+    "privacy": "Politique de confidentialité",
     "cookies": "Cookies",
     "contact": "Contact",
     "copyright": "© 2026 HytaleGuía. Tous droits réservés.",
     "madeWith": "Fait avec ❤️ pour la communauté",
-    "disclaimer": "Ce site n'est pas affilié à Hypixel Studios ni à Riot Games."
+    "disclaimer": "Ce site n’est affilié ni à Hypixel Studios ni à Riot Games."
   },
   "discord": {
     "tooltip": "Rejoindre Discord"
   },
   "auth": {
-    "login": "CONNEXION"
+    "login": "SE CONNECTER"
+  },
+  "news": {
+    "title": "Toutes les",
+    "titleHighlight": "Actualités",
+    "description": "Toutes les annonces, mises à jour et actualités sur Hytale réunies en un seul endroit. Le contenu est mis à jour automatiquement chaque jour afin de proposer des informations récentes et pertinentes sur le développement du jeu et sa communauté. Un espace centralisé pour rester informé des dernières nouveautés Hytale.",
+    "searchPlaceholder": "Rechercher des actualités...",
+    "filterBySource": "Filtrer par source",
+    "allSources": "Toutes",
+    "showing": "Affichage",
+    "of": "sur",
+    "results": "résultats",
+    "noResults": "Aucune actualité trouvée",
+    "readMore": "Lire la suite",
+    "loadMore": "Charger plus"
   }
 }

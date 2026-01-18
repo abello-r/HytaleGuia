@@ -1,26 +1,36 @@
 import { useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import ReactGA from 'react-ga4';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import DiscordButton from './components/DiscordButton';
 import HeroSection from './components/HeroSection';
 import TrendingSection from './components/TrendingSection';
+import NewsPage from './pages/NewsPage';
 import './i18n';
 
 // Google Analytics
 ReactGA.initialize('G-06EYV38MQG');
 
-function App() {
-	useEffect(() => {
-		ReactGA.send({ hitType: "pageview", page: window.location.pathname });
-	}, []);
+// Component to track page views
+function PageTracker() {
+	const location = useLocation();
 
+	useEffect(() => {
+		ReactGA.send({ hitType: "pageview", page: location.pathname });
+	}, [location]);
+
+	return null;
+}
+
+// Home page component
+function HomePage() {
 	return (
 		<div className="min-h-screen bg-[#0b0d12]">
 			{/* Discord Sticky Button */}
 			<DiscordButton />
 
-			{/* Hero Section con fondo completo */}
+			{/* Hero Section with full background */}
 			<div className="relative min-h-screen flex flex-col">
 				{/* Background image */}
 				<div
@@ -45,6 +55,18 @@ function App() {
 			{/* Footer */}
 			<Footer />
 		</div>
+	);
+}
+
+function App() {
+	return (
+		<Router>
+			<PageTracker />
+			<Routes>
+				<Route path="/" element={<HomePage />} />
+				<Route path="/noticias" element={<NewsPage />} />
+			</Routes>
+		</Router>
 	);
 }
 
