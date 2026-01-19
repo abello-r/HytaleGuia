@@ -3,6 +3,7 @@ const cors = require('cors');
 const connectDB = require('./config/database');
 const trendingRoutes = require('./routes/trending');
 const newsRoutes = require('./routes/news');
+const modsRoutes = require('./routes/mods');
 
 const app = express();
 connectDB();
@@ -27,6 +28,7 @@ app.get('/api/health', (req, res) => {
 // Routes
 app.use('/api/trending', trendingRoutes);
 app.use('/api/news', newsRoutes);
+app.use('/api/mods', modsRoutes);
 
 // 404 handler
 app.use((req, res) => {

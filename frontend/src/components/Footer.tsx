@@ -33,7 +33,7 @@ export default function Footer() {
 							<li><a href="/" className="text-[#a0a0a0] hover:text-[#00d2ff] transition text-sm cursor-pointer">{t('footer.home')}</a></li>
 							<li><a href="/noticias" className="text-[#a0a0a0] hover:text-[#00d2ff] transition text-sm cursor-pointer">{t('footer.news')}</a></li>
 							<li><a href="#" className="text-[#a0a0a0] hover:text-[#00d2ff] transition text-sm cursor-pointer">{t('footer.guides')}</a></li>
-							<li><a href="#" className="text-[#a0a0a0] hover:text-[#00d2ff] transition text-sm cursor-pointer">{t('footer.mods')}</a></li>
+							<li><a href="/mods" className="text-[#a0a0a0] hover:text-[#00d2ff] transition text-sm cursor-pointer">{t('footer.mods')}</a></li>
 							<li><a href="#" className="text-[#a0a0a0] hover:text-[#00d2ff] transition text-sm cursor-pointer">{t('footer.serverList')}</a></li>
 						</ul>
 					</div>
@@ -62,15 +62,16 @@ export default function Footer() {
 
 				{/* Copyright */}
 				<div className="border-t border-white/10 mt-8 pt-8 text-center">
-				{/* Imagen decorativa izquierda */}
+					{/* Imagen decorativa izquierda */}
 					<img
 						src="/Love.png"
 						alt="Kwebeck Love"
 						className="absolute left-30 top-56 -translate-y-1/2 h-10 opacity-80 pointer-events-none select-none w-30 h-30"
 					/>
-					<p className="text-[#a0a0a0] text-sm">
-						{t('footer.copyright')}
-						<span className="text-[#00d2ff]"> {t('footer.madeWith')}</span>
+
+					<p className="text-sm">
+						<span className="text-[#00d2ff] font-semibold">© 2026 HytaleGuía.</span>{' '}
+						<span className="text-[#a0a0a0]">{t('footer.madeWith')}</span>
 					</p>
 					<p className="text-[#a0a0a0] text-xs mt-2">
 						{t('footer.disclaimer')}

@@ -62,22 +62,17 @@ export default function Header() {
 									)}
 								</a>
 								<a 
-									href="#" 
-									className="text-[#a0a0a0] hover:text-[#00d2ff] transition cursor-pointer"
-								>
-									{t('nav.guides')}
-								</a>
-								<a 
-									href="#" 
-									className="text-[#a0a0a0] hover:text-[#00d2ff] transition cursor-pointer"
+									href="/mods" 
+									className={`relative transition cursor-pointer ${
+										isActive('/mods') 
+											? 'text-[#00d2ff] font-semibold' 
+											: 'text-[#a0a0a0] hover:text-[#00d2ff]'
+									}`}
 								>
 									{t('nav.mods')}
-								</a>
-								<a 
-									href="#" 
-									className="text-[#a0a0a0] hover:text-[#00d2ff] transition cursor-pointer"
-								>
-									{t('nav.serverList')}
+									{isActive('/mods') && (
+										<span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-[#00d2ff]"></span>
+									)}
 								</a>
 							</div>
 

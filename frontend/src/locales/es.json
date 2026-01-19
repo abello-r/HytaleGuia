@@ -43,8 +43,8 @@
 		"cookies": "Cookies",
 		"contact": "Contacto",
 		"copyright": "© 2026 HytaleGuía. Todos los derechos reservados.",
-		"madeWith": "Hecho con ❤️ para la comunidad",
-		"disclaimer": "Este sitio no está afiliado con Hypixel Studios ni con Riot Games."
+		"disclaimer": "HytaleGuía es una fansite independiente no afiliada con Hypixel Studios. Todo el contenido de Hytale y sus marcas registradas pertenecen a sus respectivos propietarios.",
+    	"madeWith": "Todos los derechos reservados."
 	},
 	"discord": {
 		"tooltip": "Únete a Discord"
@@ -60,7 +60,7 @@
 			"home": "Inicio",
 			"news": "Noticias"
 		},
-		"available": "noticias disponibles",
+		"available": "Noticias disponibles",
 		"lastUpdate": "Última actualización",
 		"nextUpdate": "Próxima actualización",
 		"searchPlaceholder": "Buscar noticias...",
@@ -100,6 +100,55 @@
 			"hours": "en {{count}} horas",
 			"hourAndMinutes": "en 1 hora y {{minutes}} min",
 			"hoursAndMinutes": "en {{hours}} horas y {{minutes}} min"
+		}
+	},
+	"mods": {
+		"breadcrumbs": {
+			"home": "Inicio",
+			"mods": "Mods"
+		},
+		"title": "Explora",
+		"titleHighlight": "Mods",
+		"description": "Descubre mods creados por la comunidad de Hytale: nuevas mecánicas de juego, mejoras de calidad de vida, contenido adicional y herramientas únicas para enriquecer y personalizar tu aventura en el mundo de Orbis.",
+		"lastUpdate": "Última actualización",
+		"nextUpdate": "Siguiente actualización",
+		"searchPlaceholder": "Busca por nombre, autor, versión o descripción...",
+		"sortBy": "Ordenar por",
+		"sortOptions": {
+			"newest": "Más recientes",
+			"oldest": "Más antiguos",
+			"title": "Título",
+			"author": "Autor"
+		},
+		"sorting": "Ordenando...",
+		"showing": "Mostrando",
+		"of": "de",
+		"results": "resultados",
+		"noResults": "No se encontraron mods con esa búsqueda.",
+		"featured": "Mod destacado",
+		"new": "NUEVO",
+		"by": "por",
+		"download": "Descargar",
+		"loadMore": "Cargar más",
+		"scrollTop": "Volver arriba",
+		"available": "Mods disponibles",
+		"timeIn": {
+			"minute": "en 1 minuto",
+			"minutes": "en {{count}} minutos",
+			"hour": "en 1 hora",
+			"hours": "en {{count}} horas",
+			"hourAndMinutes": "en 1 hora y {{minutes}} minutos",
+			"hoursAndMinutes": "en {{hours}} horas y {{minutes}} minutos"
+		},
+		"badges": {
+			"mod": "MOD",
+			"author": "Autor",
+			"version": "Versión"
+		},
+		"addMod": {
+			"title": "Agregar Mod",
+			"description": "¿Creaste un mod? Pronto podrás compartirlo aquí",
+			"comingSoon": "Próximamente"
 		}
 	}
 }

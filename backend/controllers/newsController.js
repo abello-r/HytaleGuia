@@ -15,7 +15,8 @@ exports.getAllNews = async (req, res) => {
         success: true,
         data: {
           news: [],
-          total: 0
+          total: 0,
+          lastCronRun: null
         }
       });
     }
@@ -27,9 +28,42 @@ exports.getAllNews = async (req, res) => {
       .sort()
       .reverse(); // Most recent first
 
-    // Read and parse all news files
     const allNews = [];
+    let lastCronRun = null;
+
+    // El archivo más reciente indica cuándo fue la última ejecución del cron
+    if (jsonFiles.length > 0) {
+      const newestFile = jsonFiles[0];
+      const dateMatch = newestFile.match(/hytale_news_(\d{4}-\d{2}-\d{2})\.json/);
+      
+      if (dateMatch && dateMatch[1]) {
+        const fileDate = dateMatch[1]; // "2026-01-19"
+        
+        try {
+          const now = new Date();
+          const fileDateTime = new Date(fileDate);
+          
+          // Si el archivo es de hoy, usar la hora del último cron
+          if (fileDateTime.toDateString() === now.toDateString()) {
+            const hours = now.getHours();
+            let cronHour = 9;
+            
+            if (hours >= 18) cronHour = 18;
+            else if (hours >= 12) cronHour = 12;
+            else if (hours >= 9) cronHour = 9;
+            
+            lastCronRun = new Date(`${fileDate}T${cronHour.toString().padStart(2, '0')}:00:00`).toISOString();
+          } else {
+            // Si el archivo es de otro día, asumir que fue a las 18:00
+            lastCronRun = new Date(`${fileDate}T18:00:00`).toISOString();
+          }
+        } catch (error) {
+          console.error('Error parsing file date:', error);
+        }
+      }
+    }
     
+    // Read and parse all news files
     for (const file of jsonFiles) {
       try {
         const filePath = path.join(blogsPath, file);
@@ -63,12 +97,14 @@ exports.getAllNews = async (req, res) => {
     });
 
     console.log(`📰 Loaded ${allNews.length} news articles from ${jsonFiles.length} files`);
+    console.log(`⏰ Last cron run: ${lastCronRun || 'Unknown'}`);
 
     res.json({
       success: true,
       data: {
         news: allNews,
-        total: allNews.length
+        total: allNews.length,
+        lastCronRun: lastCronRun
       },
       timestamp: new Date().toISOString()
     });

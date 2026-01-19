@@ -14,6 +14,16 @@ interface NewsArticle {
     fileDate: string;
 }
 
+interface NewsResponse {
+    success: boolean;
+    data: {
+        news: NewsArticle[];
+        total: number;
+        lastCronRun: string | null;
+    };
+    timestamp: string;
+}
+
 // Skeleton component for loading state
 function NewsSkeleton() {
     return (
@@ -50,6 +60,7 @@ export default function NewsPage() {
     const [displayCount, setDisplayCount] = useState(10);
     const [showScrollTop, setShowScrollTop] = useState(false);
     const [currentTime, setCurrentTime] = useState(new Date());
+    const [lastCronRun, setLastCronRun] = useState<Date | null>(null);
 
     // Update current time every minute for accurate countdowns
     useEffect(() => {
@@ -64,11 +75,16 @@ export default function NewsPage() {
         async function fetchAllNews() {
             try {
                 const response = await fetch('/api/news/all');
-                const result = await response.json();
+                const result: NewsResponse = await response.json();
 
                 if (result.success) {
                     setNews(result.data.news);
                     setFilteredNews(result.data.news);
+                    
+                    // Guardar el timestamp de la última ejecución del cron
+                    if (result.data.lastCronRun) {
+                        setLastCronRun(new Date(result.data.lastCronRun));
+                    }
                 }
             } catch (error) {
                 console.error('Error fetching news:', error);
@@ -130,15 +146,6 @@ export default function NewsPage() {
         setTimeout(() => {
             setSorting(false);
         }, 300);
-    };
-
-    // Get last update time from most recent news
-    const getLastUpdateTime = (): Date | null => {
-        if (news.length === 0) return null;
-
-        // Find the most recent fileDate from all news
-        const dates = news.map(n => new Date(n.fileDate || n.fecha));
-        return new Date(Math.max(...dates.map(d => d.getTime())));
     };
 
     // Calculate time ago with real-time precision
@@ -306,8 +313,6 @@ export default function NewsPage() {
 
     const groupedNews = groupByDate(filteredNews.slice(1, displayCount)); // Skip first (featured)
 
-    const lastUpdate = getLastUpdateTime();
-
     return (
         <div className="min-h-screen bg-[#0b0d12] flex flex-col">
             <Header />
@@ -340,10 +345,10 @@ export default function NewsPage() {
                                 <span>{news.length} {t('news.available')}</span>
                             </div>
 
-                            {lastUpdate && (
+                            {lastCronRun && !isNaN(lastCronRun.getTime()) && (
                                 <div className="inline-flex items-center gap-2 bg-green-500/10 border border-green-500/30 text-green-400 px-4 py-2 rounded-full text-sm font-medium">
                                     <span>✓</span>
-                                    <span>{t('news.lastUpdate')}: {getTimeAgo(lastUpdate.toISOString())}</span>
+                                    <span>{t('news.lastUpdate')}: {getTimeAgo(lastCronRun.toISOString())}</span>
                                 </div>
                             )}
 
@@ -420,16 +425,6 @@ export default function NewsPage() {
                                         } ${sorting ? 'opacity-50 cursor-not-allowed' : ''}`}
                                 >
                                     {t('news.sortOptions.oldest')}
-                                </button>
-                                <button
-                                    onClick={() => handleSortChange('source')}
-                                    disabled={sorting}
-                                    className={`px-4 py-2 rounded-lg text-sm font-medium transition ${sortBy === 'source'
-                                            ? 'bg-[#00d2ff] text-[#0b0d12]'
-                                            : 'bg-white/5 text-gray-400 hover:bg-white/10'
-                                        } ${sorting ? 'opacity-50 cursor-not-allowed' : ''}`}
-                                >
-                                    {t('news.sortOptions.source')}
                                 </button>
 
                                 {/* Sorting indicator */}

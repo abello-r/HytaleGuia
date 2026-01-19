@@ -1,105 +1,154 @@
 {
-	"nav": {
-		"home": "HOME",
-		"news": "NOTIZIE",
-		"guides": "GUIDE",
-		"mods": "MOD",
-		"serverList": "SERVER LIST",
-		"devBadge": "Il sito è in fase di sviluppo."
-	},
-	"hero": {
-		"betaBadge": "BETA IN ARRIVO",
-		"title": "SCOPRI",
-		"titleHighlight": "HYTALE",
-		"subtitle": "La guida definitiva in spagnolo",
-		"description": "L'enciclopedia definitiva. Esplora biomi, scopri le ricette di crafting e unisciti alla più grande community di Hytale.",
-		"searchPlaceholder": "Chiedi quello che vuoi, l'IA ti aiuterà...",
-		"searchButton": "CERCA",
-		"searchHint": "Usa parole chiave come \"Come creare una spada?\" o \"Dove trovare biomi acquatici?\""
-	},
-	"trending": {
-		"title": "Tendenze in",
-		"titleHighlight": "Orbis",
-		"readArticle": "Leggi articolo",
-		"online": "Online",
-		"download": "Scarica"
-	},
-	"footer": {
-		"description": "La più grande community ispanofona di Hytale. Guide, mod, server e notizie.",
-		"quickLinks": "Link rapidi",
-		"community": "Community",
-		"legal": "Legale",
-		"home": "Home",
-		"news": "Notizie",
-		"guides": "Guide",
-		"mods": "Mod",
-		"serverList": "Server List",
-		"discord": "Discord",
-		"twitter": "Twitter",
-		"youtube": "YouTube",
-		"reddit": "Reddit",
-		"terms": "Termini di utilizzo",
-		"privacy": "Informativa sulla privacy",
-		"cookies": "Cookie",
-		"contact": "Contatto",
-		"copyright": "© 2026 HytaleGuida. Tutti i diritti riservati.",
-		"madeWith": "Realizzato con ❤️ per la community",
-		"disclaimer": "Questo sito non è affiliato con Hypixel Studios né con Riot Games."
-	},
-	"discord": {
-		"tooltip": "Unisciti a Discord"
-	},
-	"auth": {
-		"login": "ACCEDI"
-	},
-	"news": {
-		"title": "Tutte le",
-		"titleHighlight": "Notizie",
-		"description": "Tutti gli annunci, aggiornamenti e novità su Hytale in un unico posto.",
-		"breadcrumbs": {
-			"home": "Home",
-			"news": "Notizie"
-		},
-		"available": "notizie disponibili",
-		"lastUpdate": "Ultimo aggiornamento",
-		"nextUpdate": "Prossimo aggiornamento",
-		"searchPlaceholder": "Cerca notizie...",
-		"filterByDate": "Data",
-		"filterBySource": "Fonte",
-		"sortBy": "Ordina",
-		"dateFilters": {
-			"all": "Tutte",
-			"7days": "Ultimi 7 giorni",
-			"30days": "Ultimo mese"
-		},
-		"sortOptions": {
-			"newest": "Più recenti",
-			"oldest": "Più vecchie",
-			"source": "Per fonte"
-		},
-		"allSources": "Tutte",
-		"showing": "Mostrando",
-		"of": "di",
-		"results": "risultati",
-		"noResults": "Nessuna notizia trovata",
-		"featured": "NOTIZIA DEL GIORNO",
-		"new": "NUOVO",
-		"badge": "NEWS",
-		"readMore": "Leggi di più",
-		"readFull": "Leggi l'articolo completo",
-		"loadMore": "Carica altre notizie",
-		"scrollTop": "Torna su",
-		"sorting": "Ordinamento...",
-		"share": "Condividi",
-		"linkCopied": "Link copiato",
-		"linkCopiedDesc": "Il link è stato copiato negli appunti.",
-		"timeIn": {
-			"minute": "tra 1 minuto",
-			"minutes": "tra {{count}} minuti",
-			"hour": "tra 1 ora",
-			"hours": "tra {{count}} ore",
-			"hourAndMinutes": "tra 1 ora e {{minutes}} min",
-			"hoursAndMinutes": "tra {{hours}} ore e {{minutes}} min"
-		}
-	}
+  "nav": {
+    "home": "HOME",
+    "news": "NOTIZIE",
+    "guides": "GUIDE",
+    "mods": "MOD",
+    "serverList": "SERVER LIST",
+    "devBadge": "Il sito è in fase di sviluppo."
+  },
+  "hero": {
+    "betaBadge": "BETA IN ARRIVO",
+    "title": "SCOPRI",
+    "titleHighlight": "HYTALE",
+    "subtitle": "La guida definitiva in spagnolo",
+    "description": "L’enciclopedia definitiva. Esplora biomi, scopri i crafting e unisciti alla più grande community di Hytale.",
+    "searchPlaceholder": "Chiedi quello che vuoi, l’IA ti aiuterà...",
+    "searchButton": "CERCA",
+    "searchHint": "Usa parole chiave come \"Come creare una spada?\" o \"Dove trovare biomi acquatici?\""
+  },
+  "trending": {
+    "title": "Di tendenza in",
+    "titleHighlight": "Orbis",
+    "readArticle": "Leggi articolo",
+    "online": "Online",
+    "download": "Scarica"
+  },
+  "footer": {
+    "description": "La più grande community ispanofona di Hytale. Guide, mod, server e notizie.",
+    "quickLinks": "Link rapidi",
+    "community": "Community",
+    "legal": "Legale",
+    "home": "Home",
+    "news": "Notizie",
+    "guides": "Guide",
+    "mods": "Mod",
+    "serverList": "Server List",
+    "discord": "Discord",
+    "twitter": "Twitter",
+    "youtube": "YouTube",
+    "reddit": "Reddit",
+    "terms": "Termini di utilizzo",
+    "privacy": "Informativa sulla privacy",
+    "cookies": "Cookie",
+    "contact": "Contatto",
+    "copyright": "© 2026 HytaleGuía. Tutti i diritti riservati.",
+    "disclaimer": "HytaleGuía è un fansite indipendente non affiliato a Hypixel Studios. Tutti i contenuti e i marchi di Hytale appartengono ai rispettivi proprietari.",
+    "madeWith": "Tutti i diritti riservati."
+  },
+  "discord": {
+    "tooltip": "Unisciti a Discord"
+  },
+  "auth": {
+    "login": "ACCEDI"
+  },
+  "news": {
+    "title": "Tutte le",
+    "titleHighlight": "Notizie",
+    "description": "Tutti gli annunci, aggiornamenti e novità su Hytale in un unico posto. Uno spazio centralizzato per rimanere sempre aggiornato senza consultare più fonti.",
+    "breadcrumbs": {
+      "home": "Home",
+      "news": "Notizie"
+    },
+    "available": "Notizie disponibili",
+    "lastUpdate": "Ultimo aggiornamento",
+    "nextUpdate": "Prossimo aggiornamento",
+    "searchPlaceholder": "Cerca notizie...",
+    "filterByDate": "Data",
+    "filterBySource": "Fonte",
+    "sortBy": "Ordina per",
+    "dateFilters": {
+      "all": "Tutte",
+      "7days": "Ultimi 7 giorni",
+      "30days": "Ultimo mese"
+    },
+    "sortOptions": {
+      "newest": "Più recenti",
+      "oldest": "Più vecchie",
+      "source": "Per fonte"
+    },
+    "allSources": "Tutte",
+    "showing": "Mostrando",
+    "of": "di",
+    "results": "risultati",
+    "noResults": "Nessuna notizia trovata",
+    "featured": "NOTIZIA DEL GIORNO",
+    "new": "NUOVO",
+    "badge": "NEWS",
+    "readMore": "Leggi di più",
+    "readFull": "Leggi la notizia completa",
+    "loadMore": "Carica altre notizie",
+    "scrollTop": "Torna su",
+    "sorting": "Ordinamento...",
+    "share": "Condividi",
+    "linkCopied": "Link copiato",
+    "linkCopiedDesc": "Il link è stato copiato negli appunti.",
+    "timeIn": {
+      "minute": "tra 1 minuto",
+      "minutes": "tra {{count}} minuti",
+      "hour": "tra 1 ora",
+      "hours": "tra {{count}} ore",
+      "hourAndMinutes": "tra 1 ora e {{minutes}} min",
+      "hoursAndMinutes": "tra {{hours}} ore e {{minutes}} min"
+    }
+  },
+  "mods": {
+    "breadcrumbs": {
+      "home": "Home",
+      "mods": "Mod"
+    },
+    "title": "Esplora",
+    "titleHighlight": "Mod",
+    "description": "Scopri mod create dalla community di Hytale: nuove meccaniche di gioco, miglioramenti alla qualità della vita, contenuti aggiuntivi e strumenti unici per arricchire la tua avventura nel mondo di Orbis.",
+    "lastUpdate": "Ultimo aggiornamento",
+    "nextUpdate": "Prossimo aggiornamento",
+    "searchPlaceholder": "Cerca per nome, autore, versione o descrizione...",
+    "sortBy": "Ordina per",
+    "sortOptions": {
+      "newest": "Più recenti",
+      "oldest": "Più vecchie",
+      "title": "Titolo",
+      "author": "Autore"
+    },
+    "sorting": "Ordinamento...",
+    "showing": "Mostrando",
+    "of": "di",
+    "results": "risultati",
+    "noResults": "Nessuna mod trovata per questa ricerca.",
+    "featured": "Mod in evidenza",
+    "new": "NUOVO",
+    "by": "di",
+    "download": "Scarica",
+    "loadMore": "Carica altre",
+    "scrollTop": "Torna su",
+    "available": "Mod disponibili",
+    "timeIn": {
+      "minute": "tra 1 minuto",
+      "minutes": "tra {{count}} minuti",
+      "hour": "tra 1 ora",
+      "hours": "tra {{count}} ore",
+      "hourAndMinutes": "tra 1 ora e {{minutes}} minuti",
+      "hoursAndMinutes": "tra {{hours}} ore e {{minutes}} minuti"
+    },
+    "badges": {
+      "mod": "MOD",
+      "author": "Autore",
+      "version": "Versione"
+    },
+    "addMod": {
+      "title": "Aggiungi Mod",
+      "description": "Hai creato una mod? Presto potrai condividerla qui",
+      "comingSoon": "In arrivo"
+    }
+  }
 }

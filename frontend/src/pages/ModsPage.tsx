@@ -5,274 +5,221 @@ import Footer from '../components/Footer';
 import DiscordButton from '../components/DiscordButton';
 import ShareButton from '../components/ShareButton';
 
-interface NewsArticle {
+interface ModItem {
 	titulo: string;
+	descripcion: string;
 	resumen: string;
-	fecha: string;
-	fuente: string;
-	url: string;
-	fileDate: string;
+	autor: string;
+	version: string;
+	fecha_publicacion: string;
+	link_descarga: string;
 }
 
-// Skeleton component for loading state
-function NewsSkeleton() {
+interface ModsResponse {
+	success: boolean;
+	data: {
+		mods: ModItem[];
+		total: number;
+		lastCronRun: string | null;
+	};
+	timestamp: string;
+}
+
+function ModsSkeleton() {
 	return (
-		<div className="bg-white/5 border border-white/10 rounded-xl p-6 animate-pulse">
-			<div className="flex items-start justify-between mb-3">
-				<div className="bg-gray-700 h-6 w-16 rounded-full"></div>
-				<div className="text-right space-y-2">
-					<div className="bg-gray-700 h-4 w-24 rounded ml-auto"></div>
-					<div className="bg-gray-700 h-4 w-20 rounded ml-auto"></div>
+		<div className="bg-white/5 border border-white/10 rounded-xl overflow-hidden animate-pulse h-[420px]">
+			<div className="aspect-video bg-gradient-to-br from-gray-700 to-gray-800"></div>
+			<div className="p-4 space-y-3">
+				<div className="flex gap-2">
+					<div className="bg-gray-700 h-5 w-16 rounded-full"></div>
+					<div className="bg-gray-700 h-5 w-20 rounded-full"></div>
+				</div>
+				<div className="bg-gray-700 h-6 w-3/4 rounded"></div>
+				<div className="space-y-2">
+					<div className="bg-gray-700 h-4 w-full rounded"></div>
+					<div className="bg-gray-700 h-4 w-full rounded"></div>
+					<div className="bg-gray-700 h-4 w-2/3 rounded"></div>
 				</div>
 			</div>
-
-			<div className="bg-gray-700 h-8 w-3/4 rounded mb-3"></div>
-
-			<div className="space-y-2 mb-4">
-				<div className="bg-gray-700 h-4 w-full rounded"></div>
-				<div className="bg-gray-700 h-4 w-full rounded"></div>
-				<div className="bg-gray-700 h-4 w-2/3 rounded"></div>
-			</div>
-
-			<div className="bg-gray-700 h-4 w-24 rounded"></div>
 		</div>
 	);
 }
 
 export default function ModsPage() {
 	const { t } = useTranslation();
-	const [news, setNews] = useState<NewsArticle[]>([]);
-	const [filteredNews, setFilteredNews] = useState<NewsArticle[]>([]);
+	const [mods, setMods] = useState<ModItem[]>([]);
+	const [filteredMods, setFilteredMods] = useState<ModItem[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [sorting, setSorting] = useState(false);
 	const [searchQuery, setSearchQuery] = useState('');
 	const [sortBy, setSortBy] = useState('newest');
-	const [displayCount, setDisplayCount] = useState(10);
+	const [displayCount, setDisplayCount] = useState(12);
 	const [showScrollTop, setShowScrollTop] = useState(false);
 	const [currentTime, setCurrentTime] = useState(new Date());
+	const [lastCronRun, setLastCronRun] = useState<Date | null>(null);
 
-	// Update current time every minute for accurate countdowns
 	useEffect(() => {
-		const timer = setInterval(() => {
-			setCurrentTime(new Date());
-		}, 60000); // Update every minute
-
+		const timer = setInterval(() => setCurrentTime(new Date()), 60000);
 		return () => clearInterval(timer);
 	}, []);
 
 	useEffect(() => {
-		async function fetchAllNews() {
+		async function fetchAllMods() {
 			try {
-				const response = await fetch('/api/news/all');
-				const result = await response.json();
+				const response = await fetch('/api/mods/all');
+				const result: ModsResponse = await response.json();
 
 				if (result.success) {
-					setNews(result.data.news);
-					setFilteredNews(result.data.news);
+					setMods(result.data.mods);
+					setFilteredMods(result.data.mods);
+					
+					// Guardar el timestamp de la última ejecución del cron
+					if (result.data.lastCronRun) {
+						setLastCronRun(new Date(result.data.lastCronRun));
+					}
 				}
 			} catch (error) {
-				console.error('Error fetching news:', error);
+				console.error('Error fetching mods:', error);
 			} finally {
 				setLoading(false);
 			}
 		}
 
-		fetchAllNews();
+		fetchAllMods();
 	}, []);
 
-	// Scroll to top button visibility
 	useEffect(() => {
-		const handleScroll = () => {
-			setShowScrollTop(window.scrollY > 500);
-		};
-
+		const handleScroll = () => setShowScrollTop(window.scrollY > 500);
 		window.addEventListener('scroll', handleScroll);
 		return () => window.removeEventListener('scroll', handleScroll);
 	}, []);
 
-	// Filter news based on search and sort
-	useEffect(() => {
-		let filtered = news;
-
-		// Filter by search query
-		if (searchQuery) {
-			filtered = filtered.filter(article =>
-				article.titulo.toLowerCase().includes(searchQuery.toLowerCase()) ||
-				article.resumen.toLowerCase().includes(searchQuery.toLowerCase())
-			);
-		}
-
-		// Sort
-		filtered.sort((a, b) => {
-			const dateA = new Date(a.fecha);
-			const dateB = new Date(b.fecha);
-
-			if (sortBy === 'newest') {
-				return dateB.getTime() - dateA.getTime();
-			} else if (sortBy === 'oldest') {
-				return dateA.getTime() - dateB.getTime();
-			} else if (sortBy === 'source') {
-				return simplifySourceName(a.fuente).localeCompare(simplifySourceName(b.fuente));
-			}
-			return 0;
-		});
-
-		setFilteredNews(filtered);
-		setDisplayCount(10);
-	}, [searchQuery, sortBy, news]);
-
-	// Handle sort change with loading state
 	const handleSortChange = (newSort: string) => {
 		setSorting(true);
 		setSortBy(newSort);
-
-		// Simulate brief loading for visual feedback
-		setTimeout(() => {
-			setSorting(false);
-		}, 300);
+		setTimeout(() => setSorting(false), 300);
 	};
 
-	// Get last update time from most recent news
-	const getLastUpdateTime = (): Date | null => {
-		if (news.length === 0) return null;
-
-		// Find the most recent fileDate from all news
-		const dates = news.map(n => new Date(n.fileDate || n.fecha));
-		return new Date(Math.max(...dates.map(d => d.getTime())));
-	};
-
-	// Calculate time ago with real-time precision
 	const getTimeAgo = (dateString: string): string => {
 		const date = new Date(dateString);
 		const diffMs = currentTime.getTime() - date.getTime();
 		const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
 		const diffDays = Math.floor(diffHours / 24);
 
-		if (diffDays > 0) {
-			if (diffDays === 1) {
-				return `hace ${diffDays} día`;
-			}
-			return `hace ${diffDays} días`;
-		}
-
-		if (diffHours > 0) {
-			if (diffHours === 1) {
-				return `hace ${diffHours} hora`;
-			}
-			return `hace ${diffHours} horas`;
-		}
+		if (diffDays > 0) return diffDays === 1 ? `hace ${diffDays} día` : `hace ${diffDays} días`;
+		if (diffHours > 0) return diffHours === 1 ? `hace ${diffHours} hora` : `hace ${diffHours} horas`;
 
 		const diffMinutes = Math.floor(diffMs / (1000 * 60));
 		if (diffMinutes === 1) return 'hace 1 minuto';
 		if (diffMinutes > 0) return `hace ${diffMinutes} minutos`;
-
 		return 'hace unos segundos';
 	};
 
-	// Calculate next refresh based on cron: 0 9,12,18 * * * (9am, 12pm, 6pm)
 	const getNextRefresh = (): string => {
 		const now = currentTime;
 		const hours = now.getHours();
 
 		let nextHour: number;
-		if (hours < 9) {
-			nextHour = 9;
-		} else if (hours < 12) {
-			nextHour = 12;
-		} else if (hours < 18) {
-			nextHour = 18;
-		} else {
-			// After 6pm, next update is tomorrow at 9am
-			nextHour = 9 + 24;
-		}
+		if (hours < 9) nextHour = 9;
+		else if (hours < 12) nextHour = 12;
+		else if (hours < 18) nextHour = 18;
+		else nextHour = 9 + 24;
 
 		const next = new Date(now);
 		next.setHours(nextHour % 24);
 		next.setMinutes(0);
 		next.setSeconds(0);
 
-		if (nextHour >= 24) {
-			next.setDate(next.getDate() + 1);
-		}
+		if (nextHour >= 24) next.setDate(next.getDate() + 1);
 
 		const diffMs = next.getTime() - now.getTime();
 		const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
 		const diffMinutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
 
 		if (diffHours === 0) {
-			if (diffMinutes === 1) return t('news.timeIn.minute');
-			return t('news.timeIn.minutes', { count: diffMinutes });
+			if (diffMinutes === 1) return t('mods.timeIn.minute');
+			return t('mods.timeIn.minutes', { count: diffMinutes });
 		}
 
 		if (diffMinutes === 0) {
-			if (diffHours === 1) return t('news.timeIn.hour');
-			return t('news.timeIn.hours', { count: diffHours });
+			if (diffHours === 1) return t('mods.timeIn.hour');
+			return t('mods.timeIn.hours', { count: diffHours });
 		}
 
-		if (diffHours === 1) {
-			return t('news.timeIn.hourAndMinutes', { minutes: diffMinutes });
-		}
-		return t('news.timeIn.hoursAndMinutes', { hours: diffHours, minutes: diffMinutes });
+		if (diffHours === 1) return t('mods.timeIn.hourAndMinutes', { minutes: diffMinutes });
+		return t('mods.timeIn.hoursAndMinutes', { hours: diffHours, minutes: diffMinutes });
 	};
 
-	// Simplify source names
-	const simplifySourceName = (source: string): string => {
-		const sourceMap: { [key: string]: string } = {
-			'vandal.elespanol.com': 'Vandal',
-			'amp.marca.com': 'Marca',
-			'infobae.com': 'Infobae',
-			'Meristation (AS)': 'Meristation',
-			'Meristation': 'Meristation',
-			'GamesRadar': 'GamesRadar',
-			'PC Gamer': 'PC Gamer',
-			'Windows Central': 'Windows Central'
-		};
-		return sourceMap[source] || source;
-	};
-
-	// Format date
 	const formatDate = (dateString: string) => {
 		try {
 			const date = new Date(dateString);
-			return date.toLocaleDateString('es-ES', {
-				year: 'numeric',
-				month: 'long',
-				day: 'numeric'
-			});
+			return date.toLocaleDateString('es-ES', { year: 'numeric', month: 'short', day: 'numeric' });
 		} catch {
 			return dateString;
 		}
 	};
 
-	// Check if news is new (within 24 hours)
 	const isNew = (dateString: string): boolean => {
-		const articleDate = new Date(dateString);
-		const diffTime = Math.abs(currentTime.getTime() - articleDate.getTime());
+		const itemDate = new Date(dateString);
+		const diffTime = Math.abs(currentTime.getTime() - itemDate.getTime());
 		const diffHours = diffTime / (1000 * 60 * 60);
-		return diffHours <= 24;
+		return diffHours <= 72; // 3 días
 	};
 
-	// Get icon for source
-	const getSourceIcon = (source: string): string => {
-		const icons: { [key: string]: string } = {
-			'Vandal': '🎮',
-			'Marca': '⚽',
-			'Infobae': '📰',
-			'Meristation': '🎯',
-			'GamesRadar': '🎮',
-			'PC Gamer': '💻',
-			'Windows Central': '🪟'
-		};
-		return icons[source] || '📰';
+	// Extract source from download link
+	const getSource = (downloadLink: string): string => {
+		try {
+			const url = new URL(downloadLink);
+			const hostname = url.hostname.replace('www.', '');
+			
+			// Capitalize first letter
+			return hostname.split('.')[0].charAt(0).toUpperCase() + hostname.split('.')[0].slice(1);
+		} catch {
+			return 'Unknown';
+		}
 	};
 
-	// Get featured article (most recent)
-	const featuredArticle = filteredNews[0];
+	// Generate gradient based on title
+	const getGradient = (title: string): string => {
+		const gradients = [
+			'from-cyan-500/20 to-blue-500/20',
+			'from-purple-500/20 to-pink-500/20',
+			'from-green-500/20 to-emerald-500/20',
+			'from-orange-500/20 to-red-500/20',
+			'from-indigo-500/20 to-purple-500/20',
+			'from-yellow-500/20 to-orange-500/20',
+		];
+		const index = title.charCodeAt(0) % gradients.length;
+		return gradients[index];
+	};
 
-	// Highlight search text
+	useEffect(() => {
+		let filtered = mods;
+
+		if (searchQuery) {
+			filtered = filtered.filter(item =>
+				item.titulo.toLowerCase().includes(searchQuery.toLowerCase()) ||
+				item.resumen.toLowerCase().includes(searchQuery.toLowerCase()) ||
+				item.descripcion.toLowerCase().includes(searchQuery.toLowerCase()) ||
+				item.autor.toLowerCase().includes(searchQuery.toLowerCase())
+			);
+		}
+
+		filtered.sort((a, b) => {
+			const dateA = new Date(a.fecha_publicacion);
+			const dateB = new Date(b.fecha_publicacion);
+
+			if (sortBy === 'newest') return dateB.getTime() - dateA.getTime();
+			if (sortBy === 'oldest') return dateA.getTime() - dateB.getTime();
+			return 0;
+		});
+
+		setFilteredMods(filtered);
+		setDisplayCount(12);
+	}, [searchQuery, sortBy, mods]);
+
 	const highlightText = (text: string, query: string) => {
 		if (!query) return text;
-
 		const parts = text.split(new RegExp(`(${query})`, 'gi'));
 		return parts.map((part, index) =>
 			part.toLowerCase() === query.toLowerCase()
@@ -281,32 +228,8 @@ export default function ModsPage() {
 		);
 	};
 
-	// Group news by date
-	const groupByDate = (articles: NewsArticle[]) => {
-		const grouped: { [key: string]: NewsArticle[] } = {};
-
-		articles.forEach(article => {
-			const date = formatDate(article.fecha);
-			if (!grouped[date]) {
-				grouped[date] = [];
-			}
-			grouped[date].push(article);
-		});
-
-		return grouped;
-	};
-
-	const loadMore = () => {
-		setDisplayCount(prev => prev + 10);
-	};
-
-	const scrollToTop = () => {
-		window.scrollTo({ top: 0, behavior: 'smooth' });
-	};
-
-	const groupedNews = groupByDate(filteredNews.slice(1, displayCount)); // Skip first (featured)
-
-	const lastUpdate = getLastUpdateTime();
+	const loadMore = () => setDisplayCount(prev => prev + 12);
+	const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
 	return (
 		<div className="min-h-screen bg-[#0b0d12] flex flex-col">
@@ -315,21 +238,21 @@ export default function ModsPage() {
 
 			<main className="flex-1 container mx-auto px-4 py-24">
 				{/* Breadcrumbs */}
-				<div className="max-w-5xl mx-auto mb-6">
+				<div className="max-w-7xl mx-auto mb-6">
 					<div className="flex items-center gap-2 text-sm text-gray-400">
-						<a href="/" className="hover:text-[#00d2ff] transition">{t('news.breadcrumbs.home')}</a>
+						<a href="/" className="hover:text-[#00d2ff] transition">{t('mods.breadcrumbs.home')}</a>
 						<span>›</span>
-						<span className="text-white">{t('news.breadcrumbs.news')}</span>
+						<span className="text-white">{t('mods.breadcrumbs.mods')}</span>
 					</div>
 				</div>
 
-				{/* Page Header */}
-				<div className="max-w-5xl mx-auto mb-12">
+				{/* Header */}
+				<div className="max-w-7xl mx-auto mb-12">
 					<h1 className="text-5xl font-bold text-white mb-4">
-						{t('news.title')} <span className="text-[#00d2ff]">{t('news.titleHighlight')}</span>
+						{t('mods.title')} <span className="text-[#00d2ff]">{t('mods.titleHighlight')}</span>
 					</h1>
-					<p className="text-gray-400 text-lg mb-4">
-						{t('news.description')}
+					<p className="text-gray-400 text-lg mb-4 max-w-3xl">
+						{t('mods.description')}
 					</p>
 
 					{/* Status badges */}
@@ -337,256 +260,217 @@ export default function ModsPage() {
 						<div className="flex flex-wrap items-center gap-3">
 							<div className="inline-flex items-center gap-2 bg-[#00d2ff]/10 border border-[#00d2ff]/30 text-[#00d2ff] px-4 py-2 rounded-full text-sm font-medium">
 								<span className="w-2 h-2 bg-[#00d2ff] rounded-full animate-pulse"></span>
-								<span>{news.length} {t('news.available')}</span>
+								<span>{mods.length} {t('mods.available')}</span>
 							</div>
 
-							{lastUpdate && (
+							{lastCronRun && !isNaN(lastCronRun.getTime()) && (
 								<div className="inline-flex items-center gap-2 bg-green-500/10 border border-green-500/30 text-green-400 px-4 py-2 rounded-full text-sm font-medium">
 									<span>✓</span>
-									<span>{t('news.lastUpdate')}: {getTimeAgo(lastUpdate.toISOString())}</span>
+									<span>{t('mods.lastUpdate')}: {getTimeAgo(lastCronRun.toISOString())}</span>
 								</div>
 							)}
 
 							<div className="inline-flex items-center gap-2 bg-purple-500/10 border border-purple-500/30 text-purple-400 px-4 py-2 rounded-full text-sm font-medium">
 								<span>⏰</span>
-								<span>{t('news.nextUpdate')}: {getNextRefresh()}</span>
+								<span>{t('mods.nextUpdate')}: {getNextRefresh()}</span>
 							</div>
 						</div>
 					)}
 				</div>
 
 				{loading ? (
-					// Loading skeleton
-					<div className="max-w-5xl mx-auto">
+					<div className="max-w-7xl mx-auto">
 						{/* Skeleton filters */}
 						<div className="mb-8 space-y-4">
 							<div className="bg-white/5 border border-white/10 rounded-xl h-14 animate-pulse"></div>
 							<div className="flex gap-3">
 								<div className="bg-white/5 h-10 w-32 rounded-lg animate-pulse"></div>
 								<div className="bg-white/5 h-10 w-40 rounded-lg animate-pulse"></div>
-								<div className="bg-white/5 h-10 w-36 rounded-lg animate-pulse"></div>
 							</div>
 						</div>
 
-						{/* Skeleton news cards */}
-						<div className="space-y-6">
-							{[...Array(5)].map((_, index) => (
-								<NewsSkeleton key={index} />
-							))}
+						{/* Skeleton grid */}
+						<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+							{[...Array(12)].map((_, index) => <ModsSkeleton key={index} />)}
 						</div>
 					</div>
 				) : (
 					<>
 						{/* Filters */}
-						<div className="max-w-5xl mx-auto mb-8 space-y-4">
-							{/* Search bar */}
+						<div className="max-w-7xl mx-auto mb-8 space-y-4">
+							{/* Search bar with goblin */}
 							<div className="relative">
 								<input
 									type="text"
-									placeholder={t('news.searchPlaceholder')}
+									placeholder={t('mods.searchPlaceholder')}
 									value={searchQuery}
 									onChange={(e) => setSearchQuery(e.target.value)}
 									className="w-full bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-white placeholder-gray-500 focus:outline-none focus:border-[#00d2ff] transition"
 								/>
 								<span className="absolute right-6 top-1/2 -translate-y-1/2 text-gray-500">🔍</span>
 
-								{/* Goblin sitting on search bar */}
 								<img
-									src="/News.png"
-									alt="Goblin reading news"
-									className="absolute -top-25 right-4 w-32 h-auto z-20 pointer-events-none select-none"
+									src="/Mod.png"
+									alt="Goblin browsing mods"
+									className="absolute -top-28 right-4 w-32 h-auto z-20 pointer-events-none select-none -scale-x-100 hidden lg:block"
 								/>
 							</div>
 
-							{/* Sort by */}
+							{/* Sort options */}
 							<div className="flex items-center gap-3 flex-wrap">
-								<span className="text-gray-400 text-sm font-medium">{t('news.sortBy')}:</span>
+								<span className="text-gray-400 text-sm font-medium">{t('mods.sortBy')}:</span>
+
 								<button
 									onClick={() => handleSortChange('newest')}
 									disabled={sorting}
-									className={`px-4 py-2 rounded-lg text-sm font-medium transition ${sortBy === 'newest'
+									className={`px-4 py-2 rounded-lg text-sm font-medium transition ${
+										sortBy === 'newest'
 											? 'bg-[#00d2ff] text-[#0b0d12]'
 											: 'bg-white/5 text-gray-400 hover:bg-white/10'
-										} ${sorting ? 'opacity-50 cursor-not-allowed' : ''}`}
+									} ${sorting ? 'opacity-50 cursor-not-allowed' : ''}`}
 								>
-									{t('news.sortOptions.newest')}
+									{t('mods.sortOptions.newest')}
 								</button>
+
 								<button
 									onClick={() => handleSortChange('oldest')}
 									disabled={sorting}
-									className={`px-4 py-2 rounded-lg text-sm font-medium transition ${sortBy === 'oldest'
+									className={`px-4 py-2 rounded-lg text-sm font-medium transition ${
+										sortBy === 'oldest'
 											? 'bg-[#00d2ff] text-[#0b0d12]'
 											: 'bg-white/5 text-gray-400 hover:bg-white/10'
-										} ${sorting ? 'opacity-50 cursor-not-allowed' : ''}`}
+									} ${sorting ? 'opacity-50 cursor-not-allowed' : ''}`}
 								>
-									{t('news.sortOptions.oldest')}
-								</button>
-								<button
-									onClick={() => handleSortChange('source')}
-									disabled={sorting}
-									className={`px-4 py-2 rounded-lg text-sm font-medium transition ${sortBy === 'source'
-											? 'bg-[#00d2ff] text-[#0b0d12]'
-											: 'bg-white/5 text-gray-400 hover:bg-white/10'
-										} ${sorting ? 'opacity-50 cursor-not-allowed' : ''}`}
-								>
-									{t('news.sortOptions.source')}
+									{t('mods.sortOptions.oldest')}
 								</button>
 
-								{/* Sorting indicator */}
 								{sorting && (
 									<span className="inline-flex items-center gap-2 text-[#00d2ff] text-sm">
 										<span className="w-2 h-2 bg-[#00d2ff] rounded-full animate-pulse"></span>
-										{t('news.sorting')}
+										{t('mods.sorting')}
 									</span>
 								)}
 							</div>
 
 							{/* Results count */}
 							<div className="text-gray-400 text-sm">
-								{t('news.showing')} {Math.min(displayCount, filteredNews.length)} {t('news.of')} {filteredNews.length} {t('news.results')}
+								{t('mods.showing')} {Math.min(displayCount, filteredMods.length)} {t('mods.of')} {filteredMods.length} {t('mods.results')}
 							</div>
 						</div>
 
-						{/* News List */}
+						{/* Mods Grid */}
 						{sorting ? (
-							// Sorting skeleton
-							<div className="max-w-5xl mx-auto space-y-6">
-								{[...Array(3)].map((_, index) => (
-									<NewsSkeleton key={index} />
-								))}
+							<div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+								{[...Array(12)].map((_, index) => <ModsSkeleton key={index} />)}
 							</div>
 						) : (
-							<div className="max-w-5xl mx-auto space-y-8">
-								{filteredNews.length === 0 ? (
+							<div className="max-w-7xl mx-auto">
+								{filteredMods.length === 0 ? (
 									<div className="text-center text-gray-400 py-12">
-										{t('news.noResults')}
+										<div className="text-6xl mb-4">📦</div>
+										<p className="text-xl">{t('mods.noResults')}</p>
 									</div>
 								) : (
 									<>
-										{/* Featured Article - Noticia del día */}
-										{featuredArticle && (
-											<div
-												className="relative bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-8 cursor-pointer group overflow-hidden animate-fadeIn hover:border-[#00d2ff]/50 hover:bg-white/[0.07] transition-all duration-300"
-												onClick={() => window.open(featuredArticle.url, '_blank')}
-											>
-												<div className="relative z-10">
-													<div className="flex items-start justify-between mb-4">
-														<div className="flex items-center gap-3">
-															<span className="bg-[#00d2ff]/10 border border-[#00d2ff]/30 text-[#00d2ff] text-xs font-bold px-4 py-2 rounded-full flex items-center gap-2">
-																<span>⭐</span> {t('news.featured')}
-															</span>
-															{isNew(featuredArticle.fecha) && (
-																<span className="bg-green-500/10 border border-green-500/30 text-green-400 text-xs font-bold px-3 py-1 rounded-full">
-																	{t('news.new')}
+										{/* Grid */}
+										<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
+											{/* Add Mod Card */}
+											<article className="bg-white/5 border-2 border-dashed border-white/20 rounded-xl overflow-hidden hover:border-[#00d2ff]/50 transition-all duration-300 h-[420px] flex flex-col items-center justify-center cursor-not-allowed opacity-60">
+												<div className="text-center p-6">
+													<div className="text-6xl mb-4">➕</div>
+													<h3 className="text-xl font-bold text-white mb-2">
+														{t('mods.addMod.title')}
+													</h3>
+													<p className="text-gray-400 text-sm mb-4">
+														{t('mods.addMod.description')}
+													</p>
+													<span className="inline-flex items-center gap-2 bg-yellow-500/10 border border-yellow-500/30 text-yellow-400 px-4 py-2 rounded-full text-xs font-medium">
+														<span>🔒</span>
+														<span>{t('mods.addMod.comingSoon')}</span>
+													</span>
+												</div>
+											</article>
+
+											{/* Existing Mods */}
+											{filteredMods.slice(0, displayCount).map((item, index) => (
+												<article
+													key={index}
+													className="bg-white/5 border border-white/10 rounded-xl overflow-hidden hover:border-[#00d2ff]/50 hover:shadow-[0_0_30px_rgba(0,210,255,0.1)] hover:scale-[1.02] transition-all duration-300 group cursor-pointer h-[420px] flex flex-col animate-fadeIn"
+													style={{ animationDelay: `${(index + 1) * 30}ms` }}
+													onClick={() => window.open(item.link_descarga, '_blank')}
+												>
+													{/* Thumbnail placeholder */}
+													<div className={`aspect-video bg-gradient-to-br ${getGradient(item.titulo)} relative overflow-hidden`}>
+														<div className="absolute inset-0 flex items-center justify-center">
+															<div className="text-6xl font-bold text-white/10">
+																{item.titulo.charAt(0).toUpperCase()}
+															</div>
+														</div>
+														
+														{/* Badges overlay */}
+														<div className="absolute top-3 left-3 flex gap-2">
+															{isNew(item.fecha_publicacion) && (
+																<span className="bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+																	{t('mods.new')}
 																</span>
 															)}
 														</div>
-														<div className="text-right">
-															<div className="text-[#00d2ff] font-medium flex items-center gap-1.5 justify-end text-sm">
-																<span className="text-xs">{getSourceIcon(simplifySourceName(featuredArticle.fuente))}</span>
-																{simplifySourceName(featuredArticle.fuente)}
-															</div>
-															<div className="text-gray-400 text-xs mt-1">{formatDate(featuredArticle.fecha)}</div>
-														</div>
 													</div>
 
-													<h2 className="text-3xl md:text-4xl font-bold text-white mb-4 group-hover:text-[#00d2ff] transition leading-tight">
-														{highlightText(featuredArticle.titulo, searchQuery)}
-													</h2>
+													{/* Content */}
+													<div className="p-4 flex flex-col flex-1">
+														{/* Title */}
+														<h3 className="text-lg font-bold text-white mb-2 line-clamp-2 group-hover:text-[#00d2ff] transition">
+															{highlightText(item.titulo, searchQuery)}
+														</h3>
 
-													<p className="text-gray-300 text-lg mb-6 leading-relaxed">
-														{highlightText(featuredArticle.resumen, searchQuery)}
-													</p>
+														{/* Description */}
+														<p className="text-gray-400 text-sm mb-4 line-clamp-3 flex-1">
+															{highlightText(item.resumen, searchQuery)}
+														</p>
 
-													<div className="flex items-center justify-between">
-														<div className="flex items-center text-[#00d2ff] font-bold group-hover:text-white transition">
-															<span>{t('news.readFull')}</span>
-															<span className="ml-2 group-hover:translate-x-2 transition-transform">→</span>
+														{/* Metadata */}
+														<div className="space-y-2 mb-3">
+															<div className="flex items-center gap-2 text-xs text-gray-400">
+																<span>👤</span>
+																<span className="truncate">{item.autor}</span>
+															</div>
+															<div className="flex items-center gap-2 text-xs text-gray-400">
+																<span>📅</span>
+																<span>{formatDate(item.fecha_publicacion)}</span>
+															</div>
+															<div className="flex items-center gap-2 text-xs text-gray-400">
+																<span>🌐</span>
+																<span className="truncate">{getSource(item.link_descarga)}</span>
+															</div>
 														</div>
-														<ShareButton
-															title={featuredArticle.titulo}
-															text={featuredArticle.resumen}
-															url={featuredArticle.url}
-														/>
+
+														{/* Actions */}
+														<div className="flex items-center justify-between pt-3 border-t border-white/10">
+															<div className="flex items-center text-[#00d2ff] font-medium text-sm group-hover:text-[#e5c100] transition">
+																<span>{t('mods.download')}</span>
+																<span className="ml-1">→</span>
+															</div>
+
+															<ShareButton
+																title={item.titulo}
+																text={item.resumen}
+																url={item.link_descarga}
+															/>
+														</div>
 													</div>
-												</div>
-											</div>
-										)}
-
-										{/* Regular news grouped by date */}
-										{Object.entries(groupedNews).map(([date, articles]) => (
-											<div key={date}>
-												{/* Date separator */}
-												<div className="flex items-center gap-4 mb-6">
-													<div className="flex-1 h-px bg-white/10"></div>
-													<span className="text-gray-400 text-sm font-medium px-4 py-1.5 bg-white/5 rounded-full">
-														{date}
-													</span>
-													<div className="flex-1 h-px bg-white/10"></div>
-												</div>
-
-												{/* Articles for this date */}
-												<div className="space-y-6">
-													{articles.map((article, index) => (
-														<article
-															key={index}
-															className="bg-white/5 border border-white/10 rounded-xl p-6 hover:border-[#00d2ff]/50 hover:shadow-[0_0_30px_rgba(0,210,255,0.1)] transition-all duration-300 group cursor-pointer animate-fadeIn"
-															style={{ animationDelay: `${index * 50}ms` }}
-															onClick={() => window.open(article.url, '_blank')}
-														>
-															<div className="flex items-start justify-between mb-3">
-																<div className="flex items-center gap-2">
-																	<span className="bg-[#00d2ff] text-[#0b0d12] text-xs font-bold px-3 py-1 rounded-full">
-																		{t('news.badge')}
-																	</span>
-																	{isNew(article.fecha) && (
-																		<span className="bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full animate-pulse">
-																			{t('news.new')}
-																		</span>
-																	)}
-																</div>
-																<div className="text-right text-sm">
-																	<div className="text-[#00d2ff] font-medium flex items-center gap-1.5 justify-end">
-																		<span className="text-xs">{getSourceIcon(simplifySourceName(article.fuente))}</span>
-																		{simplifySourceName(article.fuente)}
-																	</div>
-																	<div className="text-gray-400 text-xs mt-1">{formatDate(article.fecha)}</div>
-																</div>
-															</div>
-
-															<h2 className="text-2xl font-bold text-white mb-3 group-hover:text-[#00d2ff] transition">
-																{highlightText(article.titulo, searchQuery)}
-															</h2>
-
-															<p className="text-gray-400 mb-4 line-clamp-3">
-																{highlightText(article.resumen, searchQuery)}
-															</p>
-
-															<div className="flex items-center justify-between">
-																<div className="flex items-center text-[#00d2ff] font-medium text-sm group-hover:text-[#e5c100] transition">
-																	<span>{t('news.readMore')}</span>
-																	<span className="ml-2">→</span>
-																</div>
-																<ShareButton
-																	title={article.titulo}
-																	text={article.resumen}
-																	url={article.url}
-																/>
-															</div>
-														</article>
-													))}
-												</div>
-											</div>
-										))}
+												</article>
+											))}
+										</div>
 
 										{/* Load More Button */}
-										{displayCount < filteredNews.length && (
+										{displayCount < filteredMods.length && (
 											<div className="text-center py-8">
 												<button
 													onClick={loadMore}
 													className="bg-[#00d2ff] hover:bg-[#00a8cc] text-[#0b0d12] font-bold px-8 py-3 rounded-xl transition"
 												>
-													{t('news.loadMore')}
+													{t('mods.loadMore')}
 												</button>
 											</div>
 										)}
@@ -602,8 +486,8 @@ export default function ModsPage() {
 			{showScrollTop && (
 				<button
 					onClick={scrollToTop}
-					className="fixed bottom-8 right-8 bg-[#00d2ff] hover:bg-[#00a8cc] text-[#0b0d12] w-12 h-12 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-110 z-50 cursor-pointer"
-					aria-label={t('news.scrollTop')}
+					className="fixed bottom-8 right-8 bg-[#00d2ff] hover:bg-[#00a8cc] text-[#0b0d12] w-12 h-12 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-110 z-50"
+					aria-label={t('mods.scrollTop')}
 				>
 					<span className="text-2xl">↑</span>
 				</button>

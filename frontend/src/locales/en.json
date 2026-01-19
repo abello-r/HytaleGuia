@@ -1,105 +1,154 @@
 {
-	"nav": {
-		"home": "HOME",
-		"news": "NEWS",
-		"guides": "GUIDES",
-		"mods": "MODS",
-		"serverList": "SERVER LIST",
-		"devBadge": "The website is under development."
-	},
-	"hero": {
-		"betaBadge": "BETA COMING SOON",
-		"title": "DISCOVER",
-		"titleHighlight": "HYTALE",
-		"subtitle": "The ultimate guide in Spanish",
-		"description": "The definitive encyclopedia. Explore biomes, discover crafting recipes, and join the largest Hytale community.",
-		"searchPlaceholder": "Ask anything, the AI will help you...",
-		"searchButton": "SEARCH",
-		"searchHint": "Use keywords like \"How to craft a sword?\" or \"Where to find aquatic biomes?\""
-	},
-	"trending": {
-		"title": "Trending in",
-		"titleHighlight": "Orbis",
-		"readArticle": "Read Article",
-		"online": "Online",
-		"download": "Download"
-	},
-	"footer": {
-		"description": "The largest Spanish-speaking Hytale community. Guides, mods, servers, and news.",
-		"quickLinks": "Quick Links",
-		"community": "Community",
-		"legal": "Legal",
-		"home": "Home",
-		"news": "News",
-		"guides": "Guides",
-		"mods": "Mods",
-		"serverList": "Server List",
-		"discord": "Discord",
-		"twitter": "Twitter",
-		"youtube": "YouTube",
-		"reddit": "Reddit",
-		"terms": "Terms of Use",
-		"privacy": "Privacy Policy",
-		"cookies": "Cookies",
-		"contact": "Contact",
-		"copyright": "© 2026 HytaleGuide. All rights reserved.",
-		"madeWith": "Made with ❤️ for the community",
-		"disclaimer": "This site is not affiliated with Hypixel Studios or Riot Games."
-	},
-	"discord": {
-		"tooltip": "Join Discord"
-	},
-	"auth": {
-		"login": "LOGIN"
-	},
-	"news": {
-		"title": "All",
-		"titleHighlight": "News",
-		"description": "All announcements, updates, and news about Hytale in one place. A centralized hub to stay up to date without checking multiple sources.",
-		"breadcrumbs": {
-			"home": "Home",
-			"news": "News"
-		},
-		"available": "news available",
-		"lastUpdate": "Last update",
-		"nextUpdate": "Next update",
-		"searchPlaceholder": "Search news...",
-		"filterByDate": "Date",
-		"filterBySource": "Source",
-		"sortBy": "Sort",
-		"dateFilters": {
-			"all": "All",
-			"7days": "Last 7 days",
-			"30days": "Last month"
-		},
-		"sortOptions": {
-			"newest": "Newest",
-			"oldest": "Oldest",
-			"source": "By source"
-		},
-		"allSources": "All",
-		"showing": "Showing",
-		"of": "of",
-		"results": "results",
-		"noResults": "No news found",
-		"featured": "NEWS OF THE DAY",
-		"new": "NEW",
-		"badge": "NEWS",
-		"readMore": "Read more",
-		"readFull": "Read full article",
-		"loadMore": "Load more news",
-		"scrollTop": "Back to top",
-		"sorting": "Sorting...",
-		"share": "Share",
-		"linkCopied": "Link copied",
-		"linkCopiedDesc": "The link was copied to the clipboard.",
-		"timeIn": {
-			"minute": "in 1 minute",
-			"minutes": "in {{count}} minutes",
-			"hour": "in 1 hour",
-			"hours": "in {{count}} hours",
-			"hourAndMinutes": "in 1 hour and {{minutes}} min",
-			"hoursAndMinutes": "in {{hours}} hours and {{minutes}} min"
-		}
-	}
+  "nav": {
+    "home": "HOME",
+    "news": "NEWS",
+    "guides": "GUIDES",
+    "mods": "MODS",
+    "serverList": "SERVER LIST",
+    "devBadge": "The website is under development."
+  },
+  "hero": {
+    "betaBadge": "BETA COMING SOON",
+    "title": "DISCOVER",
+    "titleHighlight": "HYTALE",
+    "subtitle": "The ultimate guide in Spanish",
+    "description": "The definitive encyclopedia. Explore biomes, discover crafting recipes, and join the largest Hytale community.",
+    "searchPlaceholder": "Ask anything, the AI will help you...",
+    "searchButton": "SEARCH",
+    "searchHint": "Use keywords like \"How to craft a sword?\" or \"Where to find aquatic biomes?\""
+  },
+  "trending": {
+    "title": "Trending in",
+    "titleHighlight": "Orbis",
+    "readArticle": "Read Article",
+    "online": "Online",
+    "download": "Download"
+  },
+  "footer": {
+    "description": "The largest Spanish-speaking Hytale community. Guides, mods, servers, and news.",
+    "quickLinks": "Quick Links",
+    "community": "Community",
+    "legal": "Legal",
+    "home": "Home",
+    "news": "News",
+    "guides": "Guides",
+    "mods": "Mods",
+    "serverList": "Server List",
+    "discord": "Discord",
+    "twitter": "Twitter",
+    "youtube": "YouTube",
+    "reddit": "Reddit",
+    "terms": "Terms of Use",
+    "privacy": "Privacy Policy",
+    "cookies": "Cookies",
+    "contact": "Contact",
+    "copyright": "© 2026 HytaleGuía. All rights reserved.",
+    "disclaimer": "HytaleGuía is an independent fansite not affiliated with Hypixel Studios. All Hytale content and trademarks belong to their respective owners.",
+    "madeWith": "All rights reserved."
+  },
+  "discord": {
+    "tooltip": "Join Discord"
+  },
+  "auth": {
+    "login": "LOGIN"
+  },
+  "news": {
+    "title": "All",
+    "titleHighlight": "News",
+    "description": "All announcements, updates, and news about Hytale in one place. A centralized space to stay up to date without checking multiple sources.",
+    "breadcrumbs": {
+      "home": "Home",
+      "news": "News"
+    },
+    "available": "Available news",
+    "lastUpdate": "Last update",
+    "nextUpdate": "Next update",
+    "searchPlaceholder": "Search news...",
+    "filterByDate": "Date",
+    "filterBySource": "Source",
+    "sortBy": "Sort by",
+    "dateFilters": {
+      "all": "All",
+      "7days": "Last 7 days",
+      "30days": "Last month"
+    },
+    "sortOptions": {
+      "newest": "Newest",
+      "oldest": "Oldest",
+      "source": "By source"
+    },
+    "allSources": "All",
+    "showing": "Showing",
+    "of": "of",
+    "results": "results",
+    "noResults": "No news found",
+    "featured": "FEATURED NEWS",
+    "new": "NEW",
+    "badge": "NEWS",
+    "readMore": "Read more",
+    "readFull": "Read full article",
+    "loadMore": "Load more news",
+    "scrollTop": "Back to top",
+    "sorting": "Sorting...",
+    "share": "Share",
+    "linkCopied": "Link copied",
+    "linkCopiedDesc": "The link has been copied to the clipboard.",
+    "timeIn": {
+      "minute": "in 1 minute",
+      "minutes": "in {{count}} minutes",
+      "hour": "in 1 hour",
+      "hours": "in {{count}} hours",
+      "hourAndMinutes": "in 1 hour and {{minutes}} min",
+      "hoursAndMinutes": "in {{hours}} hours and {{minutes}} min"
+    }
+  },
+  "mods": {
+    "breadcrumbs": {
+      "home": "Home",
+      "mods": "Mods"
+    },
+    "title": "Explore",
+    "titleHighlight": "Mods",
+    "description": "Discover mods created by the Hytale community: new gameplay mechanics, quality of life improvements, additional content, and unique tools to enhance your adventure in Orbis.",
+    "lastUpdate": "Last update",
+    "nextUpdate": "Next update",
+    "searchPlaceholder": "Search by name, author, version, or description...",
+    "sortBy": "Sort by",
+    "sortOptions": {
+      "newest": "Newest",
+      "oldest": "Oldest",
+      "title": "Title",
+      "author": "Author"
+    },
+    "sorting": "Sorting...",
+    "showing": "Showing",
+    "of": "of",
+    "results": "results",
+    "noResults": "No mods found for this search.",
+    "featured": "Featured mod",
+    "new": "NEW",
+    "by": "by",
+    "download": "Download",
+    "loadMore": "Load more",
+    "scrollTop": "Back to top",
+    "available": "Available mods",
+    "timeIn": {
+      "minute": "in 1 minute",
+      "minutes": "in {{count}} minutes",
+      "hour": "in 1 hour",
+      "hours": "in {{count}} hours",
+      "hourAndMinutes": "in 1 hour and {{minutes}} minutes",
+      "hoursAndMinutes": "in {{hours}} hours and {{minutes}} minutes"
+    },
+    "badges": {
+      "mod": "MOD",
+      "author": "Author",
+      "version": "Version"
+    },
+    "addMod": {
+      "title": "Add Mod",
+      "description": "Did you create a mod? Soon you'll be able to share it here",
+      "comingSoon": "Coming soon"
+    }
+  }
 }
