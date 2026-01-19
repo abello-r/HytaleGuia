@@ -150,5 +150,15 @@
 			"description": "¿Creaste un mod? Pronto podrás compartirlo aquí",
 			"comingSoon": "Próximamente"
 		}
+	},
+	"notFound": {
+		"seo": {
+			"title": "Página no encontrada - HytaleGuía",
+			"description": "La página que buscas no existe. Vuelve a HytaleGuía para explorar noticias, mods y guías de Hytale.",
+			"keywords": "404, página no encontrada, error"
+		},
+		"title": "¡Página no encontrada!",
+		"description": "Parece que te has adentrado demasiado en las profundidades de Orbis.",
+		"backToHome": "Volver al inicio"
 	}
 }

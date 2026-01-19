@@ -8,6 +8,8 @@ import HeroSection from './components/HeroSection';
 import TrendingSection from './components/TrendingSection';
 import NewsPage from './pages/NewsPage';
 import ModsPage from './pages/ModsPage';
+import NotFoundPage from './pages/NotFoundPage';
+
 import SEO from './components/SEO';
 import StructuredData from './components/StructuredData';
 import { SEO_CONFIGS } from './utils/seoConfig';
@@ -78,6 +80,7 @@ function App() {
 				<Route path="/" element={<HomePage />} />
 				<Route path="/noticias" element={<NewsPage />} />
 				<Route path="/mods" element={<ModsPage />} />
+				<Route path="*" element={<NotFoundPage />} /> {/* Catch-all route for 404 Not Found */}
 			</Routes>
 		</Router>
 	);
