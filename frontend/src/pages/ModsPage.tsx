@@ -4,6 +4,9 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import DiscordButton from '../components/DiscordButton';
 import ShareButton from '../components/ShareButton';
+import SEO from '../components/SEO';
+import StructuredData from '../components/StructuredData';
+import { SEO_CONFIGS, DEFAULT_SEO } from '../utils/seoConfig';
 
 interface ModItem {
 	titulo: string;
@@ -47,6 +50,7 @@ function ModsSkeleton() {
 
 export default function ModsPage() {
 	const { t } = useTranslation();
+	const seoConfig = SEO_CONFIGS['/mods'] || DEFAULT_SEO;
 	const [mods, setMods] = useState<ModItem[]>([]);
 	const [filteredMods, setFilteredMods] = useState<ModItem[]>([]);
 	const [loading, setLoading] = useState(true);
@@ -72,7 +76,7 @@ export default function ModsPage() {
 				if (result.success) {
 					setMods(result.data.mods);
 					setFilteredMods(result.data.mods);
-					
+
 					// Guardar el timestamp de la última ejecución del cron
 					if (result.data.lastCronRun) {
 						setLastCronRun(new Date(result.data.lastCronRun));
@@ -171,7 +175,7 @@ export default function ModsPage() {
 		try {
 			const url = new URL(downloadLink);
 			const hostname = url.hostname.replace('www.', '');
-			
+
 			// Capitalize first letter
 			return hostname.split('.')[0].charAt(0).toUpperCase() + hostname.split('.')[0].slice(1);
 		} catch {
@@ -232,268 +236,278 @@ export default function ModsPage() {
 	const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
 	return (
-		<div className="min-h-screen bg-[#0b0d12] flex flex-col">
-			<Header />
-			<DiscordButton />
+		<>
+			<SEO {...seoConfig} />
+			<StructuredData
+				type="BreadcrumbList"
+				data={{
+					items: [
+						{ name: 'Inicio', url: 'https://hytaleguia.com' },
+						{ name: 'Mods', url: 'https://hytaleguia.com/mods' }
+					]
+				}}
+			/>
+			<div className="min-h-screen bg-[#0b0d12] flex flex-col">
+				<Header />
+				<DiscordButton />
 
-			<main className="flex-1 container mx-auto px-4 py-24">
-				{/* Breadcrumbs */}
-				<div className="max-w-7xl mx-auto mb-6">
-					<div className="flex items-center gap-2 text-sm text-gray-400">
-						<a href="/" className="hover:text-[#00d2ff] transition">{t('mods.breadcrumbs.home')}</a>
-						<span>›</span>
-						<span className="text-white">{t('mods.breadcrumbs.mods')}</span>
+				<main className="flex-1 container mx-auto px-4 py-24">
+					{/* Breadcrumbs */}
+					<div className="max-w-7xl mx-auto mb-6">
+						<div className="flex items-center gap-2 text-sm text-gray-400">
+							<a href="/" className="hover:text-[#00d2ff] transition">{t('mods.breadcrumbs.home')}</a>
+							<span>›</span>
+							<span className="text-white">{t('mods.breadcrumbs.mods')}</span>
+						</div>
 					</div>
-				</div>
 
-				{/* Header */}
-				<div className="max-w-7xl mx-auto mb-12">
-					<h1 className="text-5xl font-bold text-white mb-4">
-						{t('mods.title')} <span className="text-[#00d2ff]">{t('mods.titleHighlight')}</span>
-					</h1>
-					<p className="text-gray-400 text-lg mb-4 max-w-3xl">
-						{t('mods.description')}
-					</p>
+					{/* Header */}
+					<div className="max-w-7xl mx-auto mb-12">
+						<h1 className="text-5xl font-bold text-white mb-4">
+							{t('mods.title')} <span className="text-[#00d2ff]">{t('mods.titleHighlight')}</span>
+						</h1>
+						<p className="text-gray-400 text-lg mb-4 max-w-3xl">
+							{t('mods.description')}
+						</p>
 
-					{/* Status badges */}
-					{!loading && (
-						<div className="flex flex-wrap items-center gap-3">
-							<div className="inline-flex items-center gap-2 bg-[#00d2ff]/10 border border-[#00d2ff]/30 text-[#00d2ff] px-4 py-2 rounded-full text-sm font-medium">
-								<span className="w-2 h-2 bg-[#00d2ff] rounded-full animate-pulse"></span>
-								<span>{mods.length} {t('mods.available')}</span>
-							</div>
-
-							{lastCronRun && !isNaN(lastCronRun.getTime()) && (
-								<div className="inline-flex items-center gap-2 bg-green-500/10 border border-green-500/30 text-green-400 px-4 py-2 rounded-full text-sm font-medium">
-									<span>✓</span>
-									<span>{t('mods.lastUpdate')}: {getTimeAgo(lastCronRun.toISOString())}</span>
+						{/* Status badges */}
+						{!loading && (
+							<div className="flex flex-wrap items-center gap-3">
+								<div className="inline-flex items-center gap-2 bg-[#00d2ff]/10 border border-[#00d2ff]/30 text-[#00d2ff] px-4 py-2 rounded-full text-sm font-medium">
+									<span className="w-2 h-2 bg-[#00d2ff] rounded-full animate-pulse"></span>
+									<span>{mods.length} {t('mods.available')}</span>
 								</div>
-							)}
 
-							<div className="inline-flex items-center gap-2 bg-purple-500/10 border border-purple-500/30 text-purple-400 px-4 py-2 rounded-full text-sm font-medium">
-								<span>⏰</span>
-								<span>{t('mods.nextUpdate')}: {getNextRefresh()}</span>
-							</div>
-						</div>
-					)}
-				</div>
-
-				{loading ? (
-					<div className="max-w-7xl mx-auto">
-						{/* Skeleton filters */}
-						<div className="mb-8 space-y-4">
-							<div className="bg-white/5 border border-white/10 rounded-xl h-14 animate-pulse"></div>
-							<div className="flex gap-3">
-								<div className="bg-white/5 h-10 w-32 rounded-lg animate-pulse"></div>
-								<div className="bg-white/5 h-10 w-40 rounded-lg animate-pulse"></div>
-							</div>
-						</div>
-
-						{/* Skeleton grid */}
-						<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-							{[...Array(12)].map((_, index) => <ModsSkeleton key={index} />)}
-						</div>
-					</div>
-				) : (
-					<>
-						{/* Filters */}
-						<div className="max-w-7xl mx-auto mb-8 space-y-4">
-							{/* Search bar with goblin */}
-							<div className="relative">
-								<input
-									type="text"
-									placeholder={t('mods.searchPlaceholder')}
-									value={searchQuery}
-									onChange={(e) => setSearchQuery(e.target.value)}
-									className="w-full bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-white placeholder-gray-500 focus:outline-none focus:border-[#00d2ff] transition"
-								/>
-								<span className="absolute right-6 top-1/2 -translate-y-1/2 text-gray-500">🔍</span>
-
-								<img
-									src="/Mod.png"
-									alt="Goblin browsing mods"
-									className="absolute -top-28 right-4 w-32 h-auto z-20 pointer-events-none select-none -scale-x-100 hidden lg:block"
-								/>
-							</div>
-
-							{/* Sort options */}
-							<div className="flex items-center gap-3 flex-wrap">
-								<span className="text-gray-400 text-sm font-medium">{t('mods.sortBy')}:</span>
-
-								<button
-									onClick={() => handleSortChange('newest')}
-									disabled={sorting}
-									className={`px-4 py-2 rounded-lg text-sm font-medium transition ${
-										sortBy === 'newest'
-											? 'bg-[#00d2ff] text-[#0b0d12]'
-											: 'bg-white/5 text-gray-400 hover:bg-white/10'
-									} ${sorting ? 'opacity-50 cursor-not-allowed' : ''}`}
-								>
-									{t('mods.sortOptions.newest')}
-								</button>
-
-								<button
-									onClick={() => handleSortChange('oldest')}
-									disabled={sorting}
-									className={`px-4 py-2 rounded-lg text-sm font-medium transition ${
-										sortBy === 'oldest'
-											? 'bg-[#00d2ff] text-[#0b0d12]'
-											: 'bg-white/5 text-gray-400 hover:bg-white/10'
-									} ${sorting ? 'opacity-50 cursor-not-allowed' : ''}`}
-								>
-									{t('mods.sortOptions.oldest')}
-								</button>
-
-								{sorting && (
-									<span className="inline-flex items-center gap-2 text-[#00d2ff] text-sm">
-										<span className="w-2 h-2 bg-[#00d2ff] rounded-full animate-pulse"></span>
-										{t('mods.sorting')}
-									</span>
-								)}
-							</div>
-
-							{/* Results count */}
-							<div className="text-gray-400 text-sm">
-								{t('mods.showing')} {Math.min(displayCount, filteredMods.length)} {t('mods.of')} {filteredMods.length} {t('mods.results')}
-							</div>
-						</div>
-
-						{/* Mods Grid */}
-						{sorting ? (
-							<div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-								{[...Array(12)].map((_, index) => <ModsSkeleton key={index} />)}
-							</div>
-						) : (
-							<div className="max-w-7xl mx-auto">
-								{filteredMods.length === 0 ? (
-									<div className="text-center text-gray-400 py-12">
-										<div className="text-6xl mb-4">📦</div>
-										<p className="text-xl">{t('mods.noResults')}</p>
+								{lastCronRun && !isNaN(lastCronRun.getTime()) && (
+									<div className="inline-flex items-center gap-2 bg-green-500/10 border border-green-500/30 text-green-400 px-4 py-2 rounded-full text-sm font-medium">
+										<span>✓</span>
+										<span>{t('mods.lastUpdate')}: {getTimeAgo(lastCronRun.toISOString())}</span>
 									</div>
-								) : (
-									<>
-										{/* Grid */}
-										<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
-											{/* Add Mod Card */}
-											<article className="bg-white/5 border-2 border-dashed border-white/20 rounded-xl overflow-hidden hover:border-[#00d2ff]/50 transition-all duration-300 h-[420px] flex flex-col items-center justify-center cursor-not-allowed opacity-60">
-												<div className="text-center p-6">
-													<div className="text-6xl mb-4">➕</div>
-													<h3 className="text-xl font-bold text-white mb-2">
-														{t('mods.addMod.title')}
-													</h3>
-													<p className="text-gray-400 text-sm mb-4">
-														{t('mods.addMod.description')}
-													</p>
-													<span className="inline-flex items-center gap-2 bg-yellow-500/10 border border-yellow-500/30 text-yellow-400 px-4 py-2 rounded-full text-xs font-medium">
-														<span>🔒</span>
-														<span>{t('mods.addMod.comingSoon')}</span>
-													</span>
-												</div>
-											</article>
-
-											{/* Existing Mods */}
-											{filteredMods.slice(0, displayCount).map((item, index) => (
-												<article
-													key={index}
-													className="bg-white/5 border border-white/10 rounded-xl overflow-hidden hover:border-[#00d2ff]/50 hover:shadow-[0_0_30px_rgba(0,210,255,0.1)] hover:scale-[1.02] transition-all duration-300 group cursor-pointer h-[420px] flex flex-col animate-fadeIn"
-													style={{ animationDelay: `${(index + 1) * 30}ms` }}
-													onClick={() => window.open(item.link_descarga, '_blank')}
-												>
-													{/* Thumbnail placeholder */}
-													<div className={`aspect-video bg-gradient-to-br ${getGradient(item.titulo)} relative overflow-hidden`}>
-														<div className="absolute inset-0 flex items-center justify-center">
-															<div className="text-6xl font-bold text-white/10">
-																{item.titulo.charAt(0).toUpperCase()}
-															</div>
-														</div>
-														
-														{/* Badges overlay */}
-														<div className="absolute top-3 left-3 flex gap-2">
-															{isNew(item.fecha_publicacion) && (
-																<span className="bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">
-																	{t('mods.new')}
-																</span>
-															)}
-														</div>
-													</div>
-
-													{/* Content */}
-													<div className="p-4 flex flex-col flex-1">
-														{/* Title */}
-														<h3 className="text-lg font-bold text-white mb-2 line-clamp-2 group-hover:text-[#00d2ff] transition">
-															{highlightText(item.titulo, searchQuery)}
-														</h3>
-
-														{/* Description */}
-														<p className="text-gray-400 text-sm mb-4 line-clamp-3 flex-1">
-															{highlightText(item.resumen, searchQuery)}
-														</p>
-
-														{/* Metadata */}
-														<div className="space-y-2 mb-3">
-															<div className="flex items-center gap-2 text-xs text-gray-400">
-																<span>👤</span>
-																<span className="truncate">{item.autor}</span>
-															</div>
-															<div className="flex items-center gap-2 text-xs text-gray-400">
-																<span>📅</span>
-																<span>{formatDate(item.fecha_publicacion)}</span>
-															</div>
-															<div className="flex items-center gap-2 text-xs text-gray-400">
-																<span>🌐</span>
-																<span className="truncate">{getSource(item.link_descarga)}</span>
-															</div>
-														</div>
-
-														{/* Actions */}
-														<div className="flex items-center justify-between pt-3 border-t border-white/10">
-															<div className="flex items-center text-[#00d2ff] font-medium text-sm group-hover:text-[#e5c100] transition">
-																<span>{t('mods.download')}</span>
-																<span className="ml-1">→</span>
-															</div>
-
-															<ShareButton
-																title={item.titulo}
-																text={item.resumen}
-																url={item.link_descarga}
-															/>
-														</div>
-													</div>
-												</article>
-											))}
-										</div>
-
-										{/* Load More Button */}
-										{displayCount < filteredMods.length && (
-											<div className="text-center py-8">
-												<button
-													onClick={loadMore}
-													className="bg-[#00d2ff] hover:bg-[#00a8cc] text-[#0b0d12] font-bold px-8 py-3 rounded-xl transition"
-												>
-													{t('mods.loadMore')}
-												</button>
-											</div>
-										)}
-									</>
 								)}
+
+								<div className="inline-flex items-center gap-2 bg-purple-500/10 border border-purple-500/30 text-purple-400 px-4 py-2 rounded-full text-sm font-medium">
+									<span>⏰</span>
+									<span>{t('mods.nextUpdate')}: {getNextRefresh()}</span>
+								</div>
 							</div>
 						)}
-					</>
+					</div>
+
+					{loading ? (
+						<div className="max-w-7xl mx-auto">
+							{/* Skeleton filters */}
+							<div className="mb-8 space-y-4">
+								<div className="bg-white/5 border border-white/10 rounded-xl h-14 animate-pulse"></div>
+								<div className="flex gap-3">
+									<div className="bg-white/5 h-10 w-32 rounded-lg animate-pulse"></div>
+									<div className="bg-white/5 h-10 w-40 rounded-lg animate-pulse"></div>
+								</div>
+							</div>
+
+							{/* Skeleton grid */}
+							<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+								{[...Array(12)].map((_, index) => <ModsSkeleton key={index} />)}
+							</div>
+						</div>
+					) : (
+						<>
+							{/* Filters */}
+							<div className="max-w-7xl mx-auto mb-8 space-y-4">
+								{/* Search bar with goblin */}
+								<div className="relative">
+									<input
+										type="text"
+										placeholder={t('mods.searchPlaceholder')}
+										value={searchQuery}
+										onChange={(e) => setSearchQuery(e.target.value)}
+										className="w-full bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-white placeholder-gray-500 focus:outline-none focus:border-[#00d2ff] transition"
+									/>
+									<span className="absolute right-6 top-1/2 -translate-y-1/2 text-gray-500">🔍</span>
+
+									<img
+										src="/Mod.png"
+										alt="Goblin browsing mods"
+										className="absolute -top-28 right-4 w-32 h-auto z-20 pointer-events-none select-none -scale-x-100 hidden lg:block"
+									/>
+								</div>
+
+								{/* Sort options */}
+								<div className="flex items-center gap-3 flex-wrap">
+									<span className="text-gray-400 text-sm font-medium">{t('mods.sortBy')}:</span>
+
+									<button
+										onClick={() => handleSortChange('newest')}
+										disabled={sorting}
+										className={`px-4 py-2 rounded-lg text-sm font-medium transition ${sortBy === 'newest'
+												? 'bg-[#00d2ff] text-[#0b0d12]'
+												: 'bg-white/5 text-gray-400 hover:bg-white/10'
+											} ${sorting ? 'opacity-50 cursor-not-allowed' : ''}`}
+									>
+										{t('mods.sortOptions.newest')}
+									</button>
+
+									<button
+										onClick={() => handleSortChange('oldest')}
+										disabled={sorting}
+										className={`px-4 py-2 rounded-lg text-sm font-medium transition ${sortBy === 'oldest'
+												? 'bg-[#00d2ff] text-[#0b0d12]'
+												: 'bg-white/5 text-gray-400 hover:bg-white/10'
+											} ${sorting ? 'opacity-50 cursor-not-allowed' : ''}`}
+									>
+										{t('mods.sortOptions.oldest')}
+									</button>
+
+									{sorting && (
+										<span className="inline-flex items-center gap-2 text-[#00d2ff] text-sm">
+											<span className="w-2 h-2 bg-[#00d2ff] rounded-full animate-pulse"></span>
+											{t('mods.sorting')}
+										</span>
+									)}
+								</div>
+
+								{/* Results count */}
+								<div className="text-gray-400 text-sm">
+									{t('mods.showing')} {Math.min(displayCount, filteredMods.length)} {t('mods.of')} {filteredMods.length} {t('mods.results')}
+								</div>
+							</div>
+
+							{/* Mods Grid */}
+							{sorting ? (
+								<div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+									{[...Array(12)].map((_, index) => <ModsSkeleton key={index} />)}
+								</div>
+							) : (
+								<div className="max-w-7xl mx-auto">
+									{filteredMods.length === 0 ? (
+										<div className="text-center text-gray-400 py-12">
+											<div className="text-6xl mb-4">📦</div>
+											<p className="text-xl">{t('mods.noResults')}</p>
+										</div>
+									) : (
+										<>
+											{/* Grid */}
+											<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
+												{/* Add Mod Card */}
+												<article className="bg-white/5 border-2 border-dashed border-white/20 rounded-xl overflow-hidden hover:border-[#00d2ff]/50 transition-all duration-300 h-[420px] flex flex-col items-center justify-center cursor-not-allowed opacity-60">
+													<div className="text-center p-6">
+														<div className="text-6xl mb-4">➕</div>
+														<h3 className="text-xl font-bold text-white mb-2">
+															{t('mods.addMod.title')}
+														</h3>
+														<p className="text-gray-400 text-sm mb-4">
+															{t('mods.addMod.description')}
+														</p>
+														<span className="inline-flex items-center gap-2 bg-yellow-500/10 border border-yellow-500/30 text-yellow-400 px-4 py-2 rounded-full text-xs font-medium">
+															<span>🔒</span>
+															<span>{t('mods.addMod.comingSoon')}</span>
+														</span>
+													</div>
+												</article>
+
+												{/* Existing Mods */}
+												{filteredMods.slice(0, displayCount).map((item, index) => (
+													<article
+														key={index}
+														className="bg-white/5 border border-white/10 rounded-xl overflow-hidden hover:border-[#00d2ff]/50 hover:shadow-[0_0_30px_rgba(0,210,255,0.1)] hover:scale-[1.02] transition-all duration-300 group cursor-pointer h-[420px] flex flex-col animate-fadeIn"
+														style={{ animationDelay: `${(index + 1) * 30}ms` }}
+														onClick={() => window.open(item.link_descarga, '_blank')}
+													>
+														{/* Thumbnail placeholder */}
+														<div className={`aspect-video bg-gradient-to-br ${getGradient(item.titulo)} relative overflow-hidden`}>
+															<div className="absolute inset-0 flex items-center justify-center">
+																<div className="text-6xl font-bold text-white/10">
+																	{item.titulo.charAt(0).toUpperCase()}
+																</div>
+															</div>
+
+															{/* Badges overlay */}
+															<div className="absolute top-3 left-3 flex gap-2">
+																{isNew(item.fecha_publicacion) && (
+																	<span className="bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+																		{t('mods.new')}
+																	</span>
+																)}
+															</div>
+														</div>
+
+														{/* Content */}
+														<div className="p-4 flex flex-col flex-1">
+															{/* Title */}
+															<h3 className="text-lg font-bold text-white mb-2 line-clamp-2 group-hover:text-[#00d2ff] transition">
+																{highlightText(item.titulo, searchQuery)}
+															</h3>
+
+															{/* Description */}
+															<p className="text-gray-400 text-sm mb-4 line-clamp-3 flex-1">
+																{highlightText(item.resumen, searchQuery)}
+															</p>
+
+															{/* Metadata */}
+															<div className="space-y-2 mb-3">
+																<div className="flex items-center gap-2 text-xs text-gray-400">
+																	<span>👤</span>
+																	<span className="truncate">{item.autor}</span>
+																</div>
+																<div className="flex items-center gap-2 text-xs text-gray-400">
+																	<span>📅</span>
+																	<span>{formatDate(item.fecha_publicacion)}</span>
+																</div>
+																<div className="flex items-center gap-2 text-xs text-gray-400">
+																	<span>🌐</span>
+																	<span className="truncate">{getSource(item.link_descarga)}</span>
+																</div>
+															</div>
+
+															{/* Actions */}
+															<div className="flex items-center justify-between pt-3 border-t border-white/10">
+																<div className="flex items-center text-[#00d2ff] font-medium text-sm group-hover:text-[#e5c100] transition">
+																	<span>{t('mods.download')}</span>
+																	<span className="ml-1">→</span>
+																</div>
+
+																<ShareButton
+																	title={item.titulo}
+																	text={item.resumen}
+																	url={item.link_descarga}
+																/>
+															</div>
+														</div>
+													</article>
+												))}
+											</div>
+
+											{/* Load More Button */}
+											{displayCount < filteredMods.length && (
+												<div className="text-center py-8">
+													<button
+														onClick={loadMore}
+														className="bg-[#00d2ff] hover:bg-[#00a8cc] text-[#0b0d12] font-bold px-8 py-3 rounded-xl transition"
+													>
+														{t('mods.loadMore')}
+													</button>
+												</div>
+											)}
+										</>
+									)}
+								</div>
+							)}
+						</>
+					)}
+				</main>
+
+				{/* Scroll to top button */}
+				{showScrollTop && (
+					<button
+						onClick={scrollToTop}
+						className="fixed bottom-8 right-8 bg-[#00d2ff] hover:bg-[#00a8cc] text-[#0b0d12] w-12 h-12 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-110 z-50"
+						aria-label={t('mods.scrollTop')}
+					>
+						<span className="text-2xl">↑</span>
+					</button>
 				)}
-			</main>
 
-			{/* Scroll to top button */}
-			{showScrollTop && (
-				<button
-					onClick={scrollToTop}
-					className="fixed bottom-8 right-8 bg-[#00d2ff] hover:bg-[#00a8cc] text-[#0b0d12] w-12 h-12 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-110 z-50"
-					aria-label={t('mods.scrollTop')}
-				>
-					<span className="text-2xl">↑</span>
-				</button>
-			)}
-
-			<Footer />
-		</div>
+				<Footer />
+			</div>
+		</>
 	);
 }

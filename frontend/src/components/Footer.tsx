@@ -32,8 +32,8 @@ export default function Footer() {
 						<ul className="space-y-2">
 							<li><a href="/" className="text-[#a0a0a0] hover:text-[#00d2ff] transition text-sm cursor-pointer">{t('footer.home')}</a></li>
 							<li><a href="/noticias" className="text-[#a0a0a0] hover:text-[#00d2ff] transition text-sm cursor-pointer">{t('footer.news')}</a></li>
-							<li><a href="#" className="text-[#a0a0a0] hover:text-[#00d2ff] transition text-sm cursor-pointer">{t('footer.guides')}</a></li>
 							<li><a href="/mods" className="text-[#a0a0a0] hover:text-[#00d2ff] transition text-sm cursor-pointer">{t('footer.mods')}</a></li>
+							<li><a href="#" className="text-[#a0a0a0] hover:text-[#00d2ff] transition text-sm cursor-pointer">{t('footer.guides')}</a></li>
 							<li><a href="#" className="text-[#a0a0a0] hover:text-[#00d2ff] transition text-sm cursor-pointer">{t('footer.serverList')}</a></li>
 						</ul>
 					</div>

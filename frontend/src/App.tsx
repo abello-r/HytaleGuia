@@ -8,6 +8,9 @@ import HeroSection from './components/HeroSection';
 import TrendingSection from './components/TrendingSection';
 import NewsPage from './pages/NewsPage';
 import ModsPage from './pages/ModsPage';
+import SEO from './components/SEO';
+import StructuredData from './components/StructuredData';
+import { SEO_CONFIGS } from './utils/seoConfig';
 import './i18n';
 
 // Google Analytics
@@ -26,36 +29,44 @@ function PageTracker() {
 
 // Home page component
 function HomePage() {
-	return (
-		<div className="min-h-screen bg-[#0b0d12]">
-			{/* Discord Sticky Button */}
-			<DiscordButton />
+	const seoConfig = SEO_CONFIGS['/'];
 
-			{/* Hero Section with full background */}
-			<div className="relative min-h-screen flex flex-col">
-				{/* Background image */}
-				<div
-					className="absolute inset-0 bg-cover bg-center"
-					style={{
-						backgroundImage: 'url("/forest.png")',
-					}}
-				>
-					<div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-[#0b0d12]"></div>
+	return (
+		<>
+			<SEO {...seoConfig} />
+			<StructuredData type="WebSite" data={{}} />
+			<StructuredData type="Organization" data={{}} />
+			
+			<div className="min-h-screen bg-[#0b0d12]">
+				{/* Discord Sticky Button */}
+				<DiscordButton />
+
+				{/* Hero Section with full background */}
+				<div className="relative min-h-screen flex flex-col">
+					{/* Background image */}
+					<div
+						className="absolute inset-0 bg-cover bg-center"
+						style={{
+							backgroundImage: 'url("/forest.png")',
+						}}
+					>
+						<div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-[#0b0d12]"></div>
+					</div>
+
+					{/* Header */}
+					<Header />
+
+					{/* Hero Content */}
+					<HeroSection />
 				</div>
 
-				{/* Header */}
-				<Header />
+				{/* Trending Section */}
+				<TrendingSection />
 
-				{/* Hero Content */}
-				<HeroSection />
+				{/* Footer */}
+				<Footer />
 			</div>
-
-			{/* Trending Section */}
-			<TrendingSection />
-
-			{/* Footer */}
-			<Footer />
-		</div>
+		</>
 	);
 }
 

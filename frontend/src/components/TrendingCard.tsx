@@ -34,7 +34,7 @@ export default function TrendingCard({
     <div className="relative">
       {/* Kweebec - OUTSIDE the card */}
       {isLast && (
-        <div className="absolute -top-20 right-8 z-30">
+        <div className="absolute -top-20 right-8 z-30 user-select-none pointer-events-none">
           <img 
             src="/kweebec.gif" 
             alt="Kweebec" 
