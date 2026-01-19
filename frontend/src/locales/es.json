@@ -44,7 +44,7 @@
 		"contact": "Contacto",
 		"copyright": "© 2026 HytaleGuía. Todos los derechos reservados.",
 		"disclaimer": "HytaleGuía es una fansite independiente no afiliada con Hypixel Studios. Todo el contenido de Hytale y sus marcas registradas pertenecen a sus respectivos propietarios.",
-    	"madeWith": "Todos los derechos reservados."
+		"madeWith": "Todos los derechos reservados."
 	},
 	"discord": {
 		"tooltip": "Únete a Discord"
@@ -94,12 +94,21 @@
 		"linkCopied": "Enlace copiado",
 		"linkCopiedDesc": "El enlace se copió al portapapeles.",
 		"timeIn": {
-			"minute": "en 1 minuto",
-			"minutes": "en {{count}} minutos",
-			"hour": "en 1 hora",
-			"hours": "en {{count}} horas",
-			"hourAndMinutes": "en 1 hora y {{minutes}} min",
-			"hoursAndMinutes": "en {{hours}} horas y {{minutes}} min"
+			"minute": "En 1 minuto",
+			"minutes": "En {{count}} minutos",
+			"hour": "En 1 hora",
+			"hours": "En {{count}} horas",
+			"hourAndMinutes": "En 1 hora y {{minutes}} minutos",
+			"hoursAndMinutes": "En {{hours}} horas y {{minutes}} minutos"
+		},
+		"timeAgo": {
+			"day": "{{count}} día",
+			"days": "{{count}} días",
+			"hour": "{{count}} hora",
+			"hours": "{{count}} horas",
+			"minute": "1 minuto",
+			"minutes": "{{count}} minutos",
+			"justNow": "Justo ahora"
 		}
 	},
 	"mods": {
@@ -149,6 +158,20 @@
 			"title": "Agregar Mod",
 			"description": "¿Creaste un mod? Pronto podrás compartirlo aquí",
 			"comingSoon": "Próximamente"
+		},
+		"seo": {
+			"title": "Mods de Hytale - HytaleGuía",
+			"description": "Explora y descarga mods creados por la comunidad para Hytale. Mejora tu experiencia de juego con nuevas mecánicas, contenido adicional y herramientas únicas.",
+			"keywords": "mods de Hytale, descargar mods, mods de la comunidad, mods para Hytale, mejores mods de Hytale"
+		},
+		"timeAgo": {
+			"day": "Hace 1 día",
+			"days": "Hace {{count}} días",
+			"hour": "Hace 1 hora",
+			"hours": "Hace {{count}} horas",
+			"minute": "Hace 1 minuto",
+			"minutes": "Hace {{count}} minutos",
+			"justNow": "Justo ahora"
 		}
 	},
 	"notFound": {

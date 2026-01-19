@@ -5,20 +5,20 @@
     "guides": "GUIDE",
     "mods": "MOD",
     "serverList": "SERVER LIST",
-    "devBadge": "Il sito è in fase di sviluppo."
+    "devBadge": "Il sito web è in fase di sviluppo."
   },
   "hero": {
     "betaBadge": "BETA IN ARRIVO",
     "title": "SCOPRI",
     "titleHighlight": "HYTALE",
     "subtitle": "La guida definitiva in spagnolo",
-    "description": "L’enciclopedia definitiva. Esplora biomi, scopri i crafting e unisciti alla più grande community di Hytale.",
-    "searchPlaceholder": "Chiedi quello che vuoi, l’IA ti aiuterà...",
+    "description": "L'enciclopedia definitiva. Esplora i biomi, scopri le creazioni e unisciti alla più grande community di Hytale.",
+    "searchPlaceholder": "Chiedi quello che vuoi, l'IA ti aiuterà...",
     "searchButton": "CERCA",
     "searchHint": "Usa parole chiave come \"Come creare una spada?\" o \"Dove trovare biomi acquatici?\""
   },
   "trending": {
-    "title": "Di tendenza in",
+    "title": "Tendenze in",
     "titleHighlight": "Orbis",
     "readArticle": "Leggi articolo",
     "online": "Online",
@@ -55,7 +55,7 @@
   "news": {
     "title": "Tutte le",
     "titleHighlight": "Notizie",
-    "description": "Tutti gli annunci, aggiornamenti e novità su Hytale in un unico posto. Uno spazio centralizzato per rimanere sempre aggiornato senza consultare più fonti.",
+    "description": "Tutti gli annunci, gli aggiornamenti e le novità su Hytale in un unico posto. Uno spazio centralizzato per rimanere sempre aggiornato senza consultare più fonti.",
     "breadcrumbs": {
       "home": "Home",
       "news": "Notizie"
@@ -66,7 +66,7 @@
     "searchPlaceholder": "Cerca notizie...",
     "filterByDate": "Data",
     "filterBySource": "Fonte",
-    "sortBy": "Ordina per",
+    "sortBy": "Ordina",
     "dateFilters": {
       "all": "Tutte",
       "7days": "Ultimi 7 giorni",
@@ -109,14 +109,14 @@
     },
     "title": "Esplora",
     "titleHighlight": "Mod",
-    "description": "Scopri mod create dalla community di Hytale: nuove meccaniche di gioco, miglioramenti alla qualità della vita, contenuti aggiuntivi e strumenti unici per arricchire la tua avventura nel mondo di Orbis.",
+    "description": "Scopri mod create dalla community di Hytale: nuove meccaniche di gioco, miglioramenti della qualità della vita, contenuti aggiuntivi e strumenti unici per personalizzare la tua avventura nel mondo di Orbis.",
     "lastUpdate": "Ultimo aggiornamento",
     "nextUpdate": "Prossimo aggiornamento",
     "searchPlaceholder": "Cerca per nome, autore, versione o descrizione...",
     "sortBy": "Ordina per",
     "sortOptions": {
       "newest": "Più recenti",
-      "oldest": "Più vecchie",
+      "oldest": "Più vecchi",
       "title": "Titolo",
       "author": "Autore"
     },
@@ -124,12 +124,12 @@
     "showing": "Mostrando",
     "of": "di",
     "results": "risultati",
-    "noResults": "Nessuna mod trovata per questa ricerca.",
+    "noResults": "Nessun mod trovato per questa ricerca.",
     "featured": "Mod in evidenza",
     "new": "NUOVO",
     "by": "di",
     "download": "Scarica",
-    "loadMore": "Carica altre",
+    "loadMore": "Carica altri",
     "scrollTop": "Torna su",
     "available": "Mod disponibili",
     "timeIn": {
@@ -147,18 +147,32 @@
     },
     "addMod": {
       "title": "Aggiungi Mod",
-      "description": "Hai creato una mod? Presto potrai condividerla qui",
-      "comingSoon": "In arrivo"
+      "description": "Hai creato un mod? Presto potrai condividerlo qui",
+      "comingSoon": "Prossimamente"
+    },
+    "seo": {
+      "title": "Mod di Hytale - HytaleGuía",
+      "description": "Esplora e scarica mod create dalla community per Hytale. Migliora la tua esperienza di gioco con nuove meccaniche e contenuti.",
+      "keywords": "mod Hytale, scaricare mod, mod della community, modding Hytale, migliori mod Hytale"
+    },
+    "timeAgo": {
+      "day": "1 giorno fa",
+      "days": "{{count}} giorni fa",
+      "hour": "1 ora fa",
+      "hours": "{{count}} ore fa",
+      "minute": "1 minuto fa",
+      "minutes": "{{count}} minuti fa",
+      "justNow": "Proprio ora"
     }
   },
-	"notFound": {
-		"seo": {
-			"title": "Pagina non trovata - HytaleGuía",
-			"description": "La pagina che stai cercando non esiste. Torna a HytaleGuía per esplorare notizie, mod e guide per Hytale.",
-			"keywords": "404, pagina non trovata, errore"
-		},
-		"title": "Pagina non trovata!",
-		"description": "Sembra che ti sei avventurato troppo in profondità negli abissi di Orbis.",
-		"backToHome": "Torna alla home"
-	}
+  "notFound": {
+    "seo": {
+      "title": "Pagina non trovata - HytaleGuía",
+      "description": "La pagina che stai cercando non esiste. Torna su HytaleGuía per esplorare notizie, mod e guide di Hytale.",
+      "keywords": "404, pagina non trovata, errore"
+    },
+    "title": "Pagina non trovata!",
+    "description": "Sembra che tu ti sia spinto troppo in profondità nel mondo di Orbis.",
+    "backToHome": "Torna alla home"
+  }
 }

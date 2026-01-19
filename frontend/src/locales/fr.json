@@ -4,7 +4,7 @@
     "news": "ACTUALITÉS",
     "guides": "GUIDES",
     "mods": "MODS",
-    "serverList": "SERVER LIST",
+    "serverList": "LISTE DES SERVEURS",
     "devBadge": "Le site est en cours de développement."
   },
   "hero": {
@@ -12,10 +12,10 @@
     "title": "DÉCOUVREZ",
     "titleHighlight": "HYTALE",
     "subtitle": "Le guide ultime en espagnol",
-    "description": "L’encyclopédie ultime. Explorez des biomes, découvrez des crafts et rejoignez la plus grande communauté Hytale.",
+    "description": "L’encyclopédie ultime. Explorez les biomes, découvrez les crafts et rejoignez la plus grande communauté de Hytale.",
     "searchPlaceholder": "Posez votre question, l’IA vous aidera...",
     "searchButton": "RECHERCHER",
-    "searchHint": "Utilisez des mots-clés comme « Comment fabriquer une épée ? » ou « Où trouver des biomes aquatiques ? »"
+    "searchHint": "Utilisez des mots-clés comme \"Comment fabriquer une épée ?\" ou \"Où trouver des biomes aquatiques ?\""
   },
   "trending": {
     "title": "Tendances dans",
@@ -28,12 +28,12 @@
     "description": "La plus grande communauté hispanophone de Hytale. Guides, mods, serveurs et actualités.",
     "quickLinks": "Liens rapides",
     "community": "Communauté",
-    "legal": "Mentions légales",
+    "legal": "Légal",
     "home": "Accueil",
     "news": "Actualités",
     "guides": "Guides",
     "mods": "Mods",
-    "serverList": "Server List",
+    "serverList": "Liste des serveurs",
     "discord": "Discord",
     "twitter": "Twitter",
     "youtube": "YouTube",
@@ -43,19 +43,19 @@
     "cookies": "Cookies",
     "contact": "Contact",
     "copyright": "© 2026 HytaleGuía. Tous droits réservés.",
-    "disclaimer": "HytaleGuía est un fansite indépendant non affilié à Hypixel Studios. Tout le contenu et les marques de Hytale appartiennent à leurs propriétaires respectifs.",
+    "disclaimer": "HytaleGuía est un fansite indépendant non affilié à Hypixel Studios. Tout le contenu de Hytale et ses marques déposées appartiennent à leurs propriétaires respectifs.",
     "madeWith": "Tous droits réservés."
   },
   "discord": {
     "tooltip": "Rejoindre Discord"
   },
   "auth": {
-    "login": "SE CONNECTER"
+    "login": "CONNEXION"
   },
   "news": {
     "title": "Toutes les",
     "titleHighlight": "Actualités",
-    "description": "Toutes les annonces, mises à jour et nouveautés concernant Hytale en un seul endroit. Un espace centralisé pour rester informé sans consulter plusieurs sources.",
+    "description": "Toutes les annonces, mises à jour et nouveautés sur Hytale en un seul endroit. Un espace centralisé pour rester informé sans consulter plusieurs sources.",
     "breadcrumbs": {
       "home": "Accueil",
       "news": "Actualités"
@@ -66,15 +66,15 @@
     "searchPlaceholder": "Rechercher des actualités...",
     "filterByDate": "Date",
     "filterBySource": "Source",
-    "sortBy": "Trier par",
+    "sortBy": "Trier",
     "dateFilters": {
       "all": "Toutes",
       "7days": "7 derniers jours",
       "30days": "Dernier mois"
     },
     "sortOptions": {
-      "newest": "Les plus récentes",
-      "oldest": "Les plus anciennes",
+      "newest": "Plus récentes",
+      "oldest": "Plus anciennes",
       "source": "Par source"
     },
     "allSources": "Toutes",
@@ -107,16 +107,16 @@
       "home": "Accueil",
       "mods": "Mods"
     },
-    "title": "Explorez",
+    "title": "Explorer",
     "titleHighlight": "Mods",
-    "description": "Découvrez des mods créés par la communauté Hytale : nouvelles mécaniques de jeu, améliorations de qualité de vie, contenu supplémentaire et outils uniques pour enrichir votre aventure dans le monde d’Orbis.",
+    "description": "Découvrez des mods créés par la communauté Hytale : nouvelles mécaniques de jeu, améliorations de confort, contenu additionnel et outils uniques pour enrichir et personnaliser votre aventure dans le monde d’Orbis.",
     "lastUpdate": "Dernière mise à jour",
     "nextUpdate": "Prochaine mise à jour",
     "searchPlaceholder": "Rechercher par nom, auteur, version ou description...",
     "sortBy": "Trier par",
     "sortOptions": {
-      "newest": "Les plus récents",
-      "oldest": "Les plus anciens",
+      "newest": "Plus récents",
+      "oldest": "Plus anciens",
       "title": "Titre",
       "author": "Auteur"
     },
@@ -149,16 +149,30 @@
       "title": "Ajouter un mod",
       "description": "Vous avez créé un mod ? Vous pourrez bientôt le partager ici",
       "comingSoon": "Bientôt disponible"
+    },
+    "seo": {
+      "title": "Mods Hytale - HytaleGuía",
+      "description": "Explorez et téléchargez des mods créés par la communauté pour Hytale. Améliorez votre expérience de jeu avec de nouvelles mécaniques et du contenu additionnel.",
+      "keywords": "mods Hytale, télécharger mods, mods communauté, modding Hytale, meilleurs mods Hytale"
+    },
+    "timeAgo": {
+      "day": "Il y a 1 jour",
+      "days": "Il y a {{count}} jours",
+      "hour": "Il y a 1 heure",
+      "hours": "Il y a {{count}} heures",
+      "minute": "Il y a 1 minute",
+      "minutes": "Il y a {{count}} minutes",
+      "justNow": "À l’instant"
     }
   },
-	"notFound": {
-		"seo": {
-			"title": "Page non trouvée - HytaleGuía",
-			"description": "La page que vous recherchez n'existe pas. Retournez à HytaleGuía pour explorer les actualités, mods et guides pour Hytale.",
-			"keywords": "404, page non trouvée, erreur"
-		},
-		"title": "Page non trouvée!",
-		"description": "On dirait que vous vous êtes aventuré trop profondément dans les profondeurs d'Orbis.",
-		"backToHome": "Retour à l'accueil"
-	}
+  "notFound": {
+    "seo": {
+      "title": "Page introuvable - HytaleGuía",
+      "description": "La page que vous recherchez n’existe pas. Revenez sur HytaleGuía pour explorer les actualités, mods et guides de Hytale.",
+      "keywords": "404, page introuvable, erreur"
+    },
+    "title": "Page introuvable !",
+    "description": "Il semble que vous vous soyez aventuré trop profondément dans les profondeurs d’Orbis.",
+    "backToHome": "Retour à l’accueil"
+  }
 }

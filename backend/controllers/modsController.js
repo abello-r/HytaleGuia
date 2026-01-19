@@ -29,6 +29,7 @@ exports.getAllMods = async (req, res) => {
     const allMods = [];
     let lastCronRun = null;
 
+    // The most recent file indicates when the last cron execution was
     if (jsonFiles.length > 0) {
       const newestFile = jsonFiles[0];
       const dateMatch = newestFile.match(/hytale_mods_(\d{4}-\d{2}-\d{2})\.json/);
@@ -37,25 +38,28 @@ exports.getAllMods = async (req, res) => {
         const fileDate = dateMatch[1]; // "2026-01-19"
         
         try {
-          // Obtener la hora actual para determinar qué hora del cron fue
-          const now = new Date();
-          const hours = now.getHours();
+          // Get current time in Europe/Madrid timezone
+          const nowInSpain = new Date().toLocaleString('en-US', { timeZone: 'Europe/Madrid' });
+          const now = new Date(nowInSpain);
+          const fileDateTime = new Date(fileDate);
           
-          // Determinar qué ejecución del cron fue (9, 12 o 18)
-          let cronHour = 9;
-          if (hours >= 18) cronHour = 18;
-          else if (hours >= 12) cronHour = 12;
-          else if (hours >= 9) cronHour = 9;
-          else {
-            // Si es antes de las 9 AM, asumimos que el último fue ayer a las 18
-            const yesterday = new Date(now);
-            yesterday.setDate(yesterday.getDate() - 1);
-            lastCronRun = new Date(`${fileDate}T18:00:00Z`).toISOString();
-          }
-          
-          if (!lastCronRun) {
-            // Crear timestamp con la hora del cron correspondiente
-            lastCronRun = new Date(`${fileDate}T${cronHour.toString().padStart(2, '0')}:00:00Z`).toISOString();
+          // If the file is from today, use the last cron hour
+          if (fileDateTime.toDateString() === now.toDateString()) {
+            const hours = now.getHours();
+            let cronHour = 5;
+            
+            // Determine which cron execution it was (5, 10, 15, 20, 23)
+            if (hours >= 23) cronHour = 23;
+            else if (hours >= 20) cronHour = 20;
+            else if (hours >= 15) cronHour = 15;
+            else if (hours >= 10) cronHour = 10;
+            else if (hours >= 5) cronHour = 5;
+            
+            // Create the date in Europe/Madrid timezone
+            lastCronRun = new Date(`${fileDate}T${cronHour.toString().padStart(2, '0')}:00:00+01:00`).toISOString();
+          } else {
+            // If the file is from another day, assume it was at 23:00 Spain time
+            lastCronRun = new Date(`${fileDate}T23:00:00+01:00`).toISOString();
           }
         } catch (error) {
           console.error('Error parsing file date:', error);
@@ -87,8 +91,8 @@ exports.getAllMods = async (req, res) => {
     }
 
     allMods.sort((a, b) => {
-      const dateA = new Date(a.fileDate);
-      const dateB = new Date(b.fileDate);
+      const dateA = new Date(a.fecha_publicacion);
+      const dateB = new Date(b.fecha_publicacion);
       return dateB - dateA;
     });
 

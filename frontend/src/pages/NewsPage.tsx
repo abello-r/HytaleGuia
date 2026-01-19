@@ -54,7 +54,7 @@ function NewsSkeleton() {
 }
 
 export default function NewsPage() {
-	const { t } = useTranslation();
+	const { t, i18n } = useTranslation();
 	const seoConfig = SEO_CONFIGS['/noticias'] || DEFAULT_SEO;
 	const [news, setNews] = useState<NewsArticle[]>([]);
 	const [filteredNews, setFilteredNews] = useState<NewsArticle[]>([]);
@@ -157,45 +157,47 @@ export default function NewsPage() {
 	const getTimeAgo = (dateString: string): string => {
 		const date = new Date(dateString);
 		const diffMs = currentTime.getTime() - date.getTime();
-		const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+		const diffMinutes = Math.floor(diffMs / (1000 * 60));
+		const diffHours = Math.floor(diffMinutes / 60);
 		const diffDays = Math.floor(diffHours / 24);
 
 		if (diffDays > 0) {
-			if (diffDays === 1) {
-				return `hace ${diffDays} día`;
-			}
-			return `hace ${diffDays} días`;
+			return diffDays === 1 
+				? t('news.timeAgo.day', { count: diffDays })
+				: t('news.timeAgo.days', { count: diffDays });
 		}
-
+		
 		if (diffHours > 0) {
-			if (diffHours === 1) {
-				return `hace ${diffHours} hora`;
-			}
-			return `hace ${diffHours} horas`;
+			return diffHours === 1 
+				? t('news.timeAgo.hour', { count: diffHours })
+				: t('news.timeAgo.hours', { count: diffHours });
 		}
 
-		const diffMinutes = Math.floor(diffMs / (1000 * 60));
-		if (diffMinutes === 1) return 'hace 1 minuto';
-		if (diffMinutes > 0) return `hace ${diffMinutes} minutos`;
-
-		return 'hace unos segundos';
+		if (diffMinutes === 1) return t('news.timeAgo.minute');
+		if (diffMinutes > 0) return t('news.timeAgo.minutes', { count: diffMinutes });
+		
+		return t('news.timeAgo.justNow');
 	};
 
-	// Calculate next refresh based on cron: 0 9,12,18 * * * (9am, 12pm, 6pm)
+	// Calculate next refresh based on cron: 0 5,10,15,20,23 * * * (5am, 10am, 3pm, 8pm, 11pm)
 	const getNextRefresh = (): string => {
 		const now = currentTime;
 		const hours = now.getHours();
 
 		let nextHour: number;
-		if (hours < 9) {
-			nextHour = 9;
-		} else if (hours < 12) {
-			nextHour = 12;
-		} else if (hours < 18) {
-			nextHour = 18;
+		if (hours < 5) {
+			nextHour = 5;
+		} else if (hours < 10) {
+			nextHour = 10;
+		} else if (hours < 15) {
+			nextHour = 15;
+		} else if (hours < 20) {
+			nextHour = 20;
+		} else if (hours < 23) {
+			nextHour = 23;
 		} else {
-			// After 6pm, next update is tomorrow at 9am
-			nextHour = 9 + 24;
+			// After 11pm, next update is tomorrow at 5am
+			nextHour = 5 + 24;
 		}
 
 		const next = new Date(now);
@@ -246,7 +248,11 @@ export default function NewsPage() {
 	const formatDate = (dateString: string) => {
 		try {
 			const date = new Date(dateString);
-			return date.toLocaleDateString('es-ES', {
+			const locale = i18n.language === 'es' ? 'es-ES' : 
+						  i18n.language === 'fr' ? 'fr-FR' : 
+						  i18n.language === 'it' ? 'it-IT' : 
+						  i18n.language === 'pt' ? 'pt-PT' : 'en-US';
+			return date.toLocaleDateString(locale, {
 				year: 'numeric',
 				month: 'long',
 				day: 'numeric'
@@ -325,8 +331,8 @@ export default function NewsPage() {
 				type="BreadcrumbList"
 				data={{
 					items: [
-						{ name: 'Inicio', url: 'https://hytaleguia.com' },
-						{ name: 'Noticias', url: 'https://hytaleguia.com/noticias' }
+						{ name: t('news.breadcrumbs.home'), url: 'https://hytaleguia.com' },
+						{ name: t('news.breadcrumbs.news'), url: 'https://hytaleguia.com/noticias' }
 					]
 				}}
 			/>

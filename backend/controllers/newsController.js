@@ -40,22 +40,28 @@ exports.getAllNews = async (req, res) => {
         const fileDate = dateMatch[1]; // "2026-01-19"
         
         try {
-          const now = new Date();
+          // Get current time in Europe/Madrid timezone
+          const nowInSpain = new Date().toLocaleString('en-US', { timeZone: 'Europe/Madrid' });
+          const now = new Date(nowInSpain);
           const fileDateTime = new Date(fileDate);
           
           // Si el archivo es de hoy, usar la hora del último cron
           if (fileDateTime.toDateString() === now.toDateString()) {
             const hours = now.getHours();
-            let cronHour = 9;
+            let cronHour = 5;
             
-            if (hours >= 18) cronHour = 18;
-            else if (hours >= 12) cronHour = 12;
-            else if (hours >= 9) cronHour = 9;
+            // Determine which cron execution it was (5, 10, 15, 20, 23)
+            if (hours >= 23) cronHour = 23;
+            else if (hours >= 20) cronHour = 20;
+            else if (hours >= 15) cronHour = 15;
+            else if (hours >= 10) cronHour = 10;
+            else if (hours >= 5) cronHour = 5;
             
-            lastCronRun = new Date(`${fileDate}T${cronHour.toString().padStart(2, '0')}:00:00`).toISOString();
+            // Create the date in Europe/Madrid timezone
+            lastCronRun = new Date(`${fileDate}T${cronHour.toString().padStart(2, '0')}:00:00+01:00`).toISOString();
           } else {
-            // Si el archivo es de otro día, asumir que fue a las 18:00
-            lastCronRun = new Date(`${fileDate}T18:00:00`).toISOString();
+            // Si el archivo es de otro día, asumir que fue a las 23:00 Spain time
+            lastCronRun = new Date(`${fileDate}T23:00:00+01:00`).toISOString();
           }
         } catch (error) {
           console.error('Error parsing file date:', error);

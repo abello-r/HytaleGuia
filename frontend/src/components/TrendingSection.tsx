@@ -89,7 +89,7 @@ export default function TrendingSection() {
               badge: 'MOD',
               badgeColor: 'bg-purple-500',
               image: '🔧',
-              url: modInfo.link_descarga,
+              url: modInfo.links_descarga?.[0] || '',
               author: modInfo.autor
             });
           }

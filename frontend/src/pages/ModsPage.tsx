@@ -6,7 +6,6 @@ import DiscordButton from '../components/DiscordButton';
 import ShareButton from '../components/ShareButton';
 import SEO from '../components/SEO';
 import StructuredData from '../components/StructuredData';
-import { SEO_CONFIGS, DEFAULT_SEO } from '../utils/seoConfig';
 
 interface ModItem {
 	titulo: string;
@@ -15,7 +14,7 @@ interface ModItem {
 	autor: string;
 	version: string;
 	fecha_publicacion: string;
-	link_descarga: string;
+	links_descarga: string[];
 }
 
 interface ModsResponse {
@@ -50,14 +49,14 @@ function ModsSkeleton() {
 
 export default function ModsPage() {
 	const { t } = useTranslation();
-	const seoConfig = SEO_CONFIGS['/mods'] || DEFAULT_SEO;
+	//const seoConfig = SEO_CONFIGS['/mods'] || DEFAULT_SEO;
 	const [mods, setMods] = useState<ModItem[]>([]);
 	const [filteredMods, setFilteredMods] = useState<ModItem[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [sorting, setSorting] = useState(false);
 	const [searchQuery, setSearchQuery] = useState('');
 	const [sortBy, setSortBy] = useState('newest');
-	const [displayCount, setDisplayCount] = useState(12);
+	const [displayCount, setDisplayCount] = useState(8);
 	const [showScrollTop, setShowScrollTop] = useState(false);
 	const [currentTime, setCurrentTime] = useState(new Date());
 	const [lastCronRun, setLastCronRun] = useState<Date | null>(null);
@@ -77,7 +76,6 @@ export default function ModsPage() {
 					setMods(result.data.mods);
 					setFilteredMods(result.data.mods);
 
-					// Guardar el timestamp de la última ejecución del cron
 					if (result.data.lastCronRun) {
 						setLastCronRun(new Date(result.data.lastCronRun));
 					}
@@ -110,31 +108,68 @@ export default function ModsPage() {
 		const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
 		const diffDays = Math.floor(diffHours / 24);
 
-		if (diffDays > 0) return diffDays === 1 ? `hace ${diffDays} día` : `hace ${diffDays} días`;
-		if (diffHours > 0) return diffHours === 1 ? `hace ${diffHours} hora` : `hace ${diffHours} horas`;
+		if (diffDays > 0) {
+			return diffDays === 1
+				? t('mods.timeAgo.day', { count: diffDays })
+				: t('mods.timeAgo.days', { count: diffDays });
+		}
+
+		if (diffHours > 0) {
+			return diffHours === 1
+				? t('mods.timeAgo.hour', { count: diffHours })
+				: t('mods.timeAgo.hours', { count: diffHours });
+		}
 
 		const diffMinutes = Math.floor(diffMs / (1000 * 60));
-		if (diffMinutes === 1) return 'hace 1 minuto';
-		if (diffMinutes > 0) return `hace ${diffMinutes} minutos`;
-		return 'hace unos segundos';
+		if (diffMinutes === 1) return t('mods.timeAgo.minute');
+		if (diffMinutes > 0) return t('mods.timeAgo.minutes', { count: diffMinutes });
+
+		return t('mods.timeAgo.justNow');
 	};
 
+	const formatDate = (dateString: string) => {
+		try {
+			const date = new Date(dateString);
+			const { i18n } = useTranslation();
+			const locale = i18n.language === 'es' ? 'es-ES' :
+				i18n.language === 'fr' ? 'fr-FR' :
+					i18n.language === 'it' ? 'it-IT' :
+						i18n.language === 'pt' ? 'pt-PT' : 'en-US';
+			return date.toLocaleDateString(locale, { year: 'numeric', month: 'short', day: 'numeric' });
+		} catch {
+			return dateString;
+		}
+	};
+
+	// Calculate next refresh based on cron: 0 5,10,15,20,23 * * * (5am, 10am, 3pm, 8pm, 11pm)
 	const getNextRefresh = (): string => {
 		const now = currentTime;
 		const hours = now.getHours();
 
 		let nextHour: number;
-		if (hours < 9) nextHour = 9;
-		else if (hours < 12) nextHour = 12;
-		else if (hours < 18) nextHour = 18;
-		else nextHour = 9 + 24;
+		if (hours < 5) {
+			nextHour = 5;
+		} else if (hours < 10) {
+			nextHour = 10;
+		} else if (hours < 15) {
+			nextHour = 15;
+		} else if (hours < 20) {
+			nextHour = 20;
+		} else if (hours < 23) {
+			nextHour = 23;
+		} else {
+			// After 11pm, next update is tomorrow at 5am
+			nextHour = 5 + 24;
+		}
 
 		const next = new Date(now);
 		next.setHours(nextHour % 24);
 		next.setMinutes(0);
 		next.setSeconds(0);
 
-		if (nextHour >= 24) next.setDate(next.getDate() + 1);
+		if (nextHour >= 24) {
+			next.setDate(next.getDate() + 1);
+		}
 
 		const diffMs = next.getTime() - now.getTime();
 		const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
@@ -154,36 +189,25 @@ export default function ModsPage() {
 		return t('mods.timeIn.hoursAndMinutes', { hours: diffHours, minutes: diffMinutes });
 	};
 
-	const formatDate = (dateString: string) => {
-		try {
-			const date = new Date(dateString);
-			return date.toLocaleDateString('es-ES', { year: 'numeric', month: 'short', day: 'numeric' });
-		} catch {
-			return dateString;
-		}
-	};
-
 	const isNew = (dateString: string): boolean => {
 		const itemDate = new Date(dateString);
 		const diffTime = Math.abs(currentTime.getTime() - itemDate.getTime());
 		const diffHours = diffTime / (1000 * 60 * 60);
-		return diffHours <= 72; // 3 días
+		return diffHours <= 72;
 	};
 
-	// Extract source from download link
-	const getSource = (downloadLink: string): string => {
-		try {
-			const url = new URL(downloadLink);
-			const hostname = url.hostname.replace('www.', '');
+	const getSource = (downloadLinks: string[]): string => {
+		if (!downloadLinks || downloadLinks.length === 0) return 'Unknown';
 
-			// Capitalize first letter
+		try {
+			const url = new URL(downloadLinks[0]);
+			const hostname = url.hostname.replace('www.', '');
 			return hostname.split('.')[0].charAt(0).toUpperCase() + hostname.split('.')[0].slice(1);
 		} catch {
 			return 'Unknown';
 		}
 	};
 
-	// Generate gradient based on title
 	const getGradient = (title: string): string => {
 		const gradients = [
 			'from-cyan-500/20 to-blue-500/20',
@@ -219,7 +243,7 @@ export default function ModsPage() {
 		});
 
 		setFilteredMods(filtered);
-		setDisplayCount(12);
+		setDisplayCount(7);
 	}, [searchQuery, sortBy, mods]);
 
 	const highlightText = (text: string, query: string) => {
@@ -232,12 +256,16 @@ export default function ModsPage() {
 		);
 	};
 
-	const loadMore = () => setDisplayCount(prev => prev + 12);
+	const loadMore = () => setDisplayCount(prev => prev + 8);
 	const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
 	return (
 		<>
-			<SEO {...seoConfig} />
+			<SEO
+				title={t('mods.seo.title')}
+				description={t('mods.seo.description')}
+				keywords={t('mods.seo.keywords')}
+			/>
 			<StructuredData
 				type="BreadcrumbList"
 				data={{
@@ -247,6 +275,7 @@ export default function ModsPage() {
 					]
 				}}
 			/>
+
 			<div className="min-h-screen bg-[#0b0d12] flex flex-col">
 				<Header />
 				<DiscordButton />
@@ -295,7 +324,6 @@ export default function ModsPage() {
 
 					{loading ? (
 						<div className="max-w-7xl mx-auto">
-							{/* Skeleton filters */}
 							<div className="mb-8 space-y-4">
 								<div className="bg-white/5 border border-white/10 rounded-xl h-14 animate-pulse"></div>
 								<div className="flex gap-3">
@@ -304,7 +332,6 @@ export default function ModsPage() {
 								</div>
 							</div>
 
-							{/* Skeleton grid */}
 							<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
 								{[...Array(12)].map((_, index) => <ModsSkeleton key={index} />)}
 							</div>
@@ -313,7 +340,6 @@ export default function ModsPage() {
 						<>
 							{/* Filters */}
 							<div className="max-w-7xl mx-auto mb-8 space-y-4">
-								{/* Search bar with goblin */}
 								<div className="relative">
 									<input
 										type="text"
@@ -331,7 +357,6 @@ export default function ModsPage() {
 									/>
 								</div>
 
-								{/* Sort options */}
 								<div className="flex items-center gap-3 flex-wrap">
 									<span className="text-gray-400 text-sm font-medium">{t('mods.sortBy')}:</span>
 
@@ -339,8 +364,8 @@ export default function ModsPage() {
 										onClick={() => handleSortChange('newest')}
 										disabled={sorting}
 										className={`px-4 py-2 rounded-lg text-sm font-medium transition ${sortBy === 'newest'
-												? 'bg-[#00d2ff] text-[#0b0d12]'
-												: 'bg-white/5 text-gray-400 hover:bg-white/10'
+											? 'bg-[#00d2ff] text-[#0b0d12]'
+											: 'bg-white/5 text-gray-400 hover:bg-white/10'
 											} ${sorting ? 'opacity-50 cursor-not-allowed' : ''}`}
 									>
 										{t('mods.sortOptions.newest')}
@@ -350,8 +375,8 @@ export default function ModsPage() {
 										onClick={() => handleSortChange('oldest')}
 										disabled={sorting}
 										className={`px-4 py-2 rounded-lg text-sm font-medium transition ${sortBy === 'oldest'
-												? 'bg-[#00d2ff] text-[#0b0d12]'
-												: 'bg-white/5 text-gray-400 hover:bg-white/10'
+											? 'bg-[#00d2ff] text-[#0b0d12]'
+											: 'bg-white/5 text-gray-400 hover:bg-white/10'
 											} ${sorting ? 'opacity-50 cursor-not-allowed' : ''}`}
 									>
 										{t('mods.sortOptions.oldest')}
@@ -365,7 +390,6 @@ export default function ModsPage() {
 									)}
 								</div>
 
-								{/* Results count */}
 								<div className="text-gray-400 text-sm">
 									{t('mods.showing')} {Math.min(displayCount, filteredMods.length)} {t('mods.of')} {filteredMods.length} {t('mods.results')}
 								</div>
@@ -385,7 +409,6 @@ export default function ModsPage() {
 										</div>
 									) : (
 										<>
-											{/* Grid */}
 											<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
 												{/* Add Mod Card */}
 												<article className="bg-white/5 border-2 border-dashed border-white/20 rounded-xl overflow-hidden hover:border-[#00d2ff]/50 transition-all duration-300 h-[420px] flex flex-col items-center justify-center cursor-not-allowed opacity-60">
@@ -410,9 +433,8 @@ export default function ModsPage() {
 														key={index}
 														className="bg-white/5 border border-white/10 rounded-xl overflow-hidden hover:border-[#00d2ff]/50 hover:shadow-[0_0_30px_rgba(0,210,255,0.1)] hover:scale-[1.02] transition-all duration-300 group cursor-pointer h-[420px] flex flex-col animate-fadeIn"
 														style={{ animationDelay: `${(index + 1) * 30}ms` }}
-														onClick={() => window.open(item.link_descarga, '_blank')}
+														onClick={() => window.open(item.links_descarga[0], '_blank')}
 													>
-														{/* Thumbnail placeholder */}
 														<div className={`aspect-video bg-gradient-to-br ${getGradient(item.titulo)} relative overflow-hidden`}>
 															<div className="absolute inset-0 flex items-center justify-center">
 																<div className="text-6xl font-bold text-white/10">
@@ -420,7 +442,6 @@ export default function ModsPage() {
 																</div>
 															</div>
 
-															{/* Badges overlay */}
 															<div className="absolute top-3 left-3 flex gap-2">
 																{isNew(item.fecha_publicacion) && (
 																	<span className="bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">
@@ -430,19 +451,15 @@ export default function ModsPage() {
 															</div>
 														</div>
 
-														{/* Content */}
 														<div className="p-4 flex flex-col flex-1">
-															{/* Title */}
 															<h3 className="text-lg font-bold text-white mb-2 line-clamp-2 group-hover:text-[#00d2ff] transition">
 																{highlightText(item.titulo, searchQuery)}
 															</h3>
 
-															{/* Description */}
 															<p className="text-gray-400 text-sm mb-4 line-clamp-3 flex-1">
 																{highlightText(item.resumen, searchQuery)}
 															</p>
 
-															{/* Metadata */}
 															<div className="space-y-2 mb-3">
 																<div className="flex items-center gap-2 text-xs text-gray-400">
 																	<span>👤</span>
@@ -454,11 +471,10 @@ export default function ModsPage() {
 																</div>
 																<div className="flex items-center gap-2 text-xs text-gray-400">
 																	<span>🌐</span>
-																	<span className="truncate">{getSource(item.link_descarga)}</span>
+																	<span className="truncate">{getSource(item.links_descarga)}</span>
 																</div>
 															</div>
 
-															{/* Actions */}
 															<div className="flex items-center justify-between pt-3 border-t border-white/10">
 																<div className="flex items-center text-[#00d2ff] font-medium text-sm group-hover:text-[#e5c100] transition">
 																	<span>{t('mods.download')}</span>
@@ -468,7 +484,7 @@ export default function ModsPage() {
 																<ShareButton
 																	title={item.titulo}
 																	text={item.resumen}
-																	url={item.link_descarga}
+																	url={item.links_descarga[0]}
 																/>
 															</div>
 														</div>
@@ -476,7 +492,6 @@ export default function ModsPage() {
 												))}
 											</div>
 
-											{/* Load More Button */}
 											{displayCount < filteredMods.length && (
 												<div className="text-center py-8">
 													<button
@@ -495,7 +510,6 @@ export default function ModsPage() {
 					)}
 				</main>
 
-				{/* Scroll to top button */}
 				{showScrollTop && (
 					<button
 						onClick={scrollToTop}
