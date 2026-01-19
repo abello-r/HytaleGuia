@@ -62,6 +62,12 @@ export default function Footer() {
 
 				{/* Copyright */}
 				<div className="border-t border-white/10 mt-8 pt-8 text-center">
+				{/* Imagen decorativa izquierda */}
+					<img
+						src="/Love.png"
+						alt="Kwebeck Love"
+						className="absolute left-30 top-56 -translate-y-1/2 h-10 opacity-80 pointer-events-none select-none w-30 h-30"
+					/>
 					<p className="text-[#a0a0a0] text-sm">
 						{t('footer.copyright')}
 						<span className="text-[#00d2ff]"> {t('footer.madeWith')}</span>
