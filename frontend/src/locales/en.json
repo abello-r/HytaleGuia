@@ -1,69 +1,105 @@
 {
-  "nav": {
-    "home": "HOME",
-    "news": "NEWS",
-    "guides": "GUIDES",
-    "mods": "MODS",
-    "serverList": "SERVER LIST",
-	"devBadge": "The website is under development."
-  },
-  "hero": {
-    "betaBadge": "BETA COMING SOON",
-    "title": "DISCOVER",
-    "titleHighlight": "HYTALE",
-    "subtitle": "The ultimate guide in Spanish",
-    "description": "The ultimate encyclopedia. Explore biomes, discover crafting recipes, and join the largest Hytale community.",
-    "searchPlaceholder": "Ask anything, the AI will help you...",
-    "searchButton": "SEARCH",
-    "searchHint": "Use keywords like \"How to craft a sword?\" or \"Where to find aquatic biomes?\""
-  },
-  "trending": {
-    "title": "Trending in",
-    "titleHighlight": "Orbis",
-    "readArticle": "Read Article",
-    "online": "Online",
-    "download": "Download"
-  },
-  "footer": {
-    "description": "The largest Spanish-speaking Hytale community. Guides, mods, servers, and news.",
-    "quickLinks": "Quick Links",
-    "community": "Community",
-    "legal": "Legal",
-    "home": "Home",
-    "news": "News",
-    "guides": "Guides",
-    "mods": "Mods",
-    "serverList": "Server List",
-    "discord": "Discord",
-    "twitter": "Twitter",
-    "youtube": "YouTube",
-    "reddit": "Reddit",
-    "terms": "Terms of Use",
-    "privacy": "Privacy Policy",
-    "cookies": "Cookies",
-    "contact": "Contact",
-    "copyright": "© 2026 HytaleGuía. All rights reserved.",
-    "madeWith": "Made with ❤️ for the community",
-    "disclaimer": "This site is not affiliated with Hypixel Studios or Riot Games."
-  },
-  "discord": {
-    "tooltip": "Join Discord"
-  },
-  "auth": {
-    "login": "LOG IN"
-  },
-  "news": {
-    "title": "All",
-    "titleHighlight": "News",
-    "description": "All announcements, updates, and news about Hytale in one place. Content is automatically updated daily to provide fresh and relevant information from both the game’s development and its community. A centralized space to stay up to date with the latest Hytale news without checking multiple sources.",
-    "searchPlaceholder": "Search news...",
-    "filterBySource": "Filter by source",
-    "allSources": "All",
-    "showing": "Showing",
-    "of": "of",
-    "results": "results",
-    "noResults": "No news found",
-    "readMore": "Read more",
-    "loadMore": "Load more"
-  }
+	"nav": {
+		"home": "HOME",
+		"news": "NEWS",
+		"guides": "GUIDES",
+		"mods": "MODS",
+		"serverList": "SERVER LIST",
+		"devBadge": "The website is under development."
+	},
+	"hero": {
+		"betaBadge": "BETA COMING SOON",
+		"title": "DISCOVER",
+		"titleHighlight": "HYTALE",
+		"subtitle": "The ultimate guide in Spanish",
+		"description": "The definitive encyclopedia. Explore biomes, discover crafting recipes, and join the largest Hytale community.",
+		"searchPlaceholder": "Ask anything, the AI will help you...",
+		"searchButton": "SEARCH",
+		"searchHint": "Use keywords like \"How to craft a sword?\" or \"Where to find aquatic biomes?\""
+	},
+	"trending": {
+		"title": "Trending in",
+		"titleHighlight": "Orbis",
+		"readArticle": "Read Article",
+		"online": "Online",
+		"download": "Download"
+	},
+	"footer": {
+		"description": "The largest Spanish-speaking Hytale community. Guides, mods, servers, and news.",
+		"quickLinks": "Quick Links",
+		"community": "Community",
+		"legal": "Legal",
+		"home": "Home",
+		"news": "News",
+		"guides": "Guides",
+		"mods": "Mods",
+		"serverList": "Server List",
+		"discord": "Discord",
+		"twitter": "Twitter",
+		"youtube": "YouTube",
+		"reddit": "Reddit",
+		"terms": "Terms of Use",
+		"privacy": "Privacy Policy",
+		"cookies": "Cookies",
+		"contact": "Contact",
+		"copyright": "© 2026 HytaleGuide. All rights reserved.",
+		"madeWith": "Made with ❤️ for the community",
+		"disclaimer": "This site is not affiliated with Hypixel Studios or Riot Games."
+	},
+	"discord": {
+		"tooltip": "Join Discord"
+	},
+	"auth": {
+		"login": "LOGIN"
+	},
+	"news": {
+		"title": "All",
+		"titleHighlight": "News",
+		"description": "All announcements, updates, and news about Hytale in one place. A centralized hub to stay up to date without checking multiple sources.",
+		"breadcrumbs": {
+			"home": "Home",
+			"news": "News"
+		},
+		"available": "news available",
+		"lastUpdate": "Last update",
+		"nextUpdate": "Next update",
+		"searchPlaceholder": "Search news...",
+		"filterByDate": "Date",
+		"filterBySource": "Source",
+		"sortBy": "Sort",
+		"dateFilters": {
+			"all": "All",
+			"7days": "Last 7 days",
+			"30days": "Last month"
+		},
+		"sortOptions": {
+			"newest": "Newest",
+			"oldest": "Oldest",
+			"source": "By source"
+		},
+		"allSources": "All",
+		"showing": "Showing",
+		"of": "of",
+		"results": "results",
+		"noResults": "No news found",
+		"featured": "NEWS OF THE DAY",
+		"new": "NEW",
+		"badge": "NEWS",
+		"readMore": "Read more",
+		"readFull": "Read full article",
+		"loadMore": "Load more news",
+		"scrollTop": "Back to top",
+		"sorting": "Sorting...",
+		"share": "Share",
+		"linkCopied": "Link copied",
+		"linkCopiedDesc": "The link was copied to the clipboard.",
+		"timeIn": {
+			"minute": "in 1 minute",
+			"minutes": "in {{count}} minutes",
+			"hour": "in 1 hour",
+			"hours": "in {{count}} hours",
+			"hourAndMinutes": "in 1 hour and {{minutes}} min",
+			"hoursAndMinutes": "in {{hours}} hours and {{minutes}} min"
+		}
+	}
 }

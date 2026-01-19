@@ -1,5 +1,5 @@
 const path = require('path');
-const { getLatestFile, folderExists } = require('../utils/fileReader');
+const { folderExists } = require('../utils/fileReader');
 const fs = require('fs').promises;
 
 const BASE_PATH = process.env.WORKERS_PATH || '/app/Workers_N8n';
@@ -34,7 +34,12 @@ exports.getAllNews = async (req, res) => {
       try {
         const filePath = path.join(blogsPath, file);
         const content = await fs.readFile(filePath, 'utf-8');
-        const data = JSON.parse(content);
+        let data = JSON.parse(content);
+        
+        // Handle array format: [{ output: { noticias: [...] } }]
+        if (Array.isArray(data) && data.length > 0) {
+          data = data[0]; // Get first element of array
+        }
         
         // Extract news from the file
         if (data.output && data.output.noticias && Array.isArray(data.output.noticias)) {
@@ -56,6 +61,8 @@ exports.getAllNews = async (req, res) => {
       const dateB = new Date(b.fecha || b.fileDate);
       return dateB - dateA;
     });
+
+    console.log(`📰 Loaded ${allNews.length} news articles from ${jsonFiles.length} files`);
 
     res.json({
       success: true,

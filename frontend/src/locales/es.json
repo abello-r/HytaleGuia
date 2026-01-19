@@ -1,69 +1,105 @@
 {
-  "nav": {
-    "home": "INICIO",
-    "news": "NOTICIAS",
-    "guides": "GUÍAS",
-    "mods": "MODS",
-    "serverList": "SERVER LIST",
-	"devBadge": "La web está en desarrollo."
-  },
-  "hero": {
-    "betaBadge": "BETA PRÓXIMAMENTE",
-    "title": "DESCUBRE",
-    "titleHighlight": "HYTALE",
-    "subtitle": "La guía definitiva en español",
-    "description": "La enciclopedia definitiva. Explora biomas, descubre crafteos y únete a la comunidad más grande de Hytale.",
-    "searchPlaceholder": "Pregunta lo que quieras, la IA te ayudará...",
-    "searchButton": "BUSCAR",
-    "searchHint": "Usa palabras clave como \"¿Cómo crear una espada?\" o \"¿Dónde encontrar biomas acuáticos?\""
-  },
-  "trending": {
-    "title": "Tendencias en",
-    "titleHighlight": "Orbis",
-    "readArticle": "Leer Artículo",
-    "online": "Online",
-	"download": "Descargar"
-  },
-  "footer": {
-    "description": "La comunidad hispana más grande de Hytale. Guías, mods, servidores y noticias.",
-    "quickLinks": "Enlaces Rápidos",
-    "community": "Comunidad",
-    "legal": "Legal",
-    "home": "Inicio",
-    "news": "Noticias",
-    "guides": "Guías",
-    "mods": "Mods",
-    "serverList": "Server List",
-    "discord": "Discord",
-    "twitter": "Twitter",
-    "youtube": "YouTube",
-    "reddit": "Reddit",
-    "terms": "Términos de Uso",
-    "privacy": "Política de Privacidad",
-    "cookies": "Cookies",
-    "contact": "Contacto",
-    "copyright": "© 2026 HytaleGuía. Todos los derechos reservados.",
-    "madeWith": "Hecho con ❤️ para la comunidad",
-    "disclaimer": "Este sitio no está afiliado con Hypixel Studios ni con Riot Games."
-  },
-  "discord": {
-    "tooltip": "Únete a Discord"
-  },
-  "auth": {
-    "login": "ACCEDER"
-  },
-  "news": {
-    "title": "Todas las",
-    "titleHighlight": "Noticias",
-    "description": "Todos los anuncios, actualizaciones y novedades sobre Hytale en un solo lugar. El contenido se actualiza diariamente de forma automática para ofrecer información fresca y relevante, tanto del desarrollo del juego como de su comunidad. Un espacio centralizado para mantenerte siempre al día con lo último de Hytale, sin necesidad de consultar múltiples fuentes.",
-    "searchPlaceholder": "Buscar noticias...",
-    "filterBySource": "Filtrar por fuente",
-    "allSources": "Todas",
-    "showing": "Mostrando",
-    "of": "de",
-    "results": "resultados",
-    "noResults": "No se encontraron noticias",
-    "readMore": "Leer más",
-    "loadMore": "Cargar más"
-  }
+	"nav": {
+		"home": "INICIO",
+		"news": "NOTICIAS",
+		"guides": "GUÍAS",
+		"mods": "MODS",
+		"serverList": "SERVER LIST",
+		"devBadge": "La web está en desarrollo."
+	},
+	"hero": {
+		"betaBadge": "BETA PRÓXIMAMENTE",
+		"title": "DESCUBRE",
+		"titleHighlight": "HYTALE",
+		"subtitle": "La guía definitiva en español",
+		"description": "La enciclopedia definitiva. Explora biomas, descubre crafteos y únete a la comunidad más grande de Hytale.",
+		"searchPlaceholder": "Pregunta lo que quieras, la IA te ayudará...",
+		"searchButton": "BUSCAR",
+		"searchHint": "Usa palabras clave como \"¿Cómo crear una espada?\" o \"¿Dónde encontrar biomas acuáticos?\""
+	},
+	"trending": {
+		"title": "Tendencias en",
+		"titleHighlight": "Orbis",
+		"readArticle": "Leer Artículo",
+		"online": "Online",
+		"download": "Descargar"
+	},
+	"footer": {
+		"description": "La comunidad hispana más grande de Hytale. Guías, mods, servidores y noticias.",
+		"quickLinks": "Enlaces Rápidos",
+		"community": "Comunidad",
+		"legal": "Legal",
+		"home": "Inicio",
+		"news": "Noticias",
+		"guides": "Guías",
+		"mods": "Mods",
+		"serverList": "Server List",
+		"discord": "Discord",
+		"twitter": "Twitter",
+		"youtube": "YouTube",
+		"reddit": "Reddit",
+		"terms": "Términos de Uso",
+		"privacy": "Política de Privacidad",
+		"cookies": "Cookies",
+		"contact": "Contacto",
+		"copyright": "© 2026 HytaleGuía. Todos los derechos reservados.",
+		"madeWith": "Hecho con ❤️ para la comunidad",
+		"disclaimer": "Este sitio no está afiliado con Hypixel Studios ni con Riot Games."
+	},
+	"discord": {
+		"tooltip": "Únete a Discord"
+	},
+	"auth": {
+		"login": "ACCEDER"
+	},
+	"news": {
+		"title": "Todas las",
+		"titleHighlight": "Noticias",
+		"description": "Todos los anuncios, actualizaciones y novedades sobre Hytale en un solo lugar. Un espacio centralizado para mantenerte siempre al día con lo último de Hytale, sin necesidad de consultar múltiples fuentes.",
+		"breadcrumbs": {
+			"home": "Inicio",
+			"news": "Noticias"
+		},
+		"available": "noticias disponibles",
+		"lastUpdate": "Última actualización",
+		"nextUpdate": "Próxima actualización",
+		"searchPlaceholder": "Buscar noticias...",
+		"filterByDate": "Fecha",
+		"filterBySource": "Fuente",
+		"sortBy": "Ordenar",
+		"dateFilters": {
+			"all": "Todas",
+			"7days": "Últimos 7 días",
+			"30days": "Último mes"
+		},
+		"sortOptions": {
+			"newest": "Más recientes",
+			"oldest": "Más antiguos",
+			"source": "Por fuente"
+		},
+		"allSources": "Todas",
+		"showing": "Mostrando",
+		"of": "de",
+		"results": "resultados",
+		"noResults": "No se encontraron noticias",
+		"featured": "NOTICIA DEL DÍA",
+		"new": "NUEVO",
+		"badge": "NEWS",
+		"readMore": "Leer más",
+		"readFull": "Leer noticia completa",
+		"loadMore": "Cargar más noticias",
+		"scrollTop": "Volver arriba",
+		"sorting": "Ordenando...",
+		"share": "Compartir",
+		"linkCopied": "Enlace copiado",
+		"linkCopiedDesc": "El enlace se copió al portapapeles.",
+		"timeIn": {
+			"minute": "en 1 minuto",
+			"minutes": "en {{count}} minutos",
+			"hour": "en 1 hora",
+			"hours": "en {{count}} horas",
+			"hourAndMinutes": "en 1 hora y {{minutes}} min",
+			"hoursAndMinutes": "en {{hours}} horas y {{minutes}} min"
+		}
+	}
 }
