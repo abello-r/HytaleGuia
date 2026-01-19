@@ -7,6 +7,7 @@ import DiscordButton from './components/DiscordButton';
 import HeroSection from './components/HeroSection';
 import TrendingSection from './components/TrendingSection';
 import NewsPage from './pages/NewsPage';
+import ModsPage from './pages/ModsPage';
 import './i18n';
 
 // Google Analytics
@@ -65,6 +66,7 @@ function App() {
 			<Routes>
 				<Route path="/" element={<HomePage />} />
 				<Route path="/noticias" element={<NewsPage />} />
+				<Route path="/mods" element={<ModsPage />} />
 			</Routes>
 		</Router>
 	);
