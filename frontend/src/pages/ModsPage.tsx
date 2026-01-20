@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import DiscordButton from '../components/DiscordButton';
 import ShareButton from '../components/ShareButton';
 import SEO from '../components/SEO';
 import StructuredData from '../components/StructuredData';
@@ -278,8 +277,6 @@ export default function ModsPage() {
 
 			<div className="min-h-screen bg-[#0b0d12] flex flex-col">
 				<Header />
-				<DiscordButton />
-
 				<main className="flex-1 container mx-auto px-4 py-24">
 					{/* Breadcrumbs */}
 					<div className="max-w-7xl mx-auto mb-6">

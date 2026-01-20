@@ -1,9 +1,11 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import ReactGA from 'react-ga4';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import DiscordButton from './components/DiscordButton';
+import AIAssistantButton from './components/AIAssistantButton';
+import AIChatModal from './components/AIChatModal';
 import HeroSection from './components/HeroSection';
 import TrendingSection from './components/TrendingSection';
 import NewsPage from './pages/NewsPage';
@@ -13,6 +15,7 @@ import NotFoundPage from './pages/NotFoundPage';
 import SEO from './components/SEO';
 import StructuredData from './components/StructuredData';
 import { SEO_CONFIGS } from './utils/seoConfig';
+import { ChatProvider } from './context/ChatContext';
 import './i18n';
 
 // Google Analytics
@@ -40,9 +43,6 @@ function HomePage() {
 			<StructuredData type="Organization" data={{}} />
 			
 			<div className="min-h-screen bg-[#0b0d12]">
-				{/* Discord Sticky Button */}
-				<DiscordButton />
-
 				{/* Hero Section with full background */}
 				<div className="relative min-h-screen flex flex-col">
 					{/* Background image */}
@@ -73,16 +73,31 @@ function HomePage() {
 }
 
 function App() {
+	const [isChatOpen, setIsChatOpen] = useState(false);
+
 	return (
-		<Router>
-			<PageTracker />
-			<Routes>
-				<Route path="/" element={<HomePage />} />
-				<Route path="/noticias" element={<NewsPage />} />
-				<Route path="/mods" element={<ModsPage />} />
-				<Route path="*" element={<NotFoundPage />} /> {/* Catch-all route for 404 Not Found */}
-			</Routes>
-		</Router>
+		<ChatProvider>
+			<Router>
+				<PageTracker />
+				
+				{/* Persistent Buttons - Available on all pages */}
+				<DiscordButton />
+				<AIAssistantButton onClick={() => setIsChatOpen(true)} />
+				
+				{/* AI Chat Modal */}
+				<AIChatModal 
+					isOpen={isChatOpen} 
+					onClose={() => setIsChatOpen(false)} 
+				/>
+				
+				<Routes>
+					<Route path="/" element={<HomePage />} />
+					<Route path="/noticias" element={<NewsPage />} />
+					<Route path="/mods" element={<ModsPage />} />
+					<Route path="*" element={<NotFoundPage />} />
+				</Routes>
+			</Router>
+		</ChatProvider>
 	);
 }
 

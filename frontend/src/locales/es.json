@@ -13,9 +13,11 @@
 		"titleHighlight": "HYTALE",
 		"subtitle": "La guía definitiva en español",
 		"description": "La enciclopedia definitiva. Explora biomas, descubre crafteos y únete a la comunidad más grande de Hytale.",
-		"searchPlaceholder": "Pregunta lo que quieras, la IA te ayudará...",
+		"searchPlaceholder": "Pregúntale a Doge sobre Hytale...",
 		"searchButton": "BUSCAR",
-		"searchHint": "Usa palabras clave como \"¿Cómo crear una espada?\" o \"¿Dónde encontrar biomas acuáticos?\""
+		"searchHint": "Doge conoce todo sobre crafteo, biomas, construcción, combate y secretos de Hytale",
+		"chatActivePlaceholder": "Doge está listo para ayudarte. Usa el botón flotante para hablar con él.",
+		"chatActiveHint": "Click en el botón de Doge para continuar la conversación"
 	},
 	"trending": {
 		"title": "Tendencias en",
@@ -183,5 +185,24 @@
 		"title": "¡Página no encontrada!",
 		"description": "Parece que te has adentrado demasiado en las profundidades de Orbis.",
 		"backToHome": "Volver al inicio"
+	},
+	"aiAssistant": {
+		"tooltip": "Doge AI"
+	},
+	"aiChat": {
+		"title": "Doge AI",
+		"subtitle": "Tu asistente especializado en Hytale",
+		"welcome": "¡Hola, aventurero!",
+		"description": "Estoy especialmente entrenado para responder todas tus preguntas sobre Hytale. Ya sea que necesites ayuda con crafteos, biomas, construcción, combate o secretos del juego.",
+		"suggestedQuestions": "Preguntas sugeridas",
+		"suggestions": {
+			"crafting": "¿Cómo hago una espada de Thorium?",
+			"biomes": "¿Qué biomas hay en Hytale?",
+			"prefabs": "¿Cómo instalar un mod?",
+			"combat": "¿Cuánto daño hace un arco?"
+		},
+		"placeholder": "Pregunta sobre Hytale...",
+		"hint": "💡 Sé específico para mejores resultados",
+		"devResponse": "Woof! Has preguntado: \"{{query}}\". Aún estoy en desarrollo para darte respuestas completas. 🐶"
 	}
 }

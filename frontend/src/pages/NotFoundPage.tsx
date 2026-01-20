@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import DiscordButton from '../components/DiscordButton';
 import SEO from '../components/SEO';
 
 export default function NotFoundPage() {
@@ -27,8 +26,6 @@ export default function NotFoundPage() {
 			/>
 
 			<div className="min-h-screen bg-[#0b0d12] flex flex-col">
-				<DiscordButton />
-
 				{/* Hero Section with 404 background */}
 				<div className="relative min-h-screen flex flex-col">
 					{/* Background image */}
