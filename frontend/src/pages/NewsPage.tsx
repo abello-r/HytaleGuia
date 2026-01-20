@@ -428,7 +428,7 @@ export default function NewsPage() {
 									<button
 										onClick={() => handleSortChange('newest')}
 										disabled={sorting}
-										className={`px-4 py-2 rounded-lg text-sm font-medium transition ${sortBy === 'newest'
+										className={`px-4 py-2 rounded-lg text-sm font-medium transition cursor-pointer ${sortBy === 'newest'
 											? 'bg-[#00d2ff] text-[#0b0d12]'
 											: 'bg-white/5 text-gray-400 hover:bg-white/10'
 											} ${sorting ? 'opacity-50 cursor-not-allowed' : ''}`}
@@ -438,7 +438,7 @@ export default function NewsPage() {
 									<button
 										onClick={() => handleSortChange('oldest')}
 										disabled={sorting}
-										className={`px-4 py-2 rounded-lg text-sm font-medium transition ${sortBy === 'oldest'
+										className={`px-4 py-2 rounded-lg text-sm font-medium transition cursor-pointer ${sortBy === 'oldest'
 											? 'bg-[#00d2ff] text-[#0b0d12]'
 											: 'bg-white/5 text-gray-400 hover:bg-white/10'
 											} ${sorting ? 'opacity-50 cursor-not-allowed' : ''}`}
@@ -598,7 +598,7 @@ export default function NewsPage() {
 												<div className="text-center py-8">
 													<button
 														onClick={loadMore}
-														className="bg-[#00d2ff] hover:bg-[#00a8cc] text-[#0b0d12] font-bold px-8 py-3 rounded-xl transition"
+														className="bg-[#00d2ff] hover:bg-[#00a8cc] text-[#0b0d12] font-bold px-8 py-3 rounded-xl transition cursor-pointer"
 													>
 														{t('news.loadMore')}
 													</button>

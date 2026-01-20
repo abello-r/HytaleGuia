@@ -27,7 +27,7 @@ export default function ShareButton({ title, text, url }: ShareButtonProps) {
 		<>
 			<button
 				onClick={handleShare}
-				className="flex items-center gap-2 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#00d2ff]/50 text-gray-400 hover:text-[#00d2ff] px-3 py-2 rounded-lg transition text-sm"
+				className="flex items-center gap-2 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#00d2ff]/50 text-gray-400 hover:text-[#00d2ff] px-3 py-2 rounded-lg transition text-sm cursor-pointer"
 				title={t('news.share')}
 			>
 				<svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

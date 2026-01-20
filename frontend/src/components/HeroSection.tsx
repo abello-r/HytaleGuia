@@ -6,7 +6,7 @@ import { useChatContext } from '../context/ChatContext';
 
 export default function HeroSection() {
 	const { t } = useTranslation();
-	const { hasMessages } = useChatContext();
+	const { hasMessages } = useChatContext(); // Now using context instead of hook
 	const [searchQuery, setSearchQuery] = useState('');
 	const [currentLanguageIndex, setCurrentLanguageIndex] = useState(0);
 	const [isAnimating, setIsAnimating] = useState(false);
@@ -67,12 +67,13 @@ export default function HeroSection() {
 					<div className="max-w-3xl mx-auto text-center">
 						{/* Badges container */}
 						<div className="flex items-center justify-center gap-3 mb-6 flex-wrap">
-							<div className="inline-block bg-[#00d2ff]/20 backdrop-blur-sm border border-[#00d2ff] text-[#00d2ff] px-4 py-1 rounded-full text-sm font-medium">
+							{/* Beta badge */}
+							<div className="inline-flex items-center gap-2 bg-[#00d2ff]/10 backdrop-blur-sm border border-[#00d2ff]/30 text-[#00d2ff] px-4 h-10 rounded-[8px] text-sm font-medium">
 								{t('hero.betaBadge')}
 							</div>
-							
-							{/* Multi-language badge */}
-							<div className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-500/20 to-pink-500/20 backdrop-blur-sm border border-purple-400/50 text-white px-4 py-1 rounded-full text-sm font-medium">
+
+							{/* Multi-language badge - Minimalist cyan */}
+							<div className="inline-flex items-center gap-2 bg-[#00d2ff]/10 backdrop-blur-sm border border-[#00d2ff]/30 text-white px-4 h-10 rounded-[8px] text-sm font-medium">
 								<span className="flex items-center gap-1">
 									{languageFlags.map((flag, index) => (
 										<img
@@ -80,12 +81,12 @@ export default function HeroSection() {
 											src={flag.src}
 											alt={flag.alt}
 											className={`w-4 h-4 rounded-sm object-cover transition-all duration-300 ${
-												index === currentLanguageIndex ? 'scale-125 opacity-100' : 'scale-100 opacity-60'
+												index === currentLanguageIndex ? 'scale-110 opacity-100' : 'scale-100 opacity-60'
 											}`}
 										/>
 									))}
 								</span>
-								<span className="text-xs font-semibold">5 Languages</span>
+								<span className="text-xs font-semibold text-[#00d2ff]">5 Languages</span>
 							</div>
 						</div>
 
@@ -162,7 +163,7 @@ export default function HeroSection() {
 				initialQuery={initialChatQuery}
 			/>
 
-			{/* AI Assistant Button */}
+			{/* AI Assistant Button - aparece después de usar el chat */}
 			{hasMessages && (
 				<AIAssistantButton onClick={handleOpenChatFromButton} />
 			)}
