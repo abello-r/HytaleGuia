@@ -34,19 +34,48 @@ export default function TrendingSection() {
 				}
 
 				const result = await response.json();
+				console.log('📊 Raw API response:', result);
 
 				if (!result.success) {
 					throw new Error(result.message || 'Invalid response');
 				}
 
 				const { blogs, bugs, mods } = result.data;
+				console.log('📦 Data received:', { 
+					blogsLength: blogs?.length, 
+					bugsLength: bugs?.length, 
+					modsLength: mods?.length 
+				});
+				
 				const topics: TrendingTopic[] = [];
 
 				// Process blogs (first one)
 				if (blogs && Array.isArray(blogs) && blogs.length > 0) {
 					const firstBlog = blogs[0];
+					console.log('📰 Blog structure:', Object.keys(firstBlog));
+					console.log('📰 Full blog data:', firstBlog);
+					
+					// Try different possible structures
+					let noticia = null;
+					
+					// Structure 1: firstBlog.output.noticias[]
 					if (firstBlog.output && firstBlog.output.noticias && firstBlog.output.noticias.length > 0) {
-						const noticia = firstBlog.output.noticias[0];
+						noticia = firstBlog.output.noticias[0];
+					}
+					// Structure 2: firstBlog["0"].output.noticias[] (string index)
+					else if (firstBlog["0"] && firstBlog["0"].output && firstBlog["0"].output.noticias) {
+						noticia = firstBlog["0"].output.noticias[0];
+					}
+					// Structure 3: Direct array access
+					else if (Array.isArray(firstBlog) && firstBlog.length > 0) {
+						const item = firstBlog[0];
+						if (item.output && item.output.noticias) {
+							noticia = item.output.noticias[0];
+						}
+					}
+					
+					if (noticia) {
+						console.log('✅ News found:', noticia.titulo);
 						topics.push({
 							id: 1,
 							title: truncateText(noticia.titulo || 'News', 60),
@@ -56,14 +85,22 @@ export default function TrendingSection() {
 							image: '/news_paper.jpeg',
 							url: noticia.url
 						});
+					} else {
+						console.warn('⚠️ Blog structure incorrect. Expected: firstBlog.output.noticias[]');
+						console.warn('Got:', firstBlog);
 					}
+				} else {
+					console.warn('⚠️ No blogs data or empty array');
 				}
 
 				// Process bugs (first one)
 				if (bugs && Array.isArray(bugs) && bugs.length > 0) {
 					const firstBug = bugs[0];
-					if (firstBug.output && firstBug.output.noticias && firstBug.output.noticias.length > 0) {
-						const bugReport = firstBug.output.noticias[0];
+					console.log('🐛 Bug structure:', Object.keys(firstBug));
+					
+					if (firstBug.output && firstBug.output.bugs && firstBug.output.bugs.length > 0) {
+						const bugReport = firstBug.output.bugs[0];
+						console.log('✅ Bug found:', bugReport.titulo);
 						topics.push({
 							id: 2,
 							title: truncateText(bugReport.titulo || 'Bug Report', 60),
@@ -73,15 +110,41 @@ export default function TrendingSection() {
 							image: '/bugs.jpg',
 							url: bugReport.url
 						});
+					} else {
+						console.warn('⚠️ Bug structure incorrect. Expected: firstBug.output.bugs[]');
+						console.warn('Got:', firstBug);
 					}
+				} else {
+					console.warn('⚠️ No bugs data or empty array');
 				}
 
 				// Process mods (first one) - Different structure
 				if (mods && Array.isArray(mods) && mods.length > 0) {
 					const firstModData = mods[0];
-					// Mods have a different structure: array with objects containing "mods" array
+					console.log('🎮 Mod structure:', Object.keys(firstModData));
+					console.log('🎮 Full mod data:', firstModData);
+					
+					// Try different possible structures
+					let modInfo = null;
+					
+					// Structure 1: firstModData.mods[]
 					if (firstModData.mods && Array.isArray(firstModData.mods) && firstModData.mods.length > 0) {
-						const modInfo = firstModData.mods[0];
+						modInfo = firstModData.mods[0];
+					}
+					// Structure 2: firstModData["0"].mods[] (string index)
+					else if (firstModData["0"] && firstModData["0"].mods && Array.isArray(firstModData["0"].mods)) {
+						modInfo = firstModData["0"].mods[0];
+					}
+					// Structure 3: Direct array access
+					else if (Array.isArray(firstModData) && firstModData.length > 0) {
+						const item = firstModData[0];
+						if (item.mods && Array.isArray(item.mods)) {
+							modInfo = item.mods[0];
+						}
+					}
+					
+					if (modInfo) {
+						console.log('✅ Mod found:', modInfo.titulo);
 						topics.push({
 							id: 3,
 							title: truncateText(modInfo.titulo || 'Mod', 60),
@@ -92,32 +155,40 @@ export default function TrendingSection() {
 							url: modInfo.links_descarga?.[0] || '',
 							author: modInfo.autor
 						});
+					} else {
+						console.warn('⚠️ Mod structure incorrect. Expected: firstModData.mods[]');
+						console.warn('Got:', firstModData);
 					}
+				} else {
+					console.warn('⚠️ No mods data or empty array');
 				}
 
 				// Add SERVER card if we have less than 4 items
 				if (topics.length < 4) {
+					console.log('➕ Adding SERVER card (total topics:', topics.length, ')');
 					topics.push({
 						id: 4,
-						title: 'Hytale Saturno Server',
-						description: 'Únete al servidor Saturno y experimenta Hytale con una comunidad vibrante y características exclusivas.',
+						title: "Saturno - Hytale Server",
+						description: "Join Saturno, the premier Hytale server offering unique gameplay, active community events, and a friendly atmosphere. Dive into an unforgettable Hytale experience today!",
 						badge: 'SERVER',
 						badgeColor: 'bg-[#e5c100]',
 						image: '/servers.jpeg'
 					});
 				}
 
+				console.log('🎯 Final topics count:', topics.length);
+				console.log('🎯 Topics:', topics.map(t => ({ id: t.id, badge: t.badge, title: t.title })));
 				setTrendingTopics(topics);
 
 			} catch (err) {
-				console.error('Error fetching trending data:', err);
+				console.error('❌ Error fetching trending data:', err);
 			} finally {
 				setLoading(false);
 			}
 		}
 
 		fetchTrendingData();
-	}, []);
+	}, [t]);
 
 	if (loading) {
 		return (

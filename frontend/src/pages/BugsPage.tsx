@@ -3,29 +3,23 @@ import { useTranslation } from 'react-i18next';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import DiscordButton from '../components/DiscordButton';
-import ShareButton from '../components/ShareButton';
 import SEO from '../components/SEO';
 import StructuredData from '../components/StructuredData';
 
 interface BugReport {
 	titulo: string;
-	fuente: string;
-	fecha: string;
 	resumen: string;
 	url: string;
-	nivel?: 'critical' | 'high' | 'medium' | 'low';
-	numero_reportes?: number;
-	estado?: 'fixed' | 'in-progress' | 'reported' | 'known';
+	nivel: string;
+	num_reportes: number;
+	num_arreglos?: number;
+	fecha_actualizacion: string;
 }
 
 interface BugsResponse {
 	success: boolean;
 	data: {
-		bugs: Array<{
-			output: {
-				noticias: BugReport[];
-			};
-		}>;
+		bugs: BugReport[];
 		total: number;
 		lastCronRun: string | null;
 	};
@@ -34,26 +28,15 @@ interface BugsResponse {
 
 function BugSkeleton() {
 	return (
-		<div className="flex gap-6 animate-pulse">
-			{/* Date indicator skeleton */}
-			<div className="flex flex-col items-center">
-				<div className="bg-gray-700 h-12 w-12 rounded-full"></div>
-				<div className="w-0.5 h-full bg-gray-700 mt-2"></div>
+		<div className="bg-white/5 border border-white/10 rounded-xl p-6 animate-pulse space-y-4">
+			<div className="flex items-center gap-3">
+				<div className="bg-gray-700 h-6 w-20 rounded-full"></div>
+				<div className="bg-gray-700 h-6 w-16 rounded-full"></div>
 			</div>
-
-			{/* Card skeleton */}
-			<div className="flex-1 mb-8">
-				<div className="bg-white/5 border border-white/10 rounded-xl p-6 space-y-4">
-					<div className="flex items-center gap-3">
-						<div className="bg-gray-700 h-6 w-20 rounded-full"></div>
-						<div className="bg-gray-700 h-6 w-16 rounded-full"></div>
-					</div>
-					<div className="bg-gray-700 h-8 w-3/4 rounded"></div>
-					<div className="space-y-2">
-						<div className="bg-gray-700 h-4 w-full rounded"></div>
-						<div className="bg-gray-700 h-4 w-5/6 rounded"></div>
-					</div>
-				</div>
+			<div className="bg-gray-700 h-8 w-3/4 rounded"></div>
+			<div className="space-y-2">
+				<div className="bg-gray-700 h-4 w-full rounded"></div>
+				<div className="bg-gray-700 h-4 w-5/6 rounded"></div>
 			</div>
 		</div>
 	);
@@ -62,7 +45,11 @@ function BugSkeleton() {
 export default function BugsPage() {
 	const { t, i18n } = useTranslation();
 	const [bugs, setBugs] = useState<BugReport[]>([]);
+	const [filteredBugs, setFilteredBugs] = useState<BugReport[]>([]);
 	const [loading, setLoading] = useState(true);
+	const [searchQuery, setSearchQuery] = useState('');
+	const [displayCount, setDisplayCount] = useState(8);
+	const [showScrollTop, setShowScrollTop] = useState(false);
 	const [currentTime, setCurrentTime] = useState(new Date());
 	const [lastCronRun, setLastCronRun] = useState<Date | null>(null);
 
@@ -72,37 +59,27 @@ export default function BugsPage() {
 	}, []);
 
 	useEffect(() => {
+		const handleScroll = () => setShowScrollTop(window.scrollY > 500);
+		window.addEventListener('scroll', handleScroll);
+		return () => window.removeEventListener('scroll', handleScroll);
+	}, []);
+
+	useEffect(() => {
 		async function fetchBugs() {
 			try {
 				const response = await fetch('/api/bugs/all');
 				const result: BugsResponse = await response.json();
 
 				if (result.success) {
-					// Flatten the nested structure
-					const allBugs: BugReport[] = [];
-					result.data.bugs.forEach(bugGroup => {
-						if (bugGroup.output && bugGroup.output.noticias) {
-							bugGroup.output.noticias.forEach(bug => {
-								// Parse severity and status from title/summary if needed
-								const parsedBug = {
-									...bug,
-									nivel: bug.nivel || detectSeverity(bug.titulo, bug.resumen),
-									estado: bug.estado || detectStatus(bug.titulo, bug.resumen),
-									numero_reportes: bug.numero_reportes || Math.floor(Math.random() * 3000) // Placeholder
-								};
-								allBugs.push(parsedBug);
-							});
-						}
-					});
-
-					setBugs(allBugs);
+					setBugs(result.data.bugs);
+					setFilteredBugs(result.data.bugs);
 
 					if (result.data.lastCronRun) {
 						setLastCronRun(new Date(result.data.lastCronRun));
 					}
 				}
 			} catch (error) {
-				console.error('Error fetching bugs:', error);
+				console.error('❌ Error fetching bugs:', error);
 			} finally {
 				setLoading(false);
 			}
@@ -111,60 +88,131 @@ export default function BugsPage() {
 		fetchBugs();
 	}, []);
 
-	// Auto-detect severity from text
-	const detectSeverity = (title: string, summary: string): 'critical' | 'high' | 'medium' | 'low' => {
-		const text = `${title} ${summary}`.toLowerCase();
-		if (text.includes('crash') || text.includes('critical') || text.includes('game-breaking')) return 'critical';
-		if (text.includes('bug') || text.includes('issue') || text.includes('problem')) return 'high';
-		if (text.includes('glitch') || text.includes('minor')) return 'medium';
-		return 'low';
+	// Filter bugs based on search query
+	useEffect(() => {
+		let filtered = bugs;
+
+		if (searchQuery) {
+			filtered = filtered.filter(bug =>
+				bug.titulo.toLowerCase().includes(searchQuery.toLowerCase()) ||
+				bug.resumen.toLowerCase().includes(searchQuery.toLowerCase())
+			);
+		}
+
+		setFilteredBugs(filtered);
+		setDisplayCount(8); // Reset display count on search
+	}, [searchQuery, bugs]);
+
+	// Map Spanish severity levels to English keys
+	const mapSeverityToKey = (nivel: string): string => {
+		const mapping: { [key: string]: string } = {
+			'Crítico': 'critical',
+			'Alto': 'high',
+			'Medio': 'medium',
+			'Bajo': 'low'
+		};
+		return mapping[nivel] || 'medium';
 	};
 
-	// Auto-detect status from text
-	const detectStatus = (title: string, summary: string): 'fixed' | 'in-progress' | 'reported' | 'known' => {
-		const text = `${title} ${summary}`.toLowerCase();
-		if (text.includes('fixed') || text.includes('hotfix') || text.includes('patch')) return 'fixed';
-		if (text.includes('fixing') || text.includes('working on')) return 'in-progress';
-		if (text.includes('known issue')) return 'known';
+	const getSeverityColor = (nivel: string): string => {
+		const key = mapSeverityToKey(nivel);
+		const colors = {
+			critical: 'text-red-400',
+			high: 'text-orange-400',
+			medium: 'text-yellow-400',
+			low: 'text-green-400'
+		};
+		return colors[key as keyof typeof colors] || colors.medium;
+	};
+
+	// Detect status from num_arreglos
+	const detectStatus = (numArreglos: number): string => {
+		if (numArreglos > 0) return 'fixed';
 		return 'reported';
 	};
 
-	const getSeverityConfig = (nivel: string) => {
-		const configs = {
-			critical: { color: 'bg-red-500', text: 'CRITICAL', icon: '🔴' },
-			high: { color: 'bg-orange-500', text: 'HIGH', icon: '🟠' },
-			medium: { color: 'bg-yellow-500', text: 'MEDIUM', icon: '🟡' },
-			low: { color: 'bg-green-500', text: 'LOW', icon: '🟢' }
+	const getStatusBadge = (estado: string) => {
+		if (estado === 'fixed') {
+			return {
+				bg: 'bg-green-500/10',
+				border: 'border-green-500/30',
+				text: 'text-green-400'
+			};
+		}
+		return {
+			bg: 'bg-[#00d2ff]/10',
+			border: 'border-[#00d2ff]/30',
+			text: 'text-[#00d2ff]'
 		};
-		return configs[nivel as keyof typeof configs] || configs.medium;
 	};
 
-	const getStatusConfig = (estado: string) => {
-		const configs = {
-			fixed: { color: 'bg-green-500/20 border-green-500/30 text-green-400', text: 'FIXED', icon: '✅' },
-			'in-progress': { color: 'bg-blue-500/20 border-blue-500/30 text-blue-400', text: 'IN PROGRESS', icon: '🔄' },
-			reported: { color: 'bg-purple-500/20 border-purple-500/30 text-purple-400', text: 'REPORTED', icon: '📋' },
-			known: { color: 'bg-gray-500/20 border-gray-500/30 text-gray-400', text: 'KNOWN ISSUE', icon: '⏸️' }
-		};
-		return configs[estado as keyof typeof configs] || configs.reported;
+	// Extract source from URL
+	const getSourceFromUrl = (url: string): string => {
+		try {
+			const urlObj = new URL(url);
+			const hostname = urlObj.hostname.replace('www.', '');
+			
+			// Map known domains to clean names
+			const sourceMap: { [key: string]: string } = {
+				'hytale.com': 'Hytale.com',
+				'hypixelstudios.com': 'Hypixel Studios',
+				'reddit.com': 'Reddit',
+				'twitter.com': 'Twitter',
+				'x.com': 'X (Twitter)'
+			};
+
+			// Check if it's a known source
+			for (const [domain, name] of Object.entries(sourceMap)) {
+				if (hostname.includes(domain)) {
+					return name;
+				}
+			}
+
+			// Otherwise return the clean hostname
+			const parts = hostname.split('.');
+			if (parts.length >= 2) {
+				return parts[parts.length - 2].charAt(0).toUpperCase() + parts[parts.length - 2].slice(1);
+			}
+			
+			return hostname;
+		} catch {
+			return 'Unknown';
+		}
 	};
 
 	const formatDate = (dateString: string) => {
 		const date = new Date(dateString);
-		const locale = i18n.language === 'es' ? 'es-ES' : 'en-US';
-		return date.toLocaleDateString(locale, { day: 'numeric', month: 'long', year: 'numeric' });
+		const locale = i18n.language === 'es' ? 'es-ES' :
+					   i18n.language === 'en' ? 'en-US' :
+					   i18n.language === 'fr' ? 'fr-FR' :
+					   i18n.language === 'it' ? 'it-IT' :
+					   i18n.language === 'pt' ? 'pt-PT' : 'en-US';
+		return date.toLocaleDateString(locale, { day: 'numeric', month: 'short', year: 'numeric' });
 	};
 
 	const getTimeAgo = (dateString: string): string => {
 		const date = new Date(dateString);
 		const diffMs = currentTime.getTime() - date.getTime();
-		const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+		const diffMinutes = Math.floor(diffMs / (1000 * 60));
+		const diffHours = Math.floor(diffMinutes / 60);
+		const diffDays = Math.floor(diffHours / 24);
 
-		if (diffDays === 0) return 'Hoy';
-		if (diffDays === 1) return 'Ayer';
-		if (diffDays < 7) return `Hace ${diffDays} días`;
-		if (diffDays < 30) return `Hace ${Math.floor(diffDays / 7)} semanas`;
-		return `Hace ${Math.floor(diffDays / 30)} meses`;
+		if (diffDays > 0) {
+			return diffDays === 1 
+				? t('bugs.timeAgo.day', { count: diffDays })
+				: t('bugs.timeAgo.days', { count: diffDays });
+		}
+		
+		if (diffHours > 0) {
+			return diffHours === 1 
+				? t('bugs.timeAgo.hour', { count: diffHours })
+				: t('bugs.timeAgo.hours', { count: diffHours });
+		}
+
+		if (diffMinutes === 1) return t('bugs.timeAgo.minute');
+		if (diffMinutes > 0) return t('bugs.timeAgo.minutes', { count: diffMinutes });
+		
+		return t('bugs.timeAgo.justNow');
 	};
 
 	// Calculate next refresh based on cron: 0 5,10,15,20,23 * * * (5am, 10am, 3pm, 8pm, 11pm)
@@ -201,17 +249,31 @@ export default function BugsPage() {
 		const diffMinutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
 
 		if (diffHours === 0) {
-			if (diffMinutes === 1) return 'en 1 minuto';
-			return `en ${diffMinutes} minutos`;
+			if (diffMinutes === 1) return t('bugs.timeIn.minute');
+			return t('bugs.timeIn.minutes', { count: diffMinutes });
 		}
 
 		if (diffMinutes === 0) {
-			if (diffHours === 1) return 'en 1 hora';
-			return `en ${diffHours} horas`;
+			if (diffHours === 1) return t('bugs.timeIn.hour');
+			return t('bugs.timeIn.hours', { count: diffHours });
 		}
 
-		if (diffHours === 1) return `en 1 hora y ${diffMinutes} minutos`;
-		return `en ${diffHours} horas y ${diffMinutes} minutos`;
+		if (diffHours === 1) return t('bugs.timeIn.hourAndMinutes', { minutes: diffMinutes });
+		return t('bugs.timeIn.hoursAndMinutes', { hours: diffHours, minutes: diffMinutes });
+	};
+
+	const loadMore = () => setDisplayCount(prev => prev + 8);
+	const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+
+	// Highlight search text
+	const highlightText = (text: string, query: string) => {
+		if (!query) return text;
+		const parts = text.split(new RegExp(`(${query})`, 'gi'));
+		return parts.map((part, index) =>
+			part.toLowerCase() === query.toLowerCase()
+				? <mark key={index} className="bg-yellow-400 text-[#0b0d12] px-1 rounded">{part}</mark>
+				: part
+		);
 	};
 
 	return (
@@ -225,8 +287,8 @@ export default function BugsPage() {
 				type="BreadcrumbList"
 				data={{
 					items: [
-						{ name: 'Inicio', url: 'https://hytaleguia.com' },
-						{ name: 'Bug Tracker', url: 'https://hytaleguia.com/bugs' }
+						{ name: t('bugs.breadcrumbs.home'), url: 'https://hytaleguia.com' },
+						{ name: t('bugs.breadcrumbs.bugs'), url: 'https://hytaleguia.com/bugs' }
 					]
 				}}
 			/>
@@ -237,16 +299,16 @@ export default function BugsPage() {
 
 				<main className="flex-1 container mx-auto px-4 py-24">
 					{/* Breadcrumbs */}
-					<div className="max-w-4xl mx-auto mb-6">
+					<div className="max-w-6xl mx-auto mb-6">
 						<div className="flex items-center gap-2 text-sm text-gray-400">
-							<a href="/" className="hover:text-[#00d2ff] transition">{t('bugs.breadcrumbs.home')}</a>
+							<a href="/" className="hover:text-[#00d2ff] transition cursor-pointer">{t('bugs.breadcrumbs.home')}</a>
 							<span>›</span>
 							<span className="text-white">{t('bugs.breadcrumbs.bugs')}</span>
 						</div>
 					</div>
 
 					{/* Header */}
-					<div className="max-w-4xl mx-auto mb-12">
+					<div className="max-w-6xl mx-auto mb-12">
 						<div className="flex items-center gap-3 mb-4">
 							<h1 className="text-5xl font-bold text-white">
 								{t('bugs.title')} <span className="text-[#00d2ff]">{t('bugs.titleHighlight')}</span>
@@ -280,111 +342,148 @@ export default function BugsPage() {
 					</div>
 
 					{loading ? (
-						<div className="max-w-4xl mx-auto space-y-8">
-							{[...Array(3)].map((_, i) => <BugSkeleton key={i} />)}
+						<div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
+							{[...Array(4)].map((_, i) => <BugSkeleton key={i} />)}
 						</div>
 					) : (
 						<>
-							{/* Timeline */}
-							<div className="max-w-4xl mx-auto">
+							{/* Search bar */}
+							<div className="max-w-6xl mx-auto mb-8">
+								<div className="relative">
+									<input
+										type="text"
+										placeholder={t('bugs.searchPlaceholder')}
+										value={searchQuery}
+										onChange={(e) => setSearchQuery(e.target.value)}
+										className="w-full bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-white placeholder-gray-500 focus:outline-none focus:border-[#00d2ff] transition"
+									/>
+									<span className="absolute right-6 top-1/2 -translate-y-1/2 text-gray-500">🔍</span>
+
+									{/* Goblin image */}
+									<img
+										src="/bugs.jpg"
+										alt="Bug tracker goblin"
+										className="absolute -top-20 right-4 w-28 h-28 object-cover rounded-lg pointer-events-none select-none hidden lg:block"
+									/>
+								</div>
+							</div>
+
+							{/* Bugs Grid */}
+							<div className="max-w-6xl mx-auto">
 								{bugs.length === 0 ? (
 									<div className="text-center text-gray-400 py-12">
 										<div className="text-6xl mb-4">🔍</div>
 										<p className="text-xl">{t('bugs.noResults')}</p>
 									</div>
 								) : (
-									<div className="relative">
-										{bugs.map((bug, index) => {
-											const severityConfig = getSeverityConfig(bug.nivel || 'medium');
-											const statusConfig = getStatusConfig(bug.estado || 'reported');
+									<>
+										<div className="text-gray-400 text-sm mb-6">
+											{t('bugs.showing')} {Math.min(displayCount, filteredBugs.length)} {t('bugs.of')} {filteredBugs.length} {t('bugs.results')}
+										</div>
 
-											return (
-												<div key={index} className="flex gap-6 mb-8 last:mb-0">
-													{/* Timeline indicator */}
-													<div className="flex flex-col items-center">
-														{/* Date circle */}
-														<div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-full p-3 flex-shrink-0 z-10">
-															<div className="text-center">
-																<div className="text-white text-xs font-bold">
-																	{new Date(bug.fecha).getDate()}
-																</div>
-																<div className="text-[#00d2ff] text-[10px] uppercase">
-																	{new Date(bug.fecha).toLocaleDateString('es-ES', { month: 'short' })}
-																</div>
-															</div>
+										<div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+											{filteredBugs.slice(0, displayCount).map((bug, index) => {
+												const estado = detectStatus(bug.num_arreglos || 0);
+												const statusBadge = getStatusBadge(estado);
+												const severityKey = mapSeverityToKey(bug.nivel);
+												const severityColor = getSeverityColor(bug.nivel);
+												const isFixed = estado === 'fixed';
+												const source = getSourceFromUrl(bug.url);
+
+												return (
+													<div
+														key={index}
+														className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-xl p-6 hover:border-[#00d2ff]/50 hover:shadow-[0_0_30px_rgba(0,210,255,0.1)] transition-all duration-300 group cursor-pointer animate-fadeIn"
+														style={{ animationDelay: `${index * 50}ms` }}
+														onClick={() => window.open(bug.url, '_blank')}>
+														
+														{/* Status Badge - Simple and clean */}
+														<div className="mb-4">
+															<span className={`${statusBadge.bg} border ${statusBadge.border} ${statusBadge.text} text-xs font-bold px-3 py-1.5 rounded-lg inline-block`}>
+																{t(`bugs.status.${estado}`)}
+															</span>
 														</div>
 
-														{/* Vertical line */}
-														{index !== bugs.length - 1 && (
-															<div className="w-0.5 h-full bg-gradient-to-b from-white/20 to-white/5 mt-2"></div>
-														)}
-													</div>
+														{/* Title */}
+														<h3 className="text-xl font-bold text-white mb-2 group-hover:text-[#00d2ff] transition line-clamp-2">
+															{highlightText(bug.titulo, searchQuery)}
+														</h3>
 
-													{/* Bug card */}
-													<div className="flex-1 pb-8">
-														<div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-xl p-6 hover:border-[#00d2ff]/50 hover:shadow-[0_0_30px_rgba(0,210,255,0.1)] transition-all duration-300 group cursor-pointer"
-															onClick={() => window.open(bug.url, '_blank')}>
-															
-															{/* Badges */}
-															<div className="flex flex-wrap items-center gap-2 mb-3">
-																<span className={`${severityConfig.color} text-[#0b0d12] text-xs font-bold px-3 py-1 rounded-full`}>
-																	{severityConfig.icon} {t(`bugs.severity.${bug.nivel || 'medium'}`)}
-																</span>
-																<span className={`${statusConfig.color} border text-xs font-bold px-3 py-1 rounded-full`}>
-																	{statusConfig.icon} {t(`bugs.status.${bug.estado?.replace('-', '') || 'reported'}`)}
-																</span>
-																{bug.numero_reportes && (
-																	<span className="bg-purple-500/20 border border-purple-500/30 text-purple-400 text-xs font-medium px-3 py-1 rounded-full">
-																		👥 {bug.numero_reportes.toLocaleString()} {t('bugs.reports')}
+														{/* Summary */}
+														<p className="text-gray-400 text-sm mb-4 line-clamp-3">
+															{highlightText(bug.resumen, searchQuery)}
+														</p>
+
+														{/* Info row - Severity and Reports */}
+														{!isFixed && (
+															<div className="flex items-center gap-4 mb-4 text-sm">
+																<div className="flex items-center gap-1.5">
+																	<span className="text-gray-500">{t('bugs.severity.label')}:</span>
+																	<span className={`font-medium ${severityColor}`}>
+																		{t(`bugs.severity.${severityKey}`)}
 																	</span>
+																</div>
+																
+																{bug.num_reportes > 0 && (
+																	<div className="flex items-center gap-1.5">
+																		<span className="text-gray-500">{t('bugs.reports')}:</span>
+																		<span className="font-medium text-purple-400">
+																			{bug.num_reportes.toLocaleString()}
+																		</span>
+																	</div>
 																)}
 															</div>
+														)}
 
-															{/* Title */}
-															<h3 className="text-xl font-bold text-white mb-2 group-hover:text-[#00d2ff] transition">
-																{bug.titulo}
-															</h3>
-
-															{/* Summary */}
-															<p className="text-gray-400 text-sm mb-4 line-clamp-3">
-																{bug.resumen}
-															</p>
-
-															{/* Footer */}
-															<div className="flex items-center justify-between pt-3 border-t border-white/10">
-																<div className="flex items-center gap-4 text-xs text-gray-400">
-																	<span className="flex items-center gap-1">
-																		<span>📰</span>
-																		{bug.fuente}
-																	</span>
-																	<span className="flex items-center gap-1">
-																		<span>📅</span>
-																		{formatDate(bug.fecha)}
-																	</span>
+														{/* Footer */}
+														<div className="flex items-center justify-between pt-3 border-t border-white/10">
+															<div className="flex flex-col gap-1">
+																<div className="text-xs text-gray-500">
+																	{formatDate(bug.fecha_actualizacion)}
 																</div>
-
-																<div className="flex items-center gap-3">
-																	<ShareButton
-																		title={bug.titulo}
-																		text={bug.resumen}
-																		url={bug.url}
-																	/>
-																	<span className="text-[#00d2ff] text-sm group-hover:text-[#e5c100] transition">
-																		{t('bugs.readMore')} →
-																	</span>
+																<div className="text-xs text-gray-400">
+																	{t('bugs.source')}: <span className="text-[#00d2ff]">{source}</span>
 																</div>
+															</div>
+
+															<div className="text-[#00d2ff] font-medium text-sm group-hover:text-[#e5c100] transition flex items-center gap-1 cursor-pointer">
+																<span>{t('bugs.readMore')}</span>
+																<span>→</span>
 															</div>
 														</div>
 													</div>
-												</div>
-											);
-										})}
-									</div>
+												);
+											})}
+										</div>
+
+										{/* Load More Button */}
+										{displayCount < filteredBugs.length && (
+											<div className="text-center py-8">
+												<button
+													onClick={loadMore}
+													className="bg-[#00d2ff] hover:bg-[#00a8cc] text-[#0b0d12] font-bold px-8 py-3 rounded-xl transition cursor-pointer"
+												>
+													{t('bugs.loadMore')}
+												</button>
+											</div>
+										)}
+									</>
 								)}
 							</div>
 						</>
 					)}
 				</main>
+
+				{/* Scroll to top button */}
+				{showScrollTop && (
+					<button
+						onClick={scrollToTop}
+						className="fixed bottom-8 right-8 bg-[#00d2ff] hover:bg-[#00a8cc] text-[#0b0d12] w-12 h-12 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-110 z-50 cursor-pointer"
+						aria-label={t('bugs.scrollTop')}
+					>
+						<span className="text-2xl">↑</span>
+					</button>
+				)}
 
 				<Footer />
 			</div>
