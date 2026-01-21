@@ -3,190 +3,186 @@ import { useEffect, useState } from 'react';
 import TrendingCard from './TrendingCard';
 
 interface TrendingTopic {
-  id: number;
-  title: string;
-  description: string;
-  badge: string;
-  badgeColor: string;
-  image: string;
-  url?: string;
-  author?: string;
+	id: number;
+	title: string;
+	description: string;
+	badge: string;
+	badgeColor: string;
+	image: string;
+	url?: string;
+	author?: string;
 }
 
 // Helper function to truncate text
 function truncateText(text: string, maxLength: number): string {
-  if (text.length <= maxLength) return text;
-  return text.substring(0, maxLength).trim() + '...';
+	if (text.length <= maxLength) return text;
+	return text.substring(0, maxLength).trim() + '...';
 }
 
 export default function TrendingSection() {
-  const { t } = useTranslation();
-  const [trendingTopics, setTrendingTopics] = useState<TrendingTopic[]>([]);
-  const [loading, setLoading] = useState(true);
+	const { t } = useTranslation();
+	const [trendingTopics, setTrendingTopics] = useState<TrendingTopic[]>([]);
+	const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    async function fetchTrendingData() {
-      try {
-        const response = await fetch('/api/trending/latest');
-        
-        if (!response.ok) {
-          throw new Error('Failed to fetch trending data');
-        }
+	useEffect(() => {
+		async function fetchTrendingData() {
+			try {
+				const response = await fetch('/api/trending/latest');
 
-        const result = await response.json();
-        
-        if (!result.success) {
-          throw new Error(result.message || 'Invalid response');
-        }
+				if (!response.ok) {
+					throw new Error('Failed to fetch trending data');
+				}
 
-        const { blogs, bugs, mods } = result.data;
-        const topics: TrendingTopic[] = [];
+				const result = await response.json();
 
-        // Process blogs (first one)
-        if (blogs && Array.isArray(blogs) && blogs.length > 0) {
-          const firstBlog = blogs[0];
-          if (firstBlog.output && firstBlog.output.noticias && firstBlog.output.noticias.length > 0) {
-            const noticia = firstBlog.output.noticias[0];
-            topics.push({
-              id: 1,
-              title: truncateText(noticia.titulo || 'News', 60),
-              description: truncateText(noticia.resumen || 'No description available', 120),
-              badge: 'NEWS',
-              badgeColor: 'bg-[#00d2ff]',
-              image: '📰',
-              url: noticia.url
-            });
-          }
-        }
+				if (!result.success) {
+					throw new Error(result.message || 'Invalid response');
+				}
 
-        // Process bugs (first one)
-        if (bugs && Array.isArray(bugs) && bugs.length > 0) {
-          const firstBug = bugs[0];
-          if (firstBug.output && firstBug.output.noticias && firstBug.output.noticias.length > 0) {
-            const bugReport = firstBug.output.noticias[0];
-            topics.push({
-              id: 2,
-              title: truncateText(bugReport.titulo || 'Bug Report', 60),
-              description: truncateText(bugReport.resumen || 'No description available', 120),
-              badge: 'BUG',
-              badgeColor: 'bg-red-500',
-              image: '🐛',
-              url: bugReport.url
-            });
-          }
-        }
+				const { blogs, bugs, mods } = result.data;
+				const topics: TrendingTopic[] = [];
 
-        // Process mods (first one) - Different structure
-        if (mods && Array.isArray(mods) && mods.length > 0) {
-          const firstModData = mods[0];
-          // Mods have a different structure: array with objects containing "mods" array
-          if (firstModData.mods && Array.isArray(firstModData.mods) && firstModData.mods.length > 0) {
-            const modInfo = firstModData.mods[0];
-            topics.push({
-              id: 3,
-              title: truncateText(modInfo.titulo || 'Mod', 60),
-              description: truncateText(modInfo.resumen || modInfo.descripcion || 'No description available', 120),
-              badge: 'MOD',
-              badgeColor: 'bg-purple-500',
-              image: '🔧',
-              url: modInfo.links_descarga?.[0] || '',
-              author: modInfo.autor
-            });
-          }
-        }
+				// Process blogs (first one)
+				if (blogs && Array.isArray(blogs) && blogs.length > 0) {
+					const firstBlog = blogs[0];
+					if (firstBlog.output && firstBlog.output.noticias && firstBlog.output.noticias.length > 0) {
+						const noticia = firstBlog.output.noticias[0];
+						topics.push({
+							id: 1,
+							title: truncateText(noticia.titulo || 'News', 60),
+							description: truncateText(noticia.resumen || 'No description available', 120),
+							badge: 'NEWS',
+							badgeColor: 'bg-[#00d2ff]',
+							image: '/news_paper.jpeg',
+							url: noticia.url
+						});
+					}
+				}
 
-        // Add more news if we have less than 4 items
-        if (topics.length < 4 && blogs && blogs[0]?.output?.noticias) {
-          const additionalNews = blogs[0].output.noticias.slice(1, 5 - topics.length);
-          additionalNews.forEach((noticia: any) => {
-            topics.push({
-              id: topics.length + 1,
-              title: truncateText(noticia.titulo || 'News', 60),
-              description: truncateText(noticia.resumen || 'No description available', 120),
-              badge: 'NEWS',
-              badgeColor: 'bg-[#00d2ff]',
-              image: '📰',
-              url: noticia.url
-            });
-          });
-        }
+				// Process bugs (first one)
+				if (bugs && Array.isArray(bugs) && bugs.length > 0) {
+					const firstBug = bugs[0];
+					if (firstBug.output && firstBug.output.noticias && firstBug.output.noticias.length > 0) {
+						const bugReport = firstBug.output.noticias[0];
+						topics.push({
+							id: 2,
+							title: truncateText(bugReport.titulo || 'Bug Report', 60),
+							description: truncateText(bugReport.resumen || 'No description available', 120),
+							badge: 'BUG',
+							badgeColor: 'bg-red-500',
+							image: '/bugs.jpg',
+							url: bugReport.url
+						});
+					}
+				}
 
-        setTrendingTopics(topics);
+				// Process mods (first one) - Different structure
+				if (mods && Array.isArray(mods) && mods.length > 0) {
+					const firstModData = mods[0];
+					// Mods have a different structure: array with objects containing "mods" array
+					if (firstModData.mods && Array.isArray(firstModData.mods) && firstModData.mods.length > 0) {
+						const modInfo = firstModData.mods[0];
+						topics.push({
+							id: 3,
+							title: truncateText(modInfo.titulo || 'Mod', 60),
+							description: truncateText(modInfo.resumen || modInfo.descripcion || 'No description available', 120),
+							badge: 'MOD',
+							badgeColor: 'bg-purple-500',
+							image: '/mods.jpeg',
+							url: modInfo.links_descarga?.[0] || '',
+							author: modInfo.autor
+						});
+					}
+				}
 
-      } catch (err) {
-        console.error('Error fetching trending data:', err);
-      } finally {
-        setLoading(false);
-      }
-    }
+				// Add SERVER card if we have less than 4 items
+				if (topics.length < 4) {
+					topics.push({
+						id: 4,
+						title: 'Hytale Saturno Server',
+						description: 'Únete al servidor Saturno y experimenta Hytale con una comunidad vibrante y características exclusivas.',
+						badge: 'SERVER',
+						badgeColor: 'bg-[#e5c100]',
+						image: '/servers.jpeg'
+					});
+				}
 
-    fetchTrendingData();
-  }, []);
+				setTrendingTopics(topics);
 
-  if (loading) {
-    return (
-      <div className="relative bg-[#0b0d12] py-16 pt-32">
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-center">
-            <div className="text-white">
-              <div className="animate-pulse flex space-x-4">
-                <div className="flex-1 space-y-4 py-1">
-                  <div className="h-4 bg-gray-700 rounded w-3/4 mx-auto"></div>
-                  <div className="space-y-2">
-                    <div className="h-4 bg-gray-700 rounded"></div>
-                    <div className="h-4 bg-gray-700 rounded w-5/6 mx-auto"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
+			} catch (err) {
+				console.error('Error fetching trending data:', err);
+			} finally {
+				setLoading(false);
+			}
+		}
 
-  if (trendingTopics.length === 0) {
-    return (
-      <div className="relative bg-[#0b0d12] py-16 pt-32">
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-center space-x-3 mb-12">
-            <h2 className="text-4xl font-bold text-white">
-              {t('trending.title')} <span className="text-[#00d2ff]">{t('trending.titleHighlight')}</span>
-            </h2>
-          </div>
-          <div className="text-center text-gray-400">
-            No trending content available at the moment
-          </div>
-        </div>
-      </div>
-    );
-  }
+		fetchTrendingData();
+	}, []);
 
-  return (
-    <div className="relative bg-[#0b0d12] py-16 pt-32">
-      <div className="container mx-auto px-4">
-        <div className="flex items-center justify-center space-x-3 mb-12">
-          <h2 className="text-4xl font-bold text-white">
-            {t('trending.title')} <span className="text-[#00d2ff]">{t('trending.titleHighlight')}</span>
-          </h2>
-        </div>
+	if (loading) {
+		return (
+			<div className="relative bg-[#0b0d12] py-16 pt-32">
+				<div className="container mx-auto px-4">
+					<div className="flex items-center justify-center">
+						<div className="text-white">
+							<div className="animate-pulse flex space-x-4">
+								<div className="flex-1 space-y-4 py-1">
+									<div className="h-4 bg-gray-700 rounded w-3/4 mx-auto"></div>
+									<div className="space-y-2">
+										<div className="h-4 bg-gray-700 rounded"></div>
+										<div className="h-4 bg-gray-700 rounded w-5/6 mx-auto"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		);
+	}
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
-          {trendingTopics.map((topic, index) => (
-            <TrendingCard
-              key={topic.id}
-              title={topic.title}
-              description={topic.description}
-              badge={topic.badge}
-              badgeColor={topic.badgeColor}
-              image={topic.image}
-              url={topic.url}
-              author={topic.author}
-              isLast={index === trendingTopics.length - 1}
-            />
-          ))}
-        </div>
-      </div>
-    </div>
-  );
+	if (trendingTopics.length === 0) {
+		return (
+			<div className="relative bg-[#0b0d12] py-16 pt-32">
+				<div className="container mx-auto px-4">
+					<div className="flex items-center justify-center space-x-3 mb-12">
+						<h2 className="text-4xl font-bold text-white">
+							{t('trending.title')} <span className="text-[#00d2ff]">{t('trending.titleHighlight')}</span>
+						</h2>
+					</div>
+					<div className="text-center text-gray-400">
+						{t('trending.noContent')}
+					</div>
+				</div>
+			</div>
+		);
+	}
+
+	return (
+		<div className="relative bg-[#0b0d12] py-16 pt-32">
+			<div className="container mx-auto px-4">
+				<div className="flex items-center justify-center space-x-3 mb-12">
+					<h2 className="text-4xl font-bold text-white">
+						{t('trending.title')} <span className="text-[#00d2ff]">{t('trending.titleHighlight')}</span>
+					</h2>
+				</div>
+
+				<div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
+					{trendingTopics.map((topic, index) => (
+						<TrendingCard
+							key={topic.id}
+							title={topic.title}
+							description={topic.description}
+							badge={topic.badge}
+							badgeColor={topic.badgeColor}
+							image={topic.image}
+							url={topic.url}
+							author={topic.author}
+							isLast={index === trendingTopics.length - 1}
+						/>
+					))}
+				</div>
+			</div>
+		</div>
+	);
 }

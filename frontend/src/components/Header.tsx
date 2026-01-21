@@ -34,7 +34,8 @@ export default function Header() {
 							</div>
 
 							{/* Navigation */}
-							<div className="hidden md:flex items-center space-x-8">
+							<div className="hidden lg:flex items-center space-x-6">
+								{/* Inicio */}
 								<a 
 									href="/" 
 									className={`relative transition cursor-pointer ${
@@ -48,6 +49,8 @@ export default function Header() {
 										<span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-[#00d2ff]"></span>
 									)}
 								</a>
+
+								{/* Noticias */}
 								<a 
 									href="/noticias" 
 									className={`relative transition cursor-pointer ${
@@ -61,6 +64,18 @@ export default function Header() {
 										<span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-[#00d2ff]"></span>
 									)}
 								</a>
+
+								{/* Guías - En desarrollo */}
+								<div className="relative group">
+									<span className="text-[#a0a0a0] cursor-not-allowed opacity-60">
+										{t('nav.guides')}
+									</span>
+									<span className="absolute -top-6 left-1/2 -translate-x-1/2 bg-yellow-500/90 text-[#0b0d12] text-xs font-bold px-2 py-0.5 rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
+										Próximamente
+									</span>
+								</div>
+
+								{/* Mods */}
 								<a 
 									href="/mods" 
 									className={`relative transition cursor-pointer ${
@@ -74,6 +89,26 @@ export default function Header() {
 										<span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-[#00d2ff]"></span>
 									)}
 								</a>
+
+								{/* Servidores - En desarrollo */}
+								<div className="relative group">
+									<span className="text-[#a0a0a0] cursor-not-allowed opacity-60">
+										{t('nav.serverList')}
+									</span>
+									<span className="absolute -top-6 left-1/2 -translate-x-1/2 bg-yellow-500/90 text-[#0b0d12] text-xs font-bold px-2 py-0.5 rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
+										Próximamente
+									</span>
+								</div>
+
+								{/* Bugs - En desarrollo */}
+								<div className="relative group">
+									<span className="text-[#a0a0a0] cursor-not-allowed opacity-60">
+										BUGS
+									</span>
+									<span className="absolute -top-6 left-1/2 -translate-x-1/2 bg-yellow-500/90 text-[#0b0d12] text-xs font-bold px-2 py-0.5 rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
+										Próximamente
+									</span>
+								</div>
 							</div>
 
 							{/* Right side */}

@@ -11,6 +11,10 @@ import TrendingSection from './components/TrendingSection';
 import NewsPage from './pages/NewsPage';
 import ModsPage from './pages/ModsPage';
 import NotFoundPage from './pages/NotFoundPage';
+import BugsPage from './pages/BugsPage';
+import TermsPage from './pages/TermsPage';
+import PrivacyPage from './pages/PrivacyPage';
+import CookiesPage from './pages/CookiesPage';
 
 import SEO from './components/SEO';
 import StructuredData from './components/StructuredData';
@@ -94,6 +98,10 @@ function App() {
 					<Route path="/" element={<HomePage />} />
 					<Route path="/noticias" element={<NewsPage />} />
 					<Route path="/mods" element={<ModsPage />} />
+					<Route path="/bugs" element={<BugsPage />} />
+					<Route path="/terminos-de-uso" element={<TermsPage />} />
+					<Route path="/cookies" element={<CookiesPage />} />
+					<Route path="/privacidad" element={<PrivacyPage />} />
 					<Route path="*" element={<NotFoundPage />} />
 				</Routes>
 			</Router>

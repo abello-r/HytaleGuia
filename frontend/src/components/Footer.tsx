@@ -30,11 +30,11 @@ export default function Footer() {
 					<div>
 						<h3 className="text-white font-bold mb-4">{t('footer.quickLinks')}</h3>
 						<ul className="space-y-2">
-							<li><a href="/" className="text-[#a0a0a0] hover:text-[#00d2ff] transition text-sm cursor-pointer">{t('footer.home')}</a></li>
 							<li><a href="/noticias" className="text-[#a0a0a0] hover:text-[#00d2ff] transition text-sm cursor-pointer">{t('footer.news')}</a></li>
-							<li><a href="/mods" className="text-[#a0a0a0] hover:text-[#00d2ff] transition text-sm cursor-pointer">{t('footer.mods')}</a></li>
 							<li><a href="#" className="text-[#a0a0a0] hover:text-[#00d2ff] transition text-sm cursor-pointer">{t('footer.guides')}</a></li>
+							<li><a href="/mods" className="text-[#a0a0a0] hover:text-[#00d2ff] transition text-sm cursor-pointer">{t('footer.mods')}</a></li>
 							<li><a href="#" className="text-[#a0a0a0] hover:text-[#00d2ff] transition text-sm cursor-pointer">{t('footer.serverList')}</a></li>
+							<li><a href="#" className="text-[#a0a0a0] hover:text-[#00d2ff] transition text-sm cursor-pointer">Bugs</a></li>
 						</ul>
 					</div>
 
@@ -52,10 +52,9 @@ export default function Footer() {
 					<div>
 						<h3 className="text-white font-bold mb-4">{t('footer.legal')}</h3>
 						<ul className="space-y-2">
-							<li><a href="#" className="text-[#a0a0a0] hover:text-[#00d2ff] transition text-sm cursor-pointer">{t('footer.terms')}</a></li>
-							<li><a href="#" className="text-[#a0a0a0] hover:text-[#00d2ff] transition text-sm cursor-pointer">{t('footer.privacy')}</a></li>
-							<li><a href="#" className="text-[#a0a0a0] hover:text-[#00d2ff] transition text-sm cursor-pointer">{t('footer.cookies')}</a></li>
-							<li><a href="#" className="text-[#a0a0a0] hover:text-[#00d2ff] transition text-sm cursor-pointer">{t('footer.contact')}</a></li>
+							<li><a href="/terminos-de-uso" className="text-[#a0a0a0] hover:text-[#00d2ff] transition text-sm cursor-pointer">{t('footer.terms')}</a></li>
+							<li><a href="/privacidad" className="text-[#a0a0a0] hover:text-[#00d2ff] transition text-sm cursor-pointer">{t('footer.privacy')}</a></li>
+							<li><a href="/cookies" className="text-[#a0a0a0] hover:text-[#00d2ff] transition text-sm cursor-pointer">{t('footer.cookies')}</a></li>
 						</ul>
 					</div>
 				</div>
