@@ -303,13 +303,6 @@ This project is under the MIT License. See the [LICENSE](LICENSE) file for more 
       </a><br />
       <sub>Frontend Engineer</sub>
     </td>
-    <td align="center">
-      <a href="#">
-        <img src="https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg?semt=ais_hybrid&w=740&q=80" width="100px;" alt="Alexander Romero"/><br />
-        <sub><b>Alexander Romero</b></sub>
-      </a><br />
-      <sub>Legal & Compliance Advisor</sub>
-    </td>
   </tr>
   <tr>
     <td align="center">
