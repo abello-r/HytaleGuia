@@ -2,6 +2,3 @@ User-agent: *
 Allow: /
 
 Sitemap: https://hytaleguia.com/sitemap.xml
-
-# Disallow admin or private routes if you have them
-# Disallow: /admin/
