@@ -5,7 +5,8 @@
 		"guides": "GUÍAS",
 		"mods": "MODS",
 		"serverList": "SERVIDORES",
-		"devBadge": "La web está en desarrollo."
+		"devBadge": "La web está en desarrollo.",
+		"bugs": "BUGS"
 	},
 	"hero": {
 		"betaBadge": "BETA PRÓXIMAMENTE",
@@ -72,7 +73,7 @@
 		"searchPlaceholder": "Buscar noticias...",
 		"filterByDate": "Fecha",
 		"filterBySource": "Fuente",
-		"sortBy": "Ordenar",
+		"sortBy": "Ordenar por",
 		"dateFilters": {
 			"all": "Todas",
 			"7days": "Últimos 7 días",
@@ -126,7 +127,7 @@
 		"titleHighlight": "Mods",
 		"description": "Descubre mods creados por la comunidad de Hytale: nuevas mecánicas de juego, mejoras de calidad de vida, contenido adicional y herramientas únicas para enriquecer y personalizar tu aventura en el mundo de Orbis.",
 		"lastUpdate": "Última actualización",
-		"nextUpdate": "Siguiente actualización",
+		"nextUpdate": "Próxima actualización",
 		"searchPlaceholder": "Busca por nombre, autor, versión o descripción...",
 		"sortBy": "Ordenar por",
 		"sortOptions": {
@@ -218,11 +219,11 @@
 		"titleHighlight": "Tracker",
 		"description": "Historial completo de errores y correcciones oficiales de Hytale. Información actualizada sobre bugs conocidos, parches aplicados y el estado de cada reporte desde las fuentes oficiales.",
 		"available": "Bugs rastreados",
-  		"showing": "Mostrando",
-  		"of": "de",
-  		"results": "resultados",
-  		"loadMore": "Cargar más",
-  		"scrollTop": "Volver arriba",
+		"showing": "Mostrando",
+		"of": "de",
+		"results": "resultados",
+		"loadMore": "Cargar más",
+		"scrollTop": "Volver arriba",
 		"lastUpdate": "Última actualización",
 		"nextUpdate": "Próxima actualización",
 		"noResults": "No se encontraron bugs",
@@ -234,7 +235,8 @@
 			"critical": "CRITICAL",
 			"high": "HIGH",
 			"medium": "MEDIUM",
-			"low": "LOW"
+			"low": "LOW",
+			"label": "Severidad"
 		},
 		"status": {
 			"fixed": "FIXED",
@@ -264,6 +266,11 @@
 			"title": "Bug Tracker - HytaleGuía",
 			"description": "Historial completo de errores y correcciones oficiales de Hytale. Información actualizada sobre bugs conocidos, parches aplicados y el estado de cada reporte desde las fuentes oficiales.",
 			"keywords": "bugs hytale, errores hytale, hotfix, parches, problemas conocidos"
+		},
+		"sortBy": "Ordenar por",
+		"sortOptions": {
+			"newest": "Más recientes",
+			"oldest": "Más antiguos"
 		}
 	},
 	"terms": {
@@ -335,7 +342,6 @@
 			"ads": "Anuncios",
 			"adsText": "Este sitio puede mostrar publicidad para cubrir costes básicos de servidor y mantenimiento.",
 			"adsItem1": "No tenemos control sobre el contenido de anuncios de terceros",
-			"adsItem2": "Los ingresos son mínimos (aproximadamente 1€/mes)",
 			"affiliates": "Enlaces de Afiliados",
 			"affiliatesText": "Algunos enlaces pueden ser de afiliados, generando una pequeña comisión sin coste adicional para ti."
 		},
@@ -653,5 +659,18 @@
 			"description": "Política de cookies de HytaleGuía. Información sobre qué cookies usamos, para qué y cómo puedes gestionarlas.",
 			"keywords": "política de cookies, cookies, seguimiento, analytics, publicidad, gestión de cookies"
 		}
+	},
+	"cookieBanner": {
+		"title": "Cookies y privacidad",
+		"description": "Usamos cookies para mejorar tu experiencia y medir el uso del sitio. Puedes aceptar, rechazar o configurar tus preferencias.",
+		"learnMore": "Ver política de cookies",
+		"accept": "Aceptar",
+		"reject": "Rechazar",
+		"configure": "Configurar",
+		"save": "Guardar",
+		"settingsHint": "Activa solo lo que quieras permitir. Las cookies técnicas son necesarias y siempre están activas.",
+		"analytics": "Analítica (Google Analytics)",
+		"ads": "Publicidad (AdSense / Google Ads)",
+		"note": "Puedes cambiar tu decisión en cualquier momento desde la página de Cookies."
 	}
 }

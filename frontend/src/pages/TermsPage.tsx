@@ -189,7 +189,6 @@ export default function TermsPage() {
 								<p className="text-gray-400 mb-3">{t('terms.monetization.adsText')}</p>
 								<ul className="list-disc list-inside text-gray-400 space-y-2">
 									<li>{t('terms.monetization.adsItem1')}</li>
-									<li>{t('terms.monetization.adsItem2')}</li>
 								</ul>
 							</SubSection>
 

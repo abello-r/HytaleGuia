@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import DiscordButton from '../components/DiscordButton';
 import ShareButton from '../components/ShareButton';
 import SEO from '../components/SEO';
 import StructuredData from '../components/StructuredData';
@@ -277,9 +278,11 @@ export default function ModsPage() {
 
 			<div className="min-h-screen bg-[#0b0d12] flex flex-col">
 				<Header />
+				<DiscordButton />
+
 				<main className="flex-1 container mx-auto px-4 py-24">
 					{/* Breadcrumbs */}
-					<div className="max-w-7xl mx-auto mb-6">
+					<div className="max-w-5xl mx-auto mb-6">
 						<div className="flex items-center gap-2 text-sm text-gray-400">
 							<a href="/" className="hover:text-[#00d2ff] transition">{t('mods.breadcrumbs.home')}</a>
 							<span>›</span>
@@ -288,11 +291,11 @@ export default function ModsPage() {
 					</div>
 
 					{/* Header */}
-					<div className="max-w-7xl mx-auto mb-12">
+					<div className="max-w-5xl mx-auto mb-12">
 						<h1 className="text-5xl font-bold text-white mb-4">
 							{t('mods.title')} <span className="text-[#00d2ff]">{t('mods.titleHighlight')}</span>
 						</h1>
-						<p className="text-gray-400 text-lg mb-4 max-w-3xl">
+						<p className="text-gray-400 text-lg mb-4">
 							{t('mods.description')}
 						</p>
 
@@ -305,7 +308,7 @@ export default function ModsPage() {
 								</div>
 
 								{lastCronRun && !isNaN(lastCronRun.getTime()) && (
-									<div className="inline-flex items-center gap-2 bg-green-500/10 border border-green-500/30 text-green-400 px-4 py-2 rounded-full text-sm font-medium">
+									<div className="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 px-4 py-2 rounded-full text-sm font-medium">
 										<span>✓</span>
 										<span>{t('mods.lastUpdate')}: {getTimeAgo(lastCronRun.toISOString())}</span>
 									</div>
@@ -320,7 +323,7 @@ export default function ModsPage() {
 					</div>
 
 					{loading ? (
-						<div className="max-w-7xl mx-auto">
+						<div className="max-w-5xl mx-auto">
 							<div className="mb-8 space-y-4">
 								<div className="bg-white/5 border border-white/10 rounded-xl h-14 animate-pulse"></div>
 								<div className="flex gap-3">
@@ -329,14 +332,14 @@ export default function ModsPage() {
 								</div>
 							</div>
 
-							<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+							<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 								{[...Array(12)].map((_, index) => <ModsSkeleton key={index} />)}
 							</div>
 						</div>
 					) : (
 						<>
 							{/* Filters */}
-							<div className="max-w-7xl mx-auto mb-8 space-y-4">
+							<div className="max-w-5xl mx-auto mb-8 space-y-4">
 								<div className="relative">
 									<input
 										type="text"
@@ -360,7 +363,7 @@ export default function ModsPage() {
 									<button
 										onClick={() => handleSortChange('newest')}
 										disabled={sorting}
-										className={`px-4 py-2 rounded-lg text-sm font-medium transition cursor-pointer ${sortBy === 'newest'
+										className={`px-4 py-2 rounded-lg text-sm font-medium transition ${sortBy === 'newest'
 											? 'bg-[#00d2ff] text-[#0b0d12]'
 											: 'bg-white/5 text-gray-400 hover:bg-white/10'
 											} ${sorting ? 'opacity-50 cursor-not-allowed' : ''}`}
@@ -371,7 +374,7 @@ export default function ModsPage() {
 									<button
 										onClick={() => handleSortChange('oldest')}
 										disabled={sorting}
-										className={`px-4 py-2 rounded-lg text-sm font-medium transition cursor-pointer ${sortBy === 'oldest'
+										className={`px-4 py-2 rounded-lg text-sm font-medium transition ${sortBy === 'oldest'
 											? 'bg-[#00d2ff] text-[#0b0d12]'
 											: 'bg-white/5 text-gray-400 hover:bg-white/10'
 											} ${sorting ? 'opacity-50 cursor-not-allowed' : ''}`}
@@ -394,11 +397,11 @@ export default function ModsPage() {
 
 							{/* Mods Grid */}
 							{sorting ? (
-								<div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+								<div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 									{[...Array(12)].map((_, index) => <ModsSkeleton key={index} />)}
 								</div>
 							) : (
-								<div className="max-w-7xl mx-auto">
+								<div className="max-w-5xl mx-auto">
 									{filteredMods.length === 0 ? (
 										<div className="text-center text-gray-400 py-12">
 											<div className="text-6xl mb-4">📦</div>
@@ -406,7 +409,7 @@ export default function ModsPage() {
 										</div>
 									) : (
 										<>
-											<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
+											<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
 												{/* Add Mod Card */}
 												<article className="bg-white/5 border-2 border-dashed border-white/20 rounded-xl overflow-hidden hover:border-[#00d2ff]/50 transition-all duration-300 h-[420px] flex flex-col items-center justify-center cursor-not-allowed opacity-60">
 													<div className="text-center p-6">
@@ -441,7 +444,7 @@ export default function ModsPage() {
 
 															<div className="absolute top-3 left-3 flex gap-2">
 																{isNew(item.fecha_publicacion) && (
-																	<span className="bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+																	<span className="bg-emerald-500 text-white text-xs font-bold px-2 py-1 rounded-full">
 																		{t('mods.new')}
 																	</span>
 																)}
@@ -493,7 +496,7 @@ export default function ModsPage() {
 												<div className="text-center py-8">
 													<button
 														onClick={loadMore}
-														className="bg-[#00d2ff] hover:bg-[#00a8cc] text-[#0b0d12] font-bold px-8 py-3 rounded-xl transition cursor-pointer"
+														className="bg-[#00d2ff] hover:bg-[#00a8cc] text-[#0b0d12] font-bold px-8 py-3 rounded-xl transition"
 													>
 														{t('mods.loadMore')}
 													</button>
@@ -510,7 +513,7 @@ export default function ModsPage() {
 				{showScrollTop && (
 					<button
 						onClick={scrollToTop}
-						className="fixed bottom-8 right-8 bg-[#00d2ff] hover:bg-[#00a8cc] text-[#0b0d12] w-12 h-12 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-110 z-50"
+						className="fixed bottom-8 right-8 bg-[#00d2ff] hover:bg-[#00a8cc] text-[#0b0d12] w-12 h-12 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-110 z-50 cursor-pointer"
 						aria-label={t('mods.scrollTop')}
 					>
 						<span className="text-2xl">↑</span>

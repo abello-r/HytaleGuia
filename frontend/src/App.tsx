@@ -22,91 +22,91 @@ import { SEO_CONFIGS } from './utils/seoConfig';
 import { ChatProvider } from './context/ChatContext';
 import './i18n';
 
-// Google Analytics
-ReactGA.initialize('G-06EYV38MQG');
+import CookieBanner from './components/CookieBanner';
+import type { CookieConsent } from './utils/cookieConsent';
+import { getCookieConsent } from './utils/cookieConsent';
 
-// Component to track page views
-function PageTracker() {
-	const location = useLocation();
+const GA_MEASUREMENT_ID = 'G-06EYV38MQG';
 
-	useEffect(() => {
-		ReactGA.send({ hitType: "pageview", page: location.pathname });
-	}, [location]);
+function PageTracker({ analyticsEnabled }: { analyticsEnabled: boolean }) {
+  const location = useLocation();
 
-	return null;
+  useEffect(() => {
+    if (!analyticsEnabled) return;
+    ReactGA.send({ hitType: 'pageview', page: location.pathname });
+  }, [location, analyticsEnabled]);
+
+  return null;
 }
 
-// Home page component
 function HomePage() {
-	const seoConfig = SEO_CONFIGS['/'];
+  const seoConfig = SEO_CONFIGS['/'];
 
-	return (
-		<>
-			<SEO {...seoConfig} />
-			<StructuredData type="WebSite" data={{}} />
-			<StructuredData type="Organization" data={{}} />
-			
-			<div className="min-h-screen bg-[#0b0d12]">
-				{/* Hero Section with full background */}
-				<div className="relative min-h-screen flex flex-col">
-					{/* Background image */}
-					<div
-						className="absolute inset-0 bg-cover bg-center"
-						style={{
-							backgroundImage: 'url("/forest.png")',
-						}}
-					>
-						<div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-[#0b0d12]"></div>
-					</div>
+  return (
+    <>
+      <SEO {...seoConfig} />
+      <StructuredData type="WebSite" data={{}} />
+      <StructuredData type="Organization" data={{}} />
 
-					{/* Header */}
-					<Header />
+      <div className="min-h-screen bg-[#0b0d12]">
+        <div className="relative min-h-screen flex flex-col">
+          <div
+            className="absolute inset-0 bg-cover bg-center"
+            style={{ backgroundImage: 'url("/forest.png")' }}
+          >
+            <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-[#0b0d12]" />
+          </div>
 
-					{/* Hero Content */}
-					<HeroSection />
-				</div>
+          <Header />
+          <HeroSection />
+        </div>
 
-				{/* Trending Section */}
-				<TrendingSection />
-
-				{/* Footer */}
-				<Footer />
-			</div>
-		</>
-	);
+        <TrendingSection />
+        <Footer />
+      </div>
+    </>
+  );
 }
 
 function App() {
-	const [isChatOpen, setIsChatOpen] = useState(false);
+  const [isChatOpen, setIsChatOpen] = useState(false);
+  const [consent, setConsent] = useState<CookieConsent | null>(() => getCookieConsent());
+  const [gaReady, setGaReady] = useState(false);
 
-	return (
-		<ChatProvider>
-			<Router>
-				<PageTracker />
-				
-				{/* Persistent Buttons - Available on all pages */}
-				<DiscordButton />
-				<AIAssistantButton onClick={() => setIsChatOpen(true)} />
-				
-				{/* AI Chat Modal */}
-				<AIChatModal 
-					isOpen={isChatOpen} 
-					onClose={() => setIsChatOpen(false)} 
-				/>
-				
-				<Routes>
-					<Route path="/" element={<HomePage />} />
-					<Route path="/noticias" element={<NewsPage />} />
-					<Route path="/mods" element={<ModsPage />} />
-					<Route path="/bugs" element={<BugsPage />} />
-					<Route path="/terminos-de-uso" element={<TermsPage />} />
-					<Route path="/cookies" element={<CookiesPage />} />
-					<Route path="/privacidad" element={<PrivacyPage />} />
-					<Route path="*" element={<NotFoundPage />} />
-				</Routes>
-			</Router>
-		</ChatProvider>
-	);
+  useEffect(() => {
+    if (!consent?.analytics) return;
+
+    if (!gaReady) {
+      ReactGA.initialize(GA_MEASUREMENT_ID);
+      setGaReady(true);
+    }
+  }, [consent, gaReady]);
+
+  return (
+    <ChatProvider>
+      <Router>
+        <PageTracker analyticsEnabled={!!consent?.analytics && gaReady} />
+
+        <DiscordButton />
+        <AIAssistantButton onClick={() => setIsChatOpen(true)} />
+
+        <AIChatModal isOpen={isChatOpen} onClose={() => setIsChatOpen(false)} />
+
+        <CookieBanner onConsentChange={(next) => setConsent(next)} />
+
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/noticias" element={<NewsPage />} />
+          <Route path="/mods" element={<ModsPage />} />
+          <Route path="/bugs" element={<BugsPage />} />
+          <Route path="/terminos-de-uso" element={<TermsPage />} />
+          <Route path="/cookies" element={<CookiesPage />} />
+          <Route path="/privacidad" element={<PrivacyPage />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+      </Router>
+    </ChatProvider>
+  );
 }
 
 export default App;

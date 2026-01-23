@@ -21,9 +21,9 @@ export default function Header() {
 							<div className="flex items-center space-x-3">
 								<a href="/" className="flex items-center space-x-2 cursor-pointer">
 									<div className="w-8 h-8 bg-gradient-to-br from-[#00d2ff] to-[#0099cc] rounded flex items-center justify-center overflow-hidden">
-										<img 
-											src="/logo-96.png" 
-											alt="Hytale Guía Logo" 
+										<img
+											src="/logo-96.png"
+											alt="Hytale Guía Logo"
 											className="w-full h-full object-cover"
 										/>
 									</div>
@@ -36,13 +36,12 @@ export default function Header() {
 							{/* Navigation */}
 							<div className="hidden lg:flex items-center space-x-6">
 								{/* Inicio */}
-								<a 
-									href="/" 
-									className={`relative transition cursor-pointer ${
-										isActive('/') 
-											? 'text-[#00d2ff] font-semibold' 
-											: 'text-[#a0a0a0] hover:text-[#00d2ff]'
-									}`}
+								<a
+									href="/"
+									className={`relative transition cursor-pointer ${isActive('/')
+										? 'text-[#00d2ff] font-semibold'
+										: 'text-[#a0a0a0] hover:text-[#00d2ff]'
+										}`}
 								>
 									{t('nav.home')}
 									{isActive('/') && (
@@ -51,13 +50,12 @@ export default function Header() {
 								</a>
 
 								{/* Noticias */}
-								<a 
-									href="/noticias" 
-									className={`relative transition cursor-pointer ${
-										isActive('/noticias') 
-											? 'text-[#00d2ff] font-semibold' 
-											: 'text-[#a0a0a0] hover:text-[#00d2ff]'
-									}`}
+								<a
+									href="/noticias"
+									className={`relative transition cursor-pointer ${isActive('/noticias')
+										? 'text-[#00d2ff] font-semibold'
+										: 'text-[#a0a0a0] hover:text-[#00d2ff]'
+										}`}
 								>
 									{t('nav.news')}
 									{isActive('/noticias') && (
@@ -76,13 +74,12 @@ export default function Header() {
 								</div>
 
 								{/* Mods */}
-								<a 
-									href="/mods" 
-									className={`relative transition cursor-pointer ${
-										isActive('/mods') 
-											? 'text-[#00d2ff] font-semibold' 
-											: 'text-[#a0a0a0] hover:text-[#00d2ff]'
-									}`}
+								<a
+									href="/mods"
+									className={`relative transition cursor-pointer ${isActive('/mods')
+										? 'text-[#00d2ff] font-semibold'
+										: 'text-[#a0a0a0] hover:text-[#00d2ff]'
+										}`}
 								>
 									{t('nav.mods')}
 									{isActive('/mods') && (
@@ -100,15 +97,19 @@ export default function Header() {
 									</span>
 								</div>
 
-								{/* Bugs - En desarrollo */}
-								<div className="relative group">
-									<span className="text-[#a0a0a0] cursor-not-allowed opacity-60">
-										BUGS
-									</span>
-									<span className="absolute -top-6 left-1/2 -translate-x-1/2 bg-yellow-500/90 text-[#0b0d12] text-xs font-bold px-2 py-0.5 rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
-										Próximamente
-									</span>
-								</div>
+								{/* Bugs */}
+								<a
+									href="/bugs"
+									className={`relative transition cursor-pointer ${isActive('/bugs')
+										? 'text-[#00d2ff] font-semibold'
+										: 'text-[#a0a0a0] hover:text-[#00d2ff]'
+										}`}
+								>
+									{t('nav.bugs')}
+									{isActive('/bugs') && (
+										<span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-[#00d2ff]"></span>
+									)}
+								</a>
 							</div>
 
 							{/* Right side */}

@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import DiscordButton from '../components/DiscordButton';
+import ShareButton from '../components/ShareButton';
 import SEO from '../components/SEO';
 import StructuredData from '../components/StructuredData';
 
@@ -47,7 +48,9 @@ export default function BugsPage() {
 	const [bugs, setBugs] = useState<BugReport[]>([]);
 	const [filteredBugs, setFilteredBugs] = useState<BugReport[]>([]);
 	const [loading, setLoading] = useState(true);
+	const [sorting, setSorting] = useState(false);
 	const [searchQuery, setSearchQuery] = useState('');
+	const [sortBy, setSortBy] = useState('newest');
 	const [displayCount, setDisplayCount] = useState(8);
 	const [showScrollTop, setShowScrollTop] = useState(false);
 	const [currentTime, setCurrentTime] = useState(new Date());
@@ -88,7 +91,7 @@ export default function BugsPage() {
 		fetchBugs();
 	}, []);
 
-	// Filter bugs based on search query
+	// Filter and sort bugs
 	useEffect(() => {
 		let filtered = bugs;
 
@@ -99,9 +102,22 @@ export default function BugsPage() {
 			);
 		}
 
+		// Sort bugs
+		filtered.sort((a, b) => {
+			const dateA = new Date(a.fecha_actualizacion);
+			const dateB = new Date(b.fecha_actualizacion);
+
+			if (sortBy === 'newest') {
+				return dateB.getTime() - dateA.getTime();
+			} else if (sortBy === 'oldest') {
+				return dateA.getTime() - dateB.getTime();
+			}
+			return 0;
+		});
+
 		setFilteredBugs(filtered);
-		setDisplayCount(8); // Reset display count on search
-	}, [searchQuery, bugs]);
+		setDisplayCount(8);
+	}, [searchQuery, sortBy, bugs]);
 
 	// Map Spanish severity levels to English keys
 	const mapSeverityToKey = (nivel: string): string => {
@@ -117,10 +133,10 @@ export default function BugsPage() {
 	const getSeverityColor = (nivel: string): string => {
 		const key = mapSeverityToKey(nivel);
 		const colors = {
-			critical: 'text-red-400',
-			high: 'text-orange-400',
-			medium: 'text-yellow-400',
-			low: 'text-green-400'
+			critical: 'text-rose-400',
+			high: 'text-amber-400',
+			medium: 'text-yellow-300',
+			low: 'text-teal-400'
 		};
 		return colors[key as keyof typeof colors] || colors.medium;
 	};
@@ -134,9 +150,9 @@ export default function BugsPage() {
 	const getStatusBadge = (estado: string) => {
 		if (estado === 'fixed') {
 			return {
-				bg: 'bg-green-500/10',
-				border: 'border-green-500/30',
-				text: 'text-green-400'
+				bg: 'bg-emerald-500/10',
+				border: 'border-emerald-500/30',
+				text: 'text-emerald-400'
 			};
 		}
 		return {
@@ -188,6 +204,13 @@ export default function BugsPage() {
 					   i18n.language === 'it' ? 'it-IT' :
 					   i18n.language === 'pt' ? 'pt-PT' : 'en-US';
 		return date.toLocaleDateString(locale, { day: 'numeric', month: 'short', year: 'numeric' });
+	};
+
+	// Handle sort change with loading state
+	const handleSortChange = (newSort: string) => {
+		setSorting(true);
+		setSortBy(newSort);
+		setTimeout(() => setSorting(false), 300);
 	};
 
 	const getTimeAgo = (dateString: string): string => {
@@ -299,7 +322,7 @@ export default function BugsPage() {
 
 				<main className="flex-1 container mx-auto px-4 py-24">
 					{/* Breadcrumbs */}
-					<div className="max-w-6xl mx-auto mb-6">
+					<div className="max-w-5xl mx-auto mb-6">
 						<div className="flex items-center gap-2 text-sm text-gray-400">
 							<a href="/" className="hover:text-[#00d2ff] transition cursor-pointer">{t('bugs.breadcrumbs.home')}</a>
 							<span>›</span>
@@ -308,7 +331,7 @@ export default function BugsPage() {
 					</div>
 
 					{/* Header */}
-					<div className="max-w-6xl mx-auto mb-12">
+					<div className="max-w-5xl mx-auto mb-12">
 						<div className="flex items-center gap-3 mb-4">
 							<h1 className="text-5xl font-bold text-white">
 								{t('bugs.title')} <span className="text-[#00d2ff]">{t('bugs.titleHighlight')}</span>
@@ -327,7 +350,7 @@ export default function BugsPage() {
 								</div>
 
 								{lastCronRun && !isNaN(lastCronRun.getTime()) && (
-									<div className="inline-flex items-center gap-2 bg-green-500/10 border border-green-500/30 text-green-400 px-4 py-2 rounded-full text-sm font-medium">
+									<div className="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 px-4 py-2 rounded-full text-sm font-medium">
 										<span>✓</span>
 										<span>{t('bugs.lastUpdate')}: {getTimeAgo(lastCronRun.toISOString())}</span>
 									</div>
@@ -342,13 +365,13 @@ export default function BugsPage() {
 					</div>
 
 					{loading ? (
-						<div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
+						<div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
 							{[...Array(4)].map((_, i) => <BugSkeleton key={i} />)}
 						</div>
 					) : (
 						<>
-							{/* Search bar */}
-							<div className="max-w-6xl mx-auto mb-8">
+							{/* Search bar and filters */}
+							<div className="max-w-5xl mx-auto mb-8 space-y-4">
 								<div className="relative">
 									<input
 										type="text"
@@ -361,26 +384,61 @@ export default function BugsPage() {
 
 									{/* Goblin image */}
 									<img
-										src="/bugs.jpg"
-										alt="Bug tracker goblin"
-										className="absolute -top-20 right-4 w-28 h-28 object-cover rounded-lg pointer-events-none select-none hidden lg:block"
+										src="/bugreport.png"
+										alt="Bug tracker mascot"
+										className="absolute -top-31 right-4 w-36 h-36 object-cover rounded-lg pointer-events-none select-none hidden lg:block"
 									/>
+								</div>
+
+								{/* Sort buttons */}
+								<div className="flex items-center gap-3 flex-wrap">
+									<span className="text-gray-400 text-sm font-medium">{t('bugs.sortBy')}:</span>
+
+									<button
+										onClick={() => handleSortChange('newest')}
+										disabled={sorting}
+										className={`px-4 py-2 rounded-lg text-sm font-medium transition cursor-pointer ${sortBy === 'newest'
+											? 'bg-[#00d2ff] text-[#0b0d12]'
+											: 'bg-white/5 text-gray-400 hover:bg-white/10'
+											} ${sorting ? 'opacity-50 cursor-not-allowed' : ''}`}
+									>
+										{t('bugs.sortOptions.newest')}
+									</button>
+
+									<button
+										onClick={() => handleSortChange('oldest')}
+										disabled={sorting}
+										className={`px-4 py-2 rounded-lg text-sm font-medium transition cursor-pointer ${sortBy === 'oldest'
+											? 'bg-[#00d2ff] text-[#0b0d12]'
+											: 'bg-white/5 text-gray-400 hover:bg-white/10'
+											} ${sorting ? 'opacity-50 cursor-not-allowed' : ''}`}
+									>
+										{t('bugs.sortOptions.oldest')}
+									</button>
+
+									{sorting && (
+										<span className="inline-flex items-center gap-2 text-[#00d2ff] text-sm">
+											<span className="w-2 h-2 bg-[#00d2ff] rounded-full animate-pulse"></span>
+											{t('bugs.sorting')}
+										</span>
+									)}
+								</div>
+
+								{/* Results count */}
+								<div className="text-gray-400 text-sm">
+									{t('bugs.showing')} {Math.min(displayCount, filteredBugs.length)} {t('bugs.of')} {filteredBugs.length} {t('bugs.results')}
 								</div>
 							</div>
 
 							{/* Bugs Grid */}
-							<div className="max-w-6xl mx-auto">
-								{bugs.length === 0 ? (
+							<div className="max-w-5xl mx-auto">
+								{filteredBugs.length === 0 ? (
 									<div className="text-center text-gray-400 py-12">
 										<div className="text-6xl mb-4">🔍</div>
 										<p className="text-xl">{t('bugs.noResults')}</p>
 									</div>
 								) : (
 									<>
-										<div className="text-gray-400 text-sm mb-6">
-											{t('bugs.showing')} {Math.min(displayCount, filteredBugs.length)} {t('bugs.of')} {filteredBugs.length} {t('bugs.results')}
-										</div>
-
 										<div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
 											{filteredBugs.slice(0, displayCount).map((bug, index) => {
 												const estado = detectStatus(bug.num_arreglos || 0);
@@ -397,7 +455,7 @@ export default function BugsPage() {
 														style={{ animationDelay: `${index * 50}ms` }}
 														onClick={() => window.open(bug.url, '_blank')}>
 														
-														{/* Status Badge - Simple and clean */}
+														{/* Status Badge */}
 														<div className="mb-4">
 															<span className={`${statusBadge.bg} border ${statusBadge.border} ${statusBadge.text} text-xs font-bold px-3 py-1.5 rounded-lg inline-block`}>
 																{t(`bugs.status.${estado}`)}
@@ -427,7 +485,7 @@ export default function BugsPage() {
 																{bug.num_reportes > 0 && (
 																	<div className="flex items-center gap-1.5">
 																		<span className="text-gray-500">{t('bugs.reports')}:</span>
-																		<span className="font-medium text-purple-400">
+																		<span className="font-medium text-gray-400">
 																			{bug.num_reportes.toLocaleString()}
 																		</span>
 																	</div>
@@ -442,14 +500,15 @@ export default function BugsPage() {
 																	{formatDate(bug.fecha_actualizacion)}
 																</div>
 																<div className="text-xs text-gray-400">
-																	{t('bugs.source')}: <span className="text-[#00d2ff]">{source}</span>
+																	{t('bugs.source')}: <span className="text-slate-400">{source}</span>
 																</div>
 															</div>
 
-															<div className="text-[#00d2ff] font-medium text-sm group-hover:text-[#e5c100] transition flex items-center gap-1 cursor-pointer">
-																<span>{t('bugs.readMore')}</span>
-																<span>→</span>
-															</div>
+															<ShareButton
+																title={bug.titulo}
+																text={bug.resumen}
+																url={bug.url}
+															/>
 														</div>
 													</div>
 												);

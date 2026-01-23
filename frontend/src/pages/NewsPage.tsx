@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import DiscordButton from '../components/DiscordButton';
 import ShareButton from '../components/ShareButton';
 import SEO from '../components/SEO';
 import StructuredData from '../components/StructuredData';
@@ -337,6 +338,8 @@ export default function NewsPage() {
 			/>
 			<div className="min-h-screen bg-[#0b0d12] flex flex-col">
 				<Header />
+				<DiscordButton />
+
 				<main className="flex-1 container mx-auto px-4 py-24">
 					{/* Breadcrumbs */}
 					<div className="max-w-5xl mx-auto mb-6">
@@ -365,7 +368,7 @@ export default function NewsPage() {
 								</div>
 
 								{lastCronRun && !isNaN(lastCronRun.getTime()) && (
-									<div className="inline-flex items-center gap-2 bg-green-500/10 border border-green-500/30 text-green-400 px-4 py-2 rounded-full text-sm font-medium">
+									<div className="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 px-4 py-2 rounded-full text-sm font-medium">
 										<span>✓</span>
 										<span>{t('news.lastUpdate')}: {getTimeAgo(lastCronRun.toISOString())}</span>
 									</div>
@@ -428,7 +431,7 @@ export default function NewsPage() {
 									<button
 										onClick={() => handleSortChange('newest')}
 										disabled={sorting}
-										className={`px-4 py-2 rounded-lg text-sm font-medium transition cursor-pointer ${sortBy === 'newest'
+										className={`px-4 py-2 rounded-lg text-sm font-medium transition ${sortBy === 'newest'
 											? 'bg-[#00d2ff] text-[#0b0d12]'
 											: 'bg-white/5 text-gray-400 hover:bg-white/10'
 											} ${sorting ? 'opacity-50 cursor-not-allowed' : ''}`}
@@ -438,7 +441,7 @@ export default function NewsPage() {
 									<button
 										onClick={() => handleSortChange('oldest')}
 										disabled={sorting}
-										className={`px-4 py-2 rounded-lg text-sm font-medium transition cursor-pointer ${sortBy === 'oldest'
+										className={`px-4 py-2 rounded-lg text-sm font-medium transition ${sortBy === 'oldest'
 											? 'bg-[#00d2ff] text-[#0b0d12]'
 											: 'bg-white/5 text-gray-400 hover:bg-white/10'
 											} ${sorting ? 'opacity-50 cursor-not-allowed' : ''}`}
@@ -490,7 +493,7 @@ export default function NewsPage() {
 																	<span>⭐</span> {t('news.featured')}
 																</span>
 																{isNew(featuredArticle.fecha) && (
-																	<span className="bg-green-500/10 border border-green-500/30 text-green-400 text-xs font-bold px-3 py-1 rounded-full">
+																	<span className="bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold px-3 py-1 rounded-full">
 																		{t('news.new')}
 																	</span>
 																)}
@@ -554,7 +557,7 @@ export default function NewsPage() {
 																			{t('news.badge')}
 																		</span>
 																		{isNew(article.fecha) && (
-																			<span className="bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full animate-pulse">
+																			<span className="bg-emerald-500 text-white text-xs font-bold px-2 py-1 rounded-full animate-pulse">
 																				{t('news.new')}
 																			</span>
 																		)}
@@ -598,7 +601,7 @@ export default function NewsPage() {
 												<div className="text-center py-8">
 													<button
 														onClick={loadMore}
-														className="bg-[#00d2ff] hover:bg-[#00a8cc] text-[#0b0d12] font-bold px-8 py-3 rounded-xl transition cursor-pointer"
+														className="bg-[#00d2ff] hover:bg-[#00a8cc] text-[#0b0d12] font-bold px-8 py-3 rounded-xl transition"
 													>
 														{t('news.loadMore')}
 													</button>
