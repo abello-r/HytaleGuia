@@ -672,5 +672,22 @@
 		"analytics": "Analítica (Google Analytics)",
 		"ads": "Publicidad (AdSense / Google Ads)",
 		"note": "Puedes cambiar tu decisión en cualquier momento desde la página de Cookies."
+	},
+	"hytaleStatus": {
+		"checking": "Comprobando...",
+		"online": "Hytale Online",
+		"offline": "Hytale Offline"
+	},
+	"officialBlog": {
+		"sectionTitle": "NOTICIAS OFICIALES DE HYTALE",
+		"officialNews": "HYPIXEL STUDIOS",
+		"badge": "OFICIAL",
+		"readMore": "Leer más",
+		"today": "Hoy",
+		"yesterday": "Ayer",
+		"daysAgo": "Hace {{count}} días",
+		"weeksAgo": "Hace {{count}} semanas",
+		"monthsAgo": "Hace {{count}} meses",
+		"yearsAgo": "Hace {{count}} años"
 	}
 }

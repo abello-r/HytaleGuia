@@ -10,7 +10,7 @@ import StructuredData from '../components/StructuredData';
 interface BugReport {
 	titulo: string;
 	resumen: string;
-	url: string;
+	full_link: string;
 	nivel: string;
 	num_reportes: number;
 	num_arreglos?: number;
@@ -27,6 +27,24 @@ interface BugsResponse {
 	timestamp: string;
 }
 
+const SEVERITY_CONFIG = {
+	Critical: { key: 'critical', color: 'text-rose-400' },
+	High: { key: 'high', color: 'text-amber-400' },
+	Medium: { key: 'medium', color: 'text-yellow-300' },
+	Low: { key: 'low', color: 'text-teal-400' }
+};
+
+const SOURCE_MAP: { [key: string]: string } = {
+	'hytaledatabase.com': 'Hytale Database',
+	'hytale.com': 'Hytale.com',
+	'hypixelstudios.com': 'Hypixel Studios',
+	'reddit.com': 'Reddit',
+	'twitter.com': 'Twitter',
+	'x.com': 'X (Twitter)'
+};
+
+const CRON_HOURS = [5, 10, 15, 20, 23];
+
 function BugSkeleton() {
 	return (
 		<div className="bg-white/5 border border-white/10 rounded-xl p-6 animate-pulse space-y-4">
@@ -40,6 +58,35 @@ function BugSkeleton() {
 				<div className="bg-gray-700 h-4 w-5/6 rounded"></div>
 			</div>
 		</div>
+	);
+}
+
+function getSourceFromUrl(url: string): string {
+	try {
+		const hostname = new URL(url).hostname.replace('www.', '');
+		
+		for (const [domain, name] of Object.entries(SOURCE_MAP)) {
+			if (hostname.includes(domain)) return name;
+		}
+
+		const parts = hostname.split('.');
+		if (parts.length >= 2) {
+			return parts[parts.length - 2].charAt(0).toUpperCase() + parts[parts.length - 2].slice(1);
+		}
+		
+		return hostname;
+	} catch {
+		return 'Unknown';
+	}
+}
+
+function highlightText(text: string, query: string) {
+	if (!query) return text;
+	const parts = text.split(new RegExp(`(${query})`, 'gi'));
+	return parts.map((part, index) =>
+		part.toLowerCase() === query.toLowerCase()
+			? <mark key={index} className="bg-yellow-400 text-[#0b0d12] px-1 rounded">{part}</mark>
+			: part
 	);
 }
 
@@ -76,13 +123,12 @@ export default function BugsPage() {
 				if (result.success) {
 					setBugs(result.data.bugs);
 					setFilteredBugs(result.data.bugs);
-
 					if (result.data.lastCronRun) {
 						setLastCronRun(new Date(result.data.lastCronRun));
 					}
 				}
 			} catch (error) {
-				console.error('❌ Error fetching bugs:', error);
+				console.error('Error fetching bugs:', error);
 			} finally {
 				setLoading(false);
 			}
@@ -91,212 +137,66 @@ export default function BugsPage() {
 		fetchBugs();
 	}, []);
 
-	// Filter and sort bugs
 	useEffect(() => {
-		let filtered = bugs;
+		let filtered = bugs.filter(bug =>
+			!searchQuery || 
+			bug.titulo.toLowerCase().includes(searchQuery.toLowerCase()) ||
+			bug.resumen.toLowerCase().includes(searchQuery.toLowerCase())
+		);
 
-		if (searchQuery) {
-			filtered = filtered.filter(bug =>
-				bug.titulo.toLowerCase().includes(searchQuery.toLowerCase()) ||
-				bug.resumen.toLowerCase().includes(searchQuery.toLowerCase())
-			);
-		}
-
-		// Sort bugs
 		filtered.sort((a, b) => {
-			const dateA = new Date(a.fecha_actualizacion);
-			const dateB = new Date(b.fecha_actualizacion);
-
-			if (sortBy === 'newest') {
-				return dateB.getTime() - dateA.getTime();
-			} else if (sortBy === 'oldest') {
-				return dateA.getTime() - dateB.getTime();
-			}
-			return 0;
+			const diff = new Date(b.fecha_actualizacion).getTime() - new Date(a.fecha_actualizacion).getTime();
+			return sortBy === 'newest' ? diff : -diff;
 		});
 
 		setFilteredBugs(filtered);
 		setDisplayCount(8);
 	}, [searchQuery, sortBy, bugs]);
 
-	// Map Spanish severity levels to English keys
-	const mapSeverityToKey = (nivel: string): string => {
-		const mapping: { [key: string]: string } = {
-			'Crítico': 'critical',
-			'Alto': 'high',
-			'Medio': 'medium',
-			'Bajo': 'low'
-		};
-		return mapping[nivel] || 'medium';
-	};
+	const getSeverity = (nivel: string) => SEVERITY_CONFIG[nivel as keyof typeof SEVERITY_CONFIG] || SEVERITY_CONFIG.Medium;
 
-	const getSeverityColor = (nivel: string): string => {
-		const key = mapSeverityToKey(nivel);
-		const colors = {
-			critical: 'text-rose-400',
-			high: 'text-amber-400',
-			medium: 'text-yellow-300',
-			low: 'text-teal-400'
-		};
-		return colors[key as keyof typeof colors] || colors.medium;
-	};
-
-	// Detect status from num_arreglos
-	const detectStatus = (numArreglos: number): string => {
-		if (numArreglos > 0) return 'fixed';
-		return 'reported';
-	};
-
-	const getStatusBadge = (estado: string) => {
-		if (estado === 'fixed') {
-			return {
-				bg: 'bg-emerald-500/10',
-				border: 'border-emerald-500/30',
-				text: 'text-emerald-400'
-			};
-		}
-		return {
-			bg: 'bg-[#00d2ff]/10',
-			border: 'border-[#00d2ff]/30',
-			text: 'text-[#00d2ff]'
-		};
-	};
-
-	// Extract source from URL
-	const getSourceFromUrl = (url: string): string => {
-		try {
-			const urlObj = new URL(url);
-			const hostname = urlObj.hostname.replace('www.', '');
-			
-			// Map known domains to clean names
-			const sourceMap: { [key: string]: string } = {
-				'hytale.com': 'Hytale.com',
-				'hypixelstudios.com': 'Hypixel Studios',
-				'reddit.com': 'Reddit',
-				'twitter.com': 'Twitter',
-				'x.com': 'X (Twitter)'
-			};
-
-			// Check if it's a known source
-			for (const [domain, name] of Object.entries(sourceMap)) {
-				if (hostname.includes(domain)) {
-					return name;
-				}
-			}
-
-			// Otherwise return the clean hostname
-			const parts = hostname.split('.');
-			if (parts.length >= 2) {
-				return parts[parts.length - 2].charAt(0).toUpperCase() + parts[parts.length - 2].slice(1);
-			}
-			
-			return hostname;
-		} catch {
-			return 'Unknown';
-		}
+	const getStatusBadge = (numArreglos: number) => {
+		return numArreglos > 0 
+			? { bg: 'bg-emerald-500/10', border: 'border-emerald-500/30', text: 'text-emerald-400', key: 'fixed' }
+			: { bg: 'bg-[#00d2ff]/10', border: 'border-[#00d2ff]/30', text: 'text-[#00d2ff]', key: 'reported' };
 	};
 
 	const formatDate = (dateString: string) => {
-		const date = new Date(dateString);
-		const locale = i18n.language === 'es' ? 'es-ES' :
-					   i18n.language === 'en' ? 'en-US' :
-					   i18n.language === 'fr' ? 'fr-FR' :
-					   i18n.language === 'it' ? 'it-IT' :
-					   i18n.language === 'pt' ? 'pt-PT' : 'en-US';
-		return date.toLocaleDateString(locale, { day: 'numeric', month: 'short', year: 'numeric' });
-	};
-
-	// Handle sort change with loading state
-	const handleSortChange = (newSort: string) => {
-		setSorting(true);
-		setSortBy(newSort);
-		setTimeout(() => setSorting(false), 300);
+		const locales: { [key: string]: string } = {
+			es: 'es-ES', en: 'en-US', fr: 'fr-FR', it: 'it-IT', pt: 'pt-PT'
+		};
+		const locale = locales[i18n.language] || 'en-US';
+		return new Date(dateString).toLocaleDateString(locale, { day: 'numeric', month: 'short', year: 'numeric' });
 	};
 
 	const getTimeAgo = (dateString: string): string => {
-		const date = new Date(dateString);
-		const diffMs = currentTime.getTime() - date.getTime();
+		const diffMs = currentTime.getTime() - new Date(dateString).getTime();
 		const diffMinutes = Math.floor(diffMs / (1000 * 60));
 		const diffHours = Math.floor(diffMinutes / 60);
 		const diffDays = Math.floor(diffHours / 24);
 
-		if (diffDays > 0) {
-			return diffDays === 1 
-				? t('bugs.timeAgo.day', { count: diffDays })
-				: t('bugs.timeAgo.days', { count: diffDays });
-		}
-		
-		if (diffHours > 0) {
-			return diffHours === 1 
-				? t('bugs.timeAgo.hour', { count: diffHours })
-				: t('bugs.timeAgo.hours', { count: diffHours });
-		}
-
+		if (diffDays > 0) return diffDays === 1 ? t('bugs.timeAgo.day', { count: diffDays }) : t('bugs.timeAgo.days', { count: diffDays });
+		if (diffHours > 0) return diffHours === 1 ? t('bugs.timeAgo.hour', { count: diffHours }) : t('bugs.timeAgo.hours', { count: diffHours });
 		if (diffMinutes === 1) return t('bugs.timeAgo.minute');
 		if (diffMinutes > 0) return t('bugs.timeAgo.minutes', { count: diffMinutes });
-		
 		return t('bugs.timeAgo.justNow');
 	};
 
-	// Calculate next refresh based on cron: 0 5,10,15,20,23 * * * (5am, 10am, 3pm, 8pm, 11pm)
 	const getNextRefresh = (): string => {
-		const now = currentTime;
-		const hours = now.getHours();
+		const hours = currentTime.getHours();
+		let nextHour = CRON_HOURS.find(h => h > hours) || CRON_HOURS[0] + 24;
+		
+		const next = new Date(currentTime);
+		next.setHours(nextHour % 24, 0, 0, 0);
+		if (nextHour >= 24) next.setDate(next.getDate() + 1);
 
-		let nextHour: number;
-		if (hours < 5) {
-			nextHour = 5;
-		} else if (hours < 10) {
-			nextHour = 10;
-		} else if (hours < 15) {
-			nextHour = 15;
-		} else if (hours < 20) {
-			nextHour = 20;
-		} else if (hours < 23) {
-			nextHour = 23;
-		} else {
-			nextHour = 5 + 24;
-		}
-
-		const next = new Date(now);
-		next.setHours(nextHour % 24);
-		next.setMinutes(0);
-		next.setSeconds(0);
-
-		if (nextHour >= 24) {
-			next.setDate(next.getDate() + 1);
-		}
-
-		const diffMs = next.getTime() - now.getTime();
+		const diffMs = next.getTime() - currentTime.getTime();
 		const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
 		const diffMinutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
 
-		if (diffHours === 0) {
-			if (diffMinutes === 1) return t('bugs.timeIn.minute');
-			return t('bugs.timeIn.minutes', { count: diffMinutes });
-		}
-
-		if (diffMinutes === 0) {
-			if (diffHours === 1) return t('bugs.timeIn.hour');
-			return t('bugs.timeIn.hours', { count: diffHours });
-		}
-
-		if (diffHours === 1) return t('bugs.timeIn.hourAndMinutes', { minutes: diffMinutes });
-		return t('bugs.timeIn.hoursAndMinutes', { hours: diffHours, minutes: diffMinutes });
-	};
-
-	const loadMore = () => setDisplayCount(prev => prev + 8);
-	const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
-
-	// Highlight search text
-	const highlightText = (text: string, query: string) => {
-		if (!query) return text;
-		const parts = text.split(new RegExp(`(${query})`, 'gi'));
-		return parts.map((part, index) =>
-			part.toLowerCase() === query.toLowerCase()
-				? <mark key={index} className="bg-yellow-400 text-[#0b0d12] px-1 rounded">{part}</mark>
-				: part
-		);
+		if (diffHours === 0) return diffMinutes === 1 ? t('bugs.timeIn.minute') : t('bugs.timeIn.minutes', { count: diffMinutes });
+		if (diffMinutes === 0) return diffHours === 1 ? t('bugs.timeIn.hour') : t('bugs.timeIn.hours', { count: diffHours });
+		return diffHours === 1 ? t('bugs.timeIn.hourAndMinutes', { minutes: diffMinutes }) : t('bugs.timeIn.hoursAndMinutes', { hours: diffHours, minutes: diffMinutes });
 	};
 
 	return (
@@ -321,7 +221,6 @@ export default function BugsPage() {
 				<DiscordButton />
 
 				<main className="flex-1 container mx-auto px-4 py-24">
-					{/* Breadcrumbs */}
 					<div className="max-w-5xl mx-auto mb-6">
 						<div className="flex items-center gap-2 text-sm text-gray-400">
 							<a href="/" className="hover:text-[#00d2ff] transition cursor-pointer">{t('bugs.breadcrumbs.home')}</a>
@@ -330,18 +229,12 @@ export default function BugsPage() {
 						</div>
 					</div>
 
-					{/* Header */}
 					<div className="max-w-5xl mx-auto mb-12">
-						<div className="flex items-center gap-3 mb-4">
-							<h1 className="text-5xl font-bold text-white">
-								{t('bugs.title')} <span className="text-[#00d2ff]">{t('bugs.titleHighlight')}</span>
-							</h1>
-						</div>
-						<p className="text-gray-400 text-lg mb-4">
-							{t('bugs.description')}
-						</p>
+						<h1 className="text-5xl font-bold text-white mb-4">
+							{t('bugs.title')} <span className="text-[#00d2ff]">{t('bugs.titleHighlight')}</span>
+						</h1>
+						<p className="text-gray-400 text-lg mb-4">{t('bugs.description')}</p>
 
-						{/* Status badges */}
 						{!loading && (
 							<div className="flex flex-wrap items-center gap-3">
 								<div className="inline-flex items-center gap-2 bg-[#00d2ff]/10 border border-[#00d2ff]/30 text-[#00d2ff] px-4 py-2 rounded-full text-sm font-medium">
@@ -351,13 +244,17 @@ export default function BugsPage() {
 
 								{lastCronRun && !isNaN(lastCronRun.getTime()) && (
 									<div className="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 px-4 py-2 rounded-full text-sm font-medium">
-										<span>✓</span>
+										<svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+											<path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
+										</svg>
 										<span>{t('bugs.lastUpdate')}: {getTimeAgo(lastCronRun.toISOString())}</span>
 									</div>
 								)}
 
 								<div className="inline-flex items-center gap-2 bg-purple-500/10 border border-purple-500/30 text-purple-400 px-4 py-2 rounded-full text-sm font-medium">
-									<span>⏰</span>
+									<svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+									</svg>
 									<span>{t('bugs.nextUpdate')}: {getNextRefresh()}</span>
 								</div>
 							</div>
@@ -370,7 +267,6 @@ export default function BugsPage() {
 						</div>
 					) : (
 						<>
-							{/* Search bar and filters */}
 							<div className="max-w-5xl mx-auto mb-8 space-y-4">
 								<div className="relative">
 									<input
@@ -380,9 +276,10 @@ export default function BugsPage() {
 										onChange={(e) => setSearchQuery(e.target.value)}
 										className="w-full bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-white placeholder-gray-500 focus:outline-none focus:border-[#00d2ff] transition"
 									/>
-									<span className="absolute right-6 top-1/2 -translate-y-1/2 text-gray-500">🔍</span>
+									<svg className="absolute right-6 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+									</svg>
 
-									{/* Goblin image */}
 									<img
 										src="/bugreport.png"
 										alt="Bug tracker mascot"
@@ -390,31 +287,22 @@ export default function BugsPage() {
 									/>
 								</div>
 
-								{/* Sort buttons */}
 								<div className="flex items-center gap-3 flex-wrap">
 									<span className="text-gray-400 text-sm font-medium">{t('bugs.sortBy')}:</span>
 
-									<button
-										onClick={() => handleSortChange('newest')}
-										disabled={sorting}
-										className={`px-4 py-2 rounded-lg text-sm font-medium transition cursor-pointer ${sortBy === 'newest'
-											? 'bg-[#00d2ff] text-[#0b0d12]'
-											: 'bg-white/5 text-gray-400 hover:bg-white/10'
-											} ${sorting ? 'opacity-50 cursor-not-allowed' : ''}`}
-									>
-										{t('bugs.sortOptions.newest')}
-									</button>
-
-									<button
-										onClick={() => handleSortChange('oldest')}
-										disabled={sorting}
-										className={`px-4 py-2 rounded-lg text-sm font-medium transition cursor-pointer ${sortBy === 'oldest'
-											? 'bg-[#00d2ff] text-[#0b0d12]'
-											: 'bg-white/5 text-gray-400 hover:bg-white/10'
-											} ${sorting ? 'opacity-50 cursor-not-allowed' : ''}`}
-									>
-										{t('bugs.sortOptions.oldest')}
-									</button>
+									{['newest', 'oldest'].map((sort) => (
+										<button
+											key={sort}
+											onClick={() => { setSorting(true); setSortBy(sort); setTimeout(() => setSorting(false), 300); }}
+											disabled={sorting}
+											className={`px-4 py-2 rounded-lg text-sm font-medium transition cursor-pointer ${sortBy === sort
+												? 'bg-[#00d2ff] text-[#0b0d12]'
+												: 'bg-white/5 text-gray-400 hover:bg-white/10'
+												} ${sorting ? 'opacity-50 cursor-not-allowed' : ''}`}
+										>
+											{t(`bugs.sortOptions.${sort}`)}
+										</button>
+									))}
 
 									{sorting && (
 										<span className="inline-flex items-center gap-2 text-[#00d2ff] text-sm">
@@ -424,61 +312,54 @@ export default function BugsPage() {
 									)}
 								</div>
 
-								{/* Results count */}
 								<div className="text-gray-400 text-sm">
 									{t('bugs.showing')} {Math.min(displayCount, filteredBugs.length)} {t('bugs.of')} {filteredBugs.length} {t('bugs.results')}
 								</div>
 							</div>
 
-							{/* Bugs Grid */}
 							<div className="max-w-5xl mx-auto">
 								{filteredBugs.length === 0 ? (
 									<div className="text-center text-gray-400 py-12">
-										<div className="text-6xl mb-4">🔍</div>
+										<svg className="w-16 h-16 mx-auto mb-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+											<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+										</svg>
 										<p className="text-xl">{t('bugs.noResults')}</p>
 									</div>
 								) : (
 									<>
-										<div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+										<div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 auto-rows-fr">
 											{filteredBugs.slice(0, displayCount).map((bug, index) => {
-												const estado = detectStatus(bug.num_arreglos || 0);
-												const statusBadge = getStatusBadge(estado);
-												const severityKey = mapSeverityToKey(bug.nivel);
-												const severityColor = getSeverityColor(bug.nivel);
-												const isFixed = estado === 'fixed';
-												const source = getSourceFromUrl(bug.url);
+												const status = getStatusBadge(bug.num_arreglos || 0);
+												const severity = getSeverity(bug.nivel);
+												const source = getSourceFromUrl(bug.full_link);
 
 												return (
 													<div
 														key={index}
-														className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-xl p-6 hover:border-[#00d2ff]/50 hover:shadow-[0_0_30px_rgba(0,210,255,0.1)] transition-all duration-300 group cursor-pointer animate-fadeIn"
+														className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-xl p-6 hover:border-[#00d2ff]/50 hover:shadow-[0_0_30px_rgba(0,210,255,0.1)] transition-all duration-300 group cursor-pointer animate-fadeIn flex flex-col"
 														style={{ animationDelay: `${index * 50}ms` }}
-														onClick={() => window.open(bug.url, '_blank')}>
+														onClick={() => window.open(bug.full_link, '_blank')}>
 														
-														{/* Status Badge */}
 														<div className="mb-4">
-															<span className={`${statusBadge.bg} border ${statusBadge.border} ${statusBadge.text} text-xs font-bold px-3 py-1.5 rounded-lg inline-block`}>
-																{t(`bugs.status.${estado}`)}
+															<span className={`${status.bg} border ${status.border} ${status.text} text-xs font-bold px-3 py-1.5 rounded-lg inline-block`}>
+																{t(`bugs.status.${status.key}`)}
 															</span>
 														</div>
 
-														{/* Title */}
-														<h3 className="text-xl font-bold text-white mb-2 group-hover:text-[#00d2ff] transition line-clamp-2">
+														<h3 className="text-xl font-bold text-white mb-2 group-hover:text-[#00d2ff] transition h-14 line-clamp-2">
 															{highlightText(bug.titulo, searchQuery)}
 														</h3>
 
-														{/* Summary */}
-														<p className="text-gray-400 text-sm mb-4 line-clamp-3">
+														<p className="text-gray-400 text-sm mb-4 line-clamp-3 flex-1">
 															{highlightText(bug.resumen, searchQuery)}
 														</p>
 
-														{/* Info row - Severity and Reports */}
-														{!isFixed && (
+														{status.key === 'reported' && (
 															<div className="flex items-center gap-4 mb-4 text-sm">
 																<div className="flex items-center gap-1.5">
 																	<span className="text-gray-500">{t('bugs.severity.label')}:</span>
-																	<span className={`font-medium ${severityColor}`}>
-																		{t(`bugs.severity.${severityKey}`)}
+																	<span className={`font-medium ${severity.color}`}>
+																		{t(`bugs.severity.${severity.key}`)}
 																	</span>
 																</div>
 																
@@ -493,33 +374,25 @@ export default function BugsPage() {
 															</div>
 														)}
 
-														{/* Footer */}
-														<div className="flex items-center justify-between pt-3 border-t border-white/10">
+														<div className="flex items-center justify-between pt-3 border-t border-white/10 mt-auto">
 															<div className="flex flex-col gap-1">
-																<div className="text-xs text-gray-500">
-																	{formatDate(bug.fecha_actualizacion)}
-																</div>
+																<div className="text-xs text-gray-500">{formatDate(bug.fecha_actualizacion)}</div>
 																<div className="text-xs text-gray-400">
 																	{t('bugs.source')}: <span className="text-slate-400">{source}</span>
 																</div>
 															</div>
 
-															<ShareButton
-																title={bug.titulo}
-																text={bug.resumen}
-																url={bug.url}
-															/>
+															<ShareButton title={bug.titulo} text={bug.resumen} url={bug.full_link} />
 														</div>
 													</div>
 												);
 											})}
 										</div>
 
-										{/* Load More Button */}
 										{displayCount < filteredBugs.length && (
 											<div className="text-center py-8">
 												<button
-													onClick={loadMore}
+													onClick={() => setDisplayCount(prev => prev + 8)}
 													className="bg-[#00d2ff] hover:bg-[#00a8cc] text-[#0b0d12] font-bold px-8 py-3 rounded-xl transition cursor-pointer"
 												>
 													{t('bugs.loadMore')}
@@ -533,14 +406,15 @@ export default function BugsPage() {
 					)}
 				</main>
 
-				{/* Scroll to top button */}
 				{showScrollTop && (
 					<button
-						onClick={scrollToTop}
+						onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
 						className="fixed bottom-8 right-8 bg-[#00d2ff] hover:bg-[#00a8cc] text-[#0b0d12] w-12 h-12 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-110 z-50 cursor-pointer"
 						aria-label={t('bugs.scrollTop')}
 					>
-						<span className="text-2xl">↑</span>
+						<svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18"/>
+						</svg>
 					</button>
 				)}
 

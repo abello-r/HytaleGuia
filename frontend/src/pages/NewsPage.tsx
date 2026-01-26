@@ -8,7 +8,6 @@ import SEO from '../components/SEO';
 import StructuredData from '../components/StructuredData';
 import { SEO_CONFIGS, DEFAULT_SEO } from '../utils/seoConfig';
 
-
 interface NewsArticle {
 	titulo: string;
 	resumen: string;
@@ -28,7 +27,16 @@ interface NewsResponse {
 	timestamp: string;
 }
 
-// Skeleton component for loading state
+const SOURCE_ICONS: { [key: string]: string } = {
+	'Vandal': 'gamepad',
+	'Marca': 'soccer',
+	'Infobae': 'newspaper',
+	'Meristation': 'target',
+	'GamesRadar': 'gamepad',
+	'PC Gamer': 'desktop',
+	'Windows Central': 'windows'
+};
+
 function NewsSkeleton() {
 	return (
 		<div className="bg-white/5 border border-white/10 rounded-xl p-6 animate-pulse">
@@ -39,17 +47,33 @@ function NewsSkeleton() {
 					<div className="bg-gray-700 h-4 w-20 rounded ml-auto"></div>
 				</div>
 			</div>
-
 			<div className="bg-gray-700 h-8 w-3/4 rounded mb-3"></div>
-
 			<div className="space-y-2 mb-4">
 				<div className="bg-gray-700 h-4 w-full rounded"></div>
 				<div className="bg-gray-700 h-4 w-full rounded"></div>
 				<div className="bg-gray-700 h-4 w-2/3 rounded"></div>
 			</div>
-
 			<div className="bg-gray-700 h-4 w-24 rounded"></div>
 		</div>
+	);
+}
+
+function SourceIcon({ source }: { source: string }) {
+	const iconType = SOURCE_ICONS[source] || 'newspaper';
+	
+	const icons = {
+		gamepad: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z"/>,
+		newspaper: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>,
+		target: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>,
+		desktop: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>,
+		soccer: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>,
+		windows: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"/>
+	};
+
+	return (
+		<svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+			{icons[iconType as keyof typeof icons] || icons.newspaper}
+		</svg>
 	);
 }
 
@@ -67,12 +91,8 @@ export default function NewsPage() {
 	const [currentTime, setCurrentTime] = useState(new Date());
 	const [lastCronRun, setLastCronRun] = useState<Date | null>(null);
 
-	// Update current time every minute for accurate countdowns
 	useEffect(() => {
-		const timer = setInterval(() => {
-			setCurrentTime(new Date());
-		}, 60000); // Update every minute
-
+		const timer = setInterval(() => setCurrentTime(new Date()), 60000);
 		return () => clearInterval(timer);
 	}, []);
 
@@ -85,8 +105,6 @@ export default function NewsPage() {
 				if (result.success) {
 					setNews(result.data.news);
 					setFilteredNews(result.data.news);
-
-					// Guardar el timestamp de la última ejecución del cron
 					if (result.data.lastCronRun) {
 						setLastCronRun(new Date(result.data.lastCronRun));
 					}
@@ -101,40 +119,27 @@ export default function NewsPage() {
 		fetchAllNews();
 	}, []);
 
-	// Scroll to top button visibility
 	useEffect(() => {
-		const handleScroll = () => {
-			setShowScrollTop(window.scrollY > 500);
-		};
-
+		const handleScroll = () => setShowScrollTop(window.scrollY > 500);
 		window.addEventListener('scroll', handleScroll);
 		return () => window.removeEventListener('scroll', handleScroll);
 	}, []);
 
-	// Filter news based on search and sort
 	useEffect(() => {
-		let filtered = news;
+		let filtered = news.filter(article =>
+			!searchQuery ||
+			article.titulo.toLowerCase().includes(searchQuery.toLowerCase()) ||
+			article.resumen.toLowerCase().includes(searchQuery.toLowerCase())
+		);
 
-		// Filter by search query
-		if (searchQuery) {
-			filtered = filtered.filter(article =>
-				article.titulo.toLowerCase().includes(searchQuery.toLowerCase()) ||
-				article.resumen.toLowerCase().includes(searchQuery.toLowerCase())
-			);
-		}
-
-		// Sort
 		filtered.sort((a, b) => {
 			const dateA = new Date(a.fecha);
 			const dateB = new Date(b.fecha);
-
-			if (sortBy === 'newest') {
-				return dateB.getTime() - dateA.getTime();
-			} else if (sortBy === 'oldest') {
-				return dateA.getTime() - dateB.getTime();
-			} else if (sortBy === 'source') {
-				return simplifySourceName(a.fuente).localeCompare(simplifySourceName(b.fuente));
-			}
+			const diff = dateB.getTime() - dateA.getTime();
+			
+			if (sortBy === 'newest') return diff;
+			if (sortBy === 'oldest') return -diff;
+			if (sortBy === 'source') return simplifySourceName(a.fuente).localeCompare(simplifySourceName(b.fuente));
 			return 0;
 		});
 
@@ -142,94 +147,43 @@ export default function NewsPage() {
 		setDisplayCount(10);
 	}, [searchQuery, sortBy, news]);
 
-	// Handle sort change with loading state
 	const handleSortChange = (newSort: string) => {
 		setSorting(true);
 		setSortBy(newSort);
-
-		// Simulate brief loading for visual feedback
-		setTimeout(() => {
-			setSorting(false);
-		}, 300);
+		setTimeout(() => setSorting(false), 300);
 	};
 
-	// Calculate time ago with real-time precision
 	const getTimeAgo = (dateString: string): string => {
-		const date = new Date(dateString);
-		const diffMs = currentTime.getTime() - date.getTime();
+		const diffMs = currentTime.getTime() - new Date(dateString).getTime();
 		const diffMinutes = Math.floor(diffMs / (1000 * 60));
 		const diffHours = Math.floor(diffMinutes / 60);
 		const diffDays = Math.floor(diffHours / 24);
 
-		if (diffDays > 0) {
-			return diffDays === 1 
-				? t('news.timeAgo.day', { count: diffDays })
-				: t('news.timeAgo.days', { count: diffDays });
-		}
-		
-		if (diffHours > 0) {
-			return diffHours === 1 
-				? t('news.timeAgo.hour', { count: diffHours })
-				: t('news.timeAgo.hours', { count: diffHours });
-		}
-
+		if (diffDays > 0) return diffDays === 1 ? t('news.timeAgo.day', { count: diffDays }) : t('news.timeAgo.days', { count: diffDays });
+		if (diffHours > 0) return diffHours === 1 ? t('news.timeAgo.hour', { count: diffHours }) : t('news.timeAgo.hours', { count: diffHours });
 		if (diffMinutes === 1) return t('news.timeAgo.minute');
 		if (diffMinutes > 0) return t('news.timeAgo.minutes', { count: diffMinutes });
-		
 		return t('news.timeAgo.justNow');
 	};
 
-	// Calculate next refresh based on cron: 0 5,10,15,20,23 * * * (5am, 10am, 3pm, 8pm, 11pm)
 	const getNextRefresh = (): string => {
-		const now = currentTime;
-		const hours = now.getHours();
+		const hours = currentTime.getHours();
+		const cronHours = [5, 10, 15, 20, 23];
+		let nextHour = cronHours.find(h => h > hours) || cronHours[0] + 24;
 
-		let nextHour: number;
-		if (hours < 5) {
-			nextHour = 5;
-		} else if (hours < 10) {
-			nextHour = 10;
-		} else if (hours < 15) {
-			nextHour = 15;
-		} else if (hours < 20) {
-			nextHour = 20;
-		} else if (hours < 23) {
-			nextHour = 23;
-		} else {
-			// After 11pm, next update is tomorrow at 5am
-			nextHour = 5 + 24;
-		}
+		const next = new Date(currentTime);
+		next.setHours(nextHour % 24, 0, 0, 0);
+		if (nextHour >= 24) next.setDate(next.getDate() + 1);
 
-		const next = new Date(now);
-		next.setHours(nextHour % 24);
-		next.setMinutes(0);
-		next.setSeconds(0);
-
-		if (nextHour >= 24) {
-			next.setDate(next.getDate() + 1);
-		}
-
-		const diffMs = next.getTime() - now.getTime();
+		const diffMs = next.getTime() - currentTime.getTime();
 		const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
 		const diffMinutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
 
-		if (diffHours === 0) {
-			if (diffMinutes === 1) return t('news.timeIn.minute');
-			return t('news.timeIn.minutes', { count: diffMinutes });
-		}
-
-		if (diffMinutes === 0) {
-			if (diffHours === 1) return t('news.timeIn.hour');
-			return t('news.timeIn.hours', { count: diffHours });
-		}
-
-		if (diffHours === 1) {
-			return t('news.timeIn.hourAndMinutes', { minutes: diffMinutes });
-		}
-		return t('news.timeIn.hoursAndMinutes', { hours: diffHours, minutes: diffMinutes });
+		if (diffHours === 0) return diffMinutes === 1 ? t('news.timeIn.minute') : t('news.timeIn.minutes', { count: diffMinutes });
+		if (diffMinutes === 0) return diffHours === 1 ? t('news.timeIn.hour') : t('news.timeIn.hours', { count: diffHours });
+		return diffHours === 1 ? t('news.timeIn.hourAndMinutes', { minutes: diffMinutes }) : t('news.timeIn.hoursAndMinutes', { hours: diffHours, minutes: diffMinutes });
 	};
 
-	// Simplify source names
 	const simplifySourceName = (source: string): string => {
 		const sourceMap: { [key: string]: string } = {
 			'vandal.elespanol.com': 'Vandal',
@@ -244,53 +198,25 @@ export default function NewsPage() {
 		return sourceMap[source] || source;
 	};
 
-	// Format date
 	const formatDate = (dateString: string) => {
 		try {
-			const date = new Date(dateString);
-			const locale = i18n.language === 'es' ? 'es-ES' : 
-						  i18n.language === 'fr' ? 'fr-FR' : 
-						  i18n.language === 'it' ? 'it-IT' : 
-						  i18n.language === 'pt' ? 'pt-PT' : 'en-US';
-			return date.toLocaleDateString(locale, {
-				year: 'numeric',
-				month: 'long',
-				day: 'numeric'
-			});
+			const locales: { [key: string]: string } = {
+				es: 'es-ES', en: 'en-US', fr: 'fr-FR', it: 'it-IT', pt: 'pt-PT'
+			};
+			const locale = locales[i18n.language] || 'en-US';
+			return new Date(dateString).toLocaleDateString(locale, { year: 'numeric', month: 'long', day: 'numeric' });
 		} catch {
 			return dateString;
 		}
 	};
 
-	// Check if news is new (within 24 hours)
 	const isNew = (dateString: string): boolean => {
-		const articleDate = new Date(dateString);
-		const diffTime = Math.abs(currentTime.getTime() - articleDate.getTime());
-		const diffHours = diffTime / (1000 * 60 * 60);
-		return diffHours <= 24;
+		const diffTime = Math.abs(currentTime.getTime() - new Date(dateString).getTime());
+		return (diffTime / (1000 * 60 * 60)) <= 24;
 	};
 
-	// Get icon for source
-	const getSourceIcon = (source: string): string => {
-		const icons: { [key: string]: string } = {
-			'Vandal': '🎮',
-			'Marca': '⚽',
-			'Infobae': '📰',
-			'Meristation': '🎯',
-			'GamesRadar': '🎮',
-			'PC Gamer': '💻',
-			'Windows Central': '🪟'
-		};
-		return icons[source] || '📰';
-	};
-
-	// Get featured article (most recent)
-	const featuredArticle = filteredNews[0];
-
-	// Highlight search text
 	const highlightText = (text: string, query: string) => {
 		if (!query) return text;
-
 		const parts = text.split(new RegExp(`(${query})`, 'gi'));
 		return parts.map((part, index) =>
 			part.toLowerCase() === query.toLowerCase()
@@ -299,30 +225,18 @@ export default function NewsPage() {
 		);
 	};
 
-	// Group news by date
 	const groupByDate = (articles: NewsArticle[]) => {
 		const grouped: { [key: string]: NewsArticle[] } = {};
-
 		articles.forEach(article => {
 			const date = formatDate(article.fecha);
-			if (!grouped[date]) {
-				grouped[date] = [];
-			}
+			if (!grouped[date]) grouped[date] = [];
 			grouped[date].push(article);
 		});
-
 		return grouped;
 	};
 
-	const loadMore = () => {
-		setDisplayCount(prev => prev + 10);
-	};
-
-	const scrollToTop = () => {
-		window.scrollTo({ top: 0, behavior: 'smooth' });
-	};
-
-	const groupedNews = groupByDate(filteredNews.slice(1, displayCount)); // Skip first (featured)
+	const featuredArticle = filteredNews[0];
+	const groupedNews = groupByDate(filteredNews.slice(1, displayCount));
 
 	return (
 		<>
@@ -341,25 +255,20 @@ export default function NewsPage() {
 				<DiscordButton />
 
 				<main className="flex-1 container mx-auto px-4 py-24">
-					{/* Breadcrumbs */}
 					<div className="max-w-5xl mx-auto mb-6">
 						<div className="flex items-center gap-2 text-sm text-gray-400">
-							<a href="/" className="hover:text-[#00d2ff] transition">{t('news.breadcrumbs.home')}</a>
+							<a href="/" className="hover:text-[#00d2ff] transition cursor-pointer">{t('news.breadcrumbs.home')}</a>
 							<span>›</span>
 							<span className="text-white">{t('news.breadcrumbs.news')}</span>
 						</div>
 					</div>
 
-					{/* Page Header */}
 					<div className="max-w-5xl mx-auto mb-12">
 						<h1 className="text-5xl font-bold text-white mb-4">
 							{t('news.title')} <span className="text-[#00d2ff]">{t('news.titleHighlight')}</span>
 						</h1>
-						<p className="text-gray-400 text-lg mb-4">
-							{t('news.description')}
-						</p>
+						<p className="text-gray-400 text-lg mb-4">{t('news.description')}</p>
 
-						{/* Status badges */}
 						{!loading && (
 							<div className="flex flex-wrap items-center gap-3">
 								<div className="inline-flex items-center gap-2 bg-[#00d2ff]/10 border border-[#00d2ff]/30 text-[#00d2ff] px-4 py-2 rounded-full text-sm font-medium">
@@ -369,13 +278,17 @@ export default function NewsPage() {
 
 								{lastCronRun && !isNaN(lastCronRun.getTime()) && (
 									<div className="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 px-4 py-2 rounded-full text-sm font-medium">
-										<span>✓</span>
+										<svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+											<path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
+										</svg>
 										<span>{t('news.lastUpdate')}: {getTimeAgo(lastCronRun.toISOString())}</span>
 									</div>
 								)}
 
 								<div className="inline-flex items-center gap-2 bg-purple-500/10 border border-purple-500/30 text-purple-400 px-4 py-2 rounded-full text-sm font-medium">
-									<span>⏰</span>
+									<svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+									</svg>
 									<span>{t('news.nextUpdate')}: {getNextRefresh()}</span>
 								</div>
 							</div>
@@ -383,9 +296,7 @@ export default function NewsPage() {
 					</div>
 
 					{loading ? (
-						// Loading skeleton
 						<div className="max-w-5xl mx-auto">
-							{/* Skeleton filters */}
 							<div className="mb-8 space-y-4">
 								<div className="bg-white/5 border border-white/10 rounded-xl h-14 animate-pulse"></div>
 								<div className="flex gap-3">
@@ -394,19 +305,13 @@ export default function NewsPage() {
 									<div className="bg-white/5 h-10 w-36 rounded-lg animate-pulse"></div>
 								</div>
 							</div>
-
-							{/* Skeleton news cards */}
 							<div className="space-y-6">
-								{[...Array(5)].map((_, index) => (
-									<NewsSkeleton key={index} />
-								))}
+								{[...Array(5)].map((_, index) => <NewsSkeleton key={index} />)}
 							</div>
 						</div>
 					) : (
 						<>
-							{/* Filters */}
 							<div className="max-w-5xl mx-auto mb-8 space-y-4">
-								{/* Search bar */}
 								<div className="relative">
 									<input
 										type="text"
@@ -415,9 +320,10 @@ export default function NewsPage() {
 										onChange={(e) => setSearchQuery(e.target.value)}
 										className="w-full bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-white placeholder-gray-500 focus:outline-none focus:border-[#00d2ff] transition"
 									/>
-									<span className="absolute right-6 top-1/2 -translate-y-1/2 text-gray-500">🔍</span>
+									<svg className="absolute right-6 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+									</svg>
 
-									{/* Goblin sitting on search bar */}
 									<img
 										src="/News.png"
 										alt="Goblin reading news"
@@ -425,31 +331,22 @@ export default function NewsPage() {
 									/>
 								</div>
 
-								{/* Sort by */}
 								<div className="flex items-center gap-3 flex-wrap">
 									<span className="text-gray-400 text-sm font-medium">{t('news.sortBy')}:</span>
-									<button
-										onClick={() => handleSortChange('newest')}
-										disabled={sorting}
-										className={`px-4 py-2 rounded-lg text-sm font-medium transition ${sortBy === 'newest'
-											? 'bg-[#00d2ff] text-[#0b0d12]'
-											: 'bg-white/5 text-gray-400 hover:bg-white/10'
-											} ${sorting ? 'opacity-50 cursor-not-allowed' : ''}`}
-									>
-										{t('news.sortOptions.newest')}
-									</button>
-									<button
-										onClick={() => handleSortChange('oldest')}
-										disabled={sorting}
-										className={`px-4 py-2 rounded-lg text-sm font-medium transition ${sortBy === 'oldest'
-											? 'bg-[#00d2ff] text-[#0b0d12]'
-											: 'bg-white/5 text-gray-400 hover:bg-white/10'
-											} ${sorting ? 'opacity-50 cursor-not-allowed' : ''}`}
-									>
-										{t('news.sortOptions.oldest')}
-									</button>
+									{['newest', 'oldest'].map((sort) => (
+										<button
+											key={sort}
+											onClick={() => handleSortChange(sort)}
+											disabled={sorting}
+											className={`px-4 py-2 rounded-lg text-sm font-medium transition cursor-pointer ${sortBy === sort
+												? 'bg-[#00d2ff] text-[#0b0d12]'
+												: 'bg-white/5 text-gray-400 hover:bg-white/10'
+												} ${sorting ? 'opacity-50 cursor-not-allowed' : ''}`}
+										>
+											{t(`news.sortOptions.${sort}`)}
+										</button>
+									))}
 
-									{/* Sorting indicator */}
 									{sorting && (
 										<span className="inline-flex items-center gap-2 text-[#00d2ff] text-sm">
 											<span className="w-2 h-2 bg-[#00d2ff] rounded-full animate-pulse"></span>
@@ -458,29 +355,21 @@ export default function NewsPage() {
 									)}
 								</div>
 
-								{/* Results count */}
 								<div className="text-gray-400 text-sm">
 									{t('news.showing')} {Math.min(displayCount, filteredNews.length)} {t('news.of')} {filteredNews.length} {t('news.results')}
 								</div>
 							</div>
 
-							{/* News List */}
 							{sorting ? (
-								// Sorting skeleton
 								<div className="max-w-5xl mx-auto space-y-6">
-									{[...Array(3)].map((_, index) => (
-										<NewsSkeleton key={index} />
-									))}
+									{[...Array(3)].map((_, index) => <NewsSkeleton key={index} />)}
 								</div>
 							) : (
 								<div className="max-w-5xl mx-auto space-y-8">
 									{filteredNews.length === 0 ? (
-										<div className="text-center text-gray-400 py-12">
-											{t('news.noResults')}
-										</div>
+										<div className="text-center text-gray-400 py-12">{t('news.noResults')}</div>
 									) : (
 										<>
-											{/* Featured Article - Noticia del día */}
 											{featuredArticle && (
 												<div
 													className="relative bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-8 cursor-pointer group overflow-hidden animate-fadeIn hover:border-[#00d2ff]/50 hover:bg-white/[0.07] transition-all duration-300"
@@ -490,7 +379,10 @@ export default function NewsPage() {
 														<div className="flex items-start justify-between mb-4">
 															<div className="flex items-center gap-3">
 																<span className="bg-[#00d2ff]/10 border border-[#00d2ff]/30 text-[#00d2ff] text-xs font-bold px-4 py-2 rounded-full flex items-center gap-2">
-																	<span>⭐</span> {t('news.featured')}
+																	<svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+																		<path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+																	</svg>
+																	{t('news.featured')}
 																</span>
 																{isNew(featuredArticle.fecha) && (
 																	<span className="bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold px-3 py-1 rounded-full">
@@ -500,7 +392,7 @@ export default function NewsPage() {
 															</div>
 															<div className="text-right">
 																<div className="text-[#00d2ff] font-medium flex items-center gap-1.5 justify-end text-sm">
-																	<span className="text-xs">{getSourceIcon(simplifySourceName(featuredArticle.fuente))}</span>
+																	<SourceIcon source={simplifySourceName(featuredArticle.fuente)} />
 																	{simplifySourceName(featuredArticle.fuente)}
 																</div>
 																<div className="text-gray-400 text-xs mt-1">{formatDate(featuredArticle.fecha)}</div>
@@ -530,19 +422,14 @@ export default function NewsPage() {
 												</div>
 											)}
 
-											{/* Regular news grouped by date */}
 											{Object.entries(groupedNews).map(([date, articles]) => (
 												<div key={date}>
-													{/* Date separator */}
 													<div className="flex items-center gap-4 mb-6">
 														<div className="flex-1 h-px bg-white/10"></div>
-														<span className="text-gray-400 text-sm font-medium px-4 py-1.5 bg-white/5 rounded-full">
-															{date}
-														</span>
+														<span className="text-gray-400 text-sm font-medium px-4 py-1.5 bg-white/5 rounded-full">{date}</span>
 														<div className="flex-1 h-px bg-white/10"></div>
 													</div>
 
-													{/* Articles for this date */}
 													<div className="space-y-6">
 														{articles.map((article, index) => (
 															<article
@@ -564,7 +451,7 @@ export default function NewsPage() {
 																	</div>
 																	<div className="text-right text-sm">
 																		<div className="text-[#00d2ff] font-medium flex items-center gap-1.5 justify-end">
-																			<span className="text-xs">{getSourceIcon(simplifySourceName(article.fuente))}</span>
+																			<SourceIcon source={simplifySourceName(article.fuente)} />
 																			{simplifySourceName(article.fuente)}
 																		</div>
 																		<div className="text-gray-400 text-xs mt-1">{formatDate(article.fecha)}</div>
@@ -596,12 +483,11 @@ export default function NewsPage() {
 												</div>
 											))}
 
-											{/* Load More Button */}
 											{displayCount < filteredNews.length && (
 												<div className="text-center py-8">
 													<button
-														onClick={loadMore}
-														className="bg-[#00d2ff] hover:bg-[#00a8cc] text-[#0b0d12] font-bold px-8 py-3 rounded-xl transition"
+														onClick={() => setDisplayCount(prev => prev + 10)}
+														className="bg-[#00d2ff] hover:bg-[#00a8cc] text-[#0b0d12] font-bold px-8 py-3 rounded-xl transition cursor-pointer"
 													>
 														{t('news.loadMore')}
 													</button>
@@ -615,14 +501,15 @@ export default function NewsPage() {
 					)}
 				</main>
 
-				{/* Scroll to top button */}
 				{showScrollTop && (
 					<button
-						onClick={scrollToTop}
+						onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
 						className="fixed bottom-8 right-8 bg-[#00d2ff] hover:bg-[#00a8cc] text-[#0b0d12] w-12 h-12 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-110 z-50 cursor-pointer"
 						aria-label={t('news.scrollTop')}
 					>
-						<span className="text-2xl">↑</span>
+						<svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18"/>
+						</svg>
 					</button>
 				)}
 

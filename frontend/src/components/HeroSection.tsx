@@ -2,11 +2,12 @@ import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import AIChatModal from './AIChatModal';
 import AIAssistantButton from './AIAssistantButton';
+import HytaleStatusBadge from './HytaleStatusBadge';
 import { useChatContext } from '../context/ChatContext';
 
 export default function HeroSection() {
 	const { t } = useTranslation();
-	const { hasMessages } = useChatContext(); // Now using context instead of hook
+	const { hasMessages } = useChatContext();
 	const [searchQuery, setSearchQuery] = useState('');
 	const [currentLanguageIndex, setCurrentLanguageIndex] = useState(0);
 	const [isAnimating, setIsAnimating] = useState(false);
@@ -29,7 +30,6 @@ export default function HeroSection() {
 		{ src: '/Portugal.png', alt: 'Portuguese' }
 	];
 
-	// Automatic rotation with roll animation
 	useEffect(() => {
 		const interval = setInterval(() => {
 			setIsAnimating(true);
@@ -72,7 +72,7 @@ export default function HeroSection() {
 								{t('hero.betaBadge')}
 							</div>
 
-							{/* Multi-language badge - Minimalist cyan */}
+							{/* Multi-language badge */}
 							<div className="inline-flex items-center gap-2 bg-[#00d2ff]/10 backdrop-blur-sm border border-[#00d2ff]/30 text-white px-4 h-10 rounded-[8px] text-sm font-medium">
 								<span className="flex items-center gap-1">
 									{languageFlags.map((flag, index) => (
@@ -88,6 +88,9 @@ export default function HeroSection() {
 								</span>
 								<span className="text-xs font-semibold text-[#00d2ff]">5 Languages</span>
 							</div>
+
+							{/* Hytale Status Badge */}
+							<HytaleStatusBadge />
 						</div>
 
 						<h1 className="text-6xl md:text-7xl font-bold text-white mb-6 leading-tight">
@@ -110,7 +113,7 @@ export default function HeroSection() {
 							{t('hero.description')}
 						</p>
 
-						{/* Search Bar with AI - Disabled state if conversation exists */}
+						{/* Search Bar with AI */}
 						{hasMessages ? (
 							<div className="relative">
 								<div className="flex items-center bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl overflow-hidden opacity-50 cursor-not-allowed">
@@ -156,14 +159,12 @@ export default function HeroSection() {
 				</div>
 			</div>
 
-			{/* AI Chat Modal */}
 			<AIChatModal
 				isOpen={isChatOpen}
 				onClose={handleCloseChat}
 				initialQuery={initialChatQuery}
 			/>
 
-			{/* AI Assistant Button - aparece después de usar el chat */}
 			{hasMessages && (
 				<AIAssistantButton onClick={handleOpenChatFromButton} />
 			)}

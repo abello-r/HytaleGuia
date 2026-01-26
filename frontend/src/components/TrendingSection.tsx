@@ -32,7 +32,6 @@ export default function TrendingSection() {
 					throw new Error('Failed to fetch trending data');
 				}
 				const result = await response.json();
-				console.log('📊 Raw API response:', result);
 
 				if (!result.success) {
 					throw new Error(result.message || 'Invalid response');
@@ -41,9 +40,8 @@ export default function TrendingSection() {
 				const { blogs, bugs, mods } = result.data;
 				const topics: TrendingTopic[] = [];
 
-				// Procesar 1 noticia
-				if (blogs && Array.isArray(blogs) && blogs.length > 0 && blogs[0] && blogs[0][0] && blogs[0][0].output && blogs[0][0].output.noticias && blogs[0][0].output.noticias.length > 0) {
-					const noticia = blogs[0][0].output.noticias[0];
+				if (blogs && Array.isArray(blogs) && blogs.length > 0 && blogs[0]?.output?.noticias?.length > 0) {
+					const noticia = blogs[0].output.noticias[0];
 					topics.push({
 						id: 1,
 						title: truncateText(noticia.titulo, 60),
@@ -55,9 +53,8 @@ export default function TrendingSection() {
 					});
 				}
 
-				// Procesar 1 bug
-				if (bugs && Array.isArray(bugs) && bugs.length > 0 && bugs[0] && bugs[0][0] && bugs[0][0].output && bugs[0][0].output.bugs && bugs[0][0].output.bugs.length > 0) {
-					const bug = bugs[0][0].output.bugs[0];
+				if (bugs && Array.isArray(bugs) && bugs.length > 0 && bugs[0]?.bugs?.length > 0) {
+					const bug = bugs[0].bugs[0];
 					topics.push({
 						id: 2,
 						title: truncateText(bug.titulo, 60),
@@ -65,13 +62,16 @@ export default function TrendingSection() {
 						badge: 'BUG',
 						badgeColor: 'bg-red-500',
 						image: '/bugs.jpg',
-						url: bug.url
+						url: bug.full_link
 					});
 				}
 
-				// Procesar 1 mod
-				if (mods && Array.isArray(mods) && mods.length > 0 && mods[0] && mods[0][0] && mods[0][0].output && mods[0][0].output.mods && mods[0][0].output.mods.length > 0) {
-					const mod = mods[0][0].output.mods[0];
+				if (mods && Array.isArray(mods) && mods.length > 0 && mods[0]?.mods?.length > 0) {
+					const mod = mods[0].mods[0];
+					const downloadUrl = Array.isArray(mod.links_descarga) 
+						? mod.links_descarga[0] 
+						: mod.links_descarga;
+					
 					topics.push({
 						id: 3,
 						title: truncateText(mod.titulo, 60),
@@ -79,12 +79,11 @@ export default function TrendingSection() {
 						badge: 'MOD',
 						badgeColor: 'bg-purple-500',
 						image: '/mods.jpeg',
-						url: mod.links_descarga,
+						url: downloadUrl,
 						author: mod.autor
 					});
 				}
 
-				// Añadir tarjeta(s) de servidor para completar 4 tarjetas
 				while (topics.length < 4) {
 					topics.push({
 						id: 4 + topics.length - 3,
@@ -98,14 +97,14 @@ export default function TrendingSection() {
 
 				setTrendingTopics(topics);
 			} catch (err) {
-				console.error('❌ Error fetching trending data:', err);
+				console.error('Error fetching trending data:', err);
 			} finally {
 				setLoading(false);
 			}
 		}
 
 		fetchTrendingData();
-	}, [t]);
+	}, []);
 
 	if (loading) {
 		return (
@@ -139,7 +138,7 @@ export default function TrendingSection() {
 						</h2>
 					</div>
 					<div className="text-center text-gray-400">
-						{t('trending.noContent')}
+						No content available
 					</div>
 				</div>
 			</div>

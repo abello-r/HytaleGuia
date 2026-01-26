@@ -4,6 +4,10 @@
 *.crt
 nginx/certs/
 
+#cache 
+*.cache
+cache/
+
 # Logs
 logs
 *.log

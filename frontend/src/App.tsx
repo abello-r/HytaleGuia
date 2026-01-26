@@ -7,6 +7,7 @@ import DiscordButton from './components/DiscordButton';
 import AIAssistantButton from './components/AIAssistantButton';
 import AIChatModal from './components/AIChatModal';
 import HeroSection from './components/HeroSection';
+import OfficialNewsSection from './components/OfficialNewsSection';
 import TrendingSection from './components/TrendingSection';
 import NewsPage from './pages/NewsPage';
 import ModsPage from './pages/ModsPage';
@@ -61,6 +62,7 @@ function HomePage() {
 					<HeroSection />
 				</div>
 
+				<OfficialNewsSection />
 				<TrendingSection />
 				<Footer />
 			</div>
