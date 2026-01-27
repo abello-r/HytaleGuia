@@ -1,11 +1,16 @@
 {
-	"name": "HytaleGuía",
+	"name": "HytaleGuía - La guía definitiva en español",
 	"short_name": "HytaleGuía",
-	"description": "La guía definitiva para Hytale en español",
+	"description": "Noticias, mods, guías y bug tracker de Hytale. La comunidad hispana más grande del juego.",
 	"start_url": "/",
+	"scope": "/",
 	"display": "standalone",
+	"orientation": "portrait-primary",
 	"background_color": "#0b0d12",
 	"theme_color": "#00d2ff",
+	"lang": "es-ES",
+	"dir": "ltr",
+	"categories": ["games", "entertainment", "news"],
 	"icons": [
 		{
 			"src": "/logo-96.png",

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import ReactGA from 'react-ga4';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -19,7 +20,7 @@ import CookiesPage from './pages/CookiesPage';
 
 import SEO from './components/SEO';
 import StructuredData from './components/StructuredData';
-import { SEO_CONFIGS } from './utils/seoConfig';
+import { getSEOConfig } from './utils/seoConfig';
 import { ChatProvider } from './context/ChatContext';
 import './i18n';
 
@@ -41,11 +42,18 @@ function PageTracker({ analyticsEnabled }: { analyticsEnabled: boolean }) {
 }
 
 function HomePage() {
-	const seoConfig = SEO_CONFIGS['/'];
+	const { i18n } = useTranslation();
+	const currentLang = i18n.language || 'es';
+	const seoConfig = getSEOConfig('/', currentLang);
+
+	const getCanonicalUrl = () => {
+		const base = 'https://hytaleguia.com';
+		return currentLang === 'es' ? base : `${base}/${currentLang}`;
+	};
 
 	return (
 		<>
-			<SEO {...seoConfig} />
+			<SEO {...seoConfig} canonical={getCanonicalUrl()} />
 			<StructuredData type="WebSite" data={{}} />
 			<StructuredData type="Organization" data={{}} />
 

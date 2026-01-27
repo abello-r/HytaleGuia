@@ -5,10 +5,19 @@ import Footer from '../components/Footer';
 import DiscordButton from '../components/DiscordButton';
 import SEO from '../components/SEO';
 import StructuredData from '../components/StructuredData';
+import { getSEOConfig } from '../utils/seoConfig';
 
 export default function CookiesPage() {
-	const { t } = useTranslation();
+	const { t, i18n } = useTranslation();
+	const currentLang = i18n.language || 'es';
+	const seoConfig = getSEOConfig('/cookies', currentLang);
 	const [showScrollTop, setShowScrollTop] = useState(false);
+
+	const getCanonicalUrl = () => {
+		const base = 'https://hytaleguia.com';
+		const path = 'cookies';
+		return currentLang === 'es' ? `${base}/${path}` : `${base}/${currentLang}/${path}`;
+	};
 
 	useEffect(() => {
 		window.scrollTo(0, 0);
@@ -46,17 +55,13 @@ export default function CookiesPage() {
 
 	return (
 		<>
-			<SEO
-				title={t('cookies.seo.title')}
-				description={t('cookies.seo.description')}
-				keywords={t('cookies.seo.keywords')}
-			/>
+			<SEO {...seoConfig} canonical={getCanonicalUrl()} />
 			<StructuredData
 				type="BreadcrumbList"
 				data={{
 					items: [
 						{ name: t('cookies.breadcrumbs.home'), url: 'https://hytaleguia.com' },
-						{ name: t('cookies.breadcrumbs.cookies'), url: 'https://hytaleguia.com/cookies' }
+						{ name: t('cookies.breadcrumbs.cookies'), url: getCanonicalUrl() }
 					]
 				}}
 			/>
@@ -66,7 +71,6 @@ export default function CookiesPage() {
 				<DiscordButton />
 
 				<main className="flex-1 container mx-auto px-4 py-24">
-					{/* Breadcrumbs */}
 					<div className="max-w-5xl mx-auto mb-6">
 						<div className="flex items-center gap-2 text-sm text-gray-400">
 							<a href="/" className="hover:text-[#00d2ff] transition cursor-pointer">{t('cookies.breadcrumbs.home')}</a>
@@ -75,7 +79,6 @@ export default function CookiesPage() {
 						</div>
 					</div>
 
-					{/* Header */}
 					<div className="max-w-5xl mx-auto mb-12 text-center">
 						<h1 className="text-5xl font-bold mb-4">
 							<span className="text-[#00d2ff]">{t('cookies.title')}</span>
@@ -86,20 +89,17 @@ export default function CookiesPage() {
 					</div>
 
 					<div className="max-w-5xl mx-auto">
-						{/* Intro */}
 						<InfoBox>
 							<p className="text-white">
 								<strong>HytaleGuía</strong> {t('cookies.intro')}
 							</p>
 						</InfoBox>
 
-						{/* 1. What are cookies */}
 						<Section title={`1. ${t('cookies.what.title')}`}>
 							<p className="text-gray-400 mb-3">{t('cookies.what.text')}</p>
 							<p className="text-gray-400">{t('cookies.what.text2')}</p>
 						</Section>
 
-						{/* 2. Why we use cookies */}
 						<Section title={`2. ${t('cookies.why.title')}`}>
 							<ul className="list-disc list-inside text-gray-400 space-y-2">
 								<li>{t('cookies.why.item1')}</li>
@@ -110,7 +110,6 @@ export default function CookiesPage() {
 							</ul>
 						</Section>
 
-						{/* 3. Types of cookies */}
 						<Section title={`3. ${t('cookies.types.title')}`}>
 							<SubSection title={`3.1 ${t('cookies.types.technical.title')}`}>
 								<p className="text-gray-400 mb-2"><strong className="text-white">{t('cookies.types.technical.purpose')}</strong> {t('cookies.types.technical.purposeText')}</p>
@@ -137,7 +136,6 @@ export default function CookiesPage() {
 							</SubSection>
 						</Section>
 
-						{/* 4. Cookies Table */}
 						<Section title={`4. ${t('cookies.table.title')}`}>
 							<div className="overflow-x-auto">
 								<table className="w-full border-collapse border border-white/10">
@@ -185,7 +183,6 @@ export default function CookiesPage() {
 							</div>
 						</Section>
 
-						{/* 5. Managing Cookies */}
 						<Section title={`5. ${t('cookies.manage.title')}`}>
 							<p className="text-gray-400 mb-4">{t('cookies.manage.text')}</p>
 
@@ -223,12 +220,10 @@ export default function CookiesPage() {
 							</InfoBox>
 						</Section>
 
-						{/* 6. Updates */}
 						<Section title={`6. ${t('cookies.updates.title')}`}>
 							<p className="text-gray-400">{t('cookies.updates.text')}</p>
 						</Section>
 
-						{/* 7. More Info */}
 						<Section title={`7. ${t('cookies.moreInfo.title')}`}>
 							<p className="text-gray-400 mb-3">{t('cookies.moreInfo.text')}</p>
 							<ul className="list-disc list-inside text-gray-400 space-y-2">
@@ -250,7 +245,6 @@ export default function CookiesPage() {
 							</ul>
 						</Section>
 
-						{/* Contact */}
 						<div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-8 mt-12">
 							<h2 className="text-3xl font-bold text-[#00d2ff] mb-6">📧 {t('cookies.contact.title')}</h2>
 							<p className="text-gray-400 mb-4">{t('cookies.contact.text')}</p>
@@ -262,7 +256,6 @@ export default function CookiesPage() {
 							</p>
 						</div>
 
-						{/* Related Links */}
 						<div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6 mt-6">
 							<p className="text-white mb-3"><strong>{t('cookies.related.title')}</strong></p>
 							<div className="flex flex-wrap gap-3">
@@ -275,21 +268,21 @@ export default function CookiesPage() {
 							</div>
 						</div>
 
-						{/* Review Note */}
 						<p className="text-center text-gray-400 text-sm italic mt-12">
 							{t('cookies.reviewNote')}
 						</p>
 					</div>
 				</main>
 
-				{/* Scroll to top */}
 				{showScrollTop && (
 					<button
 						onClick={scrollToTop}
 						className="fixed bottom-8 right-8 bg-[#00d2ff] hover:bg-[#00a8cc] text-[#0b0d12] w-12 h-12 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-110 z-50 cursor-pointer"
-						aria-label="Volver arriba"
+						aria-label={t('cookies.scrollTop')}
 					>
-						<span className="text-2xl">↑</span>
+						<svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18"/>
+						</svg>
 					</button>
 				)}
 

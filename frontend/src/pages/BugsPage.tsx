@@ -6,6 +6,7 @@ import DiscordButton from '../components/DiscordButton';
 import ShareButton from '../components/ShareButton';
 import SEO from '../components/SEO';
 import StructuredData from '../components/StructuredData';
+import { getSEOConfig } from '../utils/seoConfig';
 
 interface BugReport {
 	titulo: string;
@@ -92,6 +93,8 @@ function highlightText(text: string, query: string) {
 
 export default function BugsPage() {
 	const { t, i18n } = useTranslation();
+	const currentLang = i18n.language || 'es';
+	const seoConfig = getSEOConfig('/bugs', currentLang);
 	const [bugs, setBugs] = useState<BugReport[]>([]);
 	const [filteredBugs, setFilteredBugs] = useState<BugReport[]>([]);
 	const [loading, setLoading] = useState(true);
@@ -102,6 +105,12 @@ export default function BugsPage() {
 	const [showScrollTop, setShowScrollTop] = useState(false);
 	const [currentTime, setCurrentTime] = useState(new Date());
 	const [lastCronRun, setLastCronRun] = useState<Date | null>(null);
+
+	const getCanonicalUrl = () => {
+		const base = 'https://hytaleguia.com';
+		const path = 'bugs';
+		return currentLang === 'es' ? `${base}/${path}` : `${base}/${currentLang}/${path}`;
+	};
 
 	useEffect(() => {
 		const timer = setInterval(() => setCurrentTime(new Date()), 60000);
@@ -201,17 +210,13 @@ export default function BugsPage() {
 
 	return (
 		<>
-			<SEO
-				title={t('bugs.seo.title')}
-				description={t('bugs.seo.description')}
-				keywords={t('bugs.seo.keywords')}
-			/>
+			<SEO {...seoConfig} canonical={getCanonicalUrl()} />
 			<StructuredData
 				type="BreadcrumbList"
 				data={{
 					items: [
 						{ name: t('bugs.breadcrumbs.home'), url: 'https://hytaleguia.com' },
-						{ name: t('bugs.breadcrumbs.bugs'), url: 'https://hytaleguia.com/bugs' }
+						{ name: t('bugs.breadcrumbs.bugs'), url: getCanonicalUrl() }
 					]
 				}}
 			/>
@@ -295,10 +300,7 @@ export default function BugsPage() {
 											key={sort}
 											onClick={() => { setSorting(true); setSortBy(sort); setTimeout(() => setSorting(false), 300); }}
 											disabled={sorting}
-											className={`px-4 py-2 rounded-lg text-sm font-medium transition cursor-pointer ${sortBy === sort
-												? 'bg-[#00d2ff] text-[#0b0d12]'
-												: 'bg-white/5 text-gray-400 hover:bg-white/10'
-												} ${sorting ? 'opacity-50 cursor-not-allowed' : ''}`}
+											className={`px-4 py-2 rounded-lg text-sm font-medium transition cursor-pointer ${sortBy === sort ? 'bg-[#00d2ff] text-[#0b0d12]' : 'bg-white/5 text-gray-400 hover:bg-white/10'} ${sorting ? 'opacity-50 cursor-not-allowed' : ''}`}
 										>
 											{t(`bugs.sortOptions.${sort}`)}
 										</button>

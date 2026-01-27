@@ -6,7 +6,7 @@ import DiscordButton from '../components/DiscordButton';
 import ShareButton from '../components/ShareButton';
 import SEO from '../components/SEO';
 import StructuredData from '../components/StructuredData';
-import { SEO_CONFIGS, DEFAULT_SEO } from '../utils/seoConfig';
+import { getSEOConfig } from '../utils/seoConfig';
 
 interface NewsArticle {
 	titulo: string;
@@ -14,6 +14,7 @@ interface NewsArticle {
 	fecha: string;
 	fuente: string;
 	url: string;
+	image?: string;
 	fileDate: string;
 }
 
@@ -37,37 +38,36 @@ const SOURCE_ICONS: { [key: string]: string } = {
 	'Windows Central': 'windows'
 };
 
+
 function NewsSkeleton() {
 	return (
-		<div className="bg-white/5 border border-white/10 rounded-xl p-6 animate-pulse">
-			<div className="flex items-start justify-between mb-3">
-				<div className="bg-gray-700 h-6 w-16 rounded-full"></div>
-				<div className="text-right space-y-2">
-					<div className="bg-gray-700 h-4 w-24 rounded ml-auto"></div>
-					<div className="bg-gray-700 h-4 w-20 rounded ml-auto"></div>
+		<div className="bg-white/5 border border-white/10 rounded-xl overflow-hidden animate-pulse">
+			<div className="aspect-video bg-gradient-to-br from-gray-700 to-gray-800"></div>
+			<div className="p-6 space-y-3">
+				<div className="flex gap-2">
+					<div className="bg-gray-700 h-5 w-16 rounded-full"></div>
+					<div className="bg-gray-700 h-5 w-20 rounded-full"></div>
+				</div>
+				<div className="bg-gray-700 h-6 w-3/4 rounded"></div>
+				<div className="space-y-2">
+					<div className="bg-gray-700 h-4 w-full rounded"></div>
+					<div className="bg-gray-700 h-4 w-2/3 rounded"></div>
 				</div>
 			</div>
-			<div className="bg-gray-700 h-8 w-3/4 rounded mb-3"></div>
-			<div className="space-y-2 mb-4">
-				<div className="bg-gray-700 h-4 w-full rounded"></div>
-				<div className="bg-gray-700 h-4 w-full rounded"></div>
-				<div className="bg-gray-700 h-4 w-2/3 rounded"></div>
-			</div>
-			<div className="bg-gray-700 h-4 w-24 rounded"></div>
 		</div>
 	);
 }
 
 function SourceIcon({ source }: { source: string }) {
 	const iconType = SOURCE_ICONS[source] || 'newspaper';
-	
+
 	const icons = {
-		gamepad: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z"/>,
-		newspaper: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>,
-		target: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>,
-		desktop: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>,
-		soccer: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>,
-		windows: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"/>
+		gamepad: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z" />,
+		newspaper: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />,
+		target: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />,
+		desktop: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />,
+		soccer: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />,
+		windows: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
 	};
 
 	return (
@@ -79,7 +79,10 @@ function SourceIcon({ source }: { source: string }) {
 
 export default function NewsPage() {
 	const { t, i18n } = useTranslation();
-	const seoConfig = SEO_CONFIGS['/noticias'] || DEFAULT_SEO;
+	const currentLang = i18n.language || 'es';
+	const seoConfig = getSEOConfig('/noticias', currentLang);
+
+
 	const [news, setNews] = useState<NewsArticle[]>([]);
 	const [filteredNews, setFilteredNews] = useState<NewsArticle[]>([]);
 	const [loading, setLoading] = useState(true);
@@ -90,6 +93,12 @@ export default function NewsPage() {
 	const [showScrollTop, setShowScrollTop] = useState(false);
 	const [currentTime, setCurrentTime] = useState(new Date());
 	const [lastCronRun, setLastCronRun] = useState<Date | null>(null);
+
+	const getCanonicalUrl = () => {
+		const base = 'https://hytaleguia.com';
+		const path = 'noticias';
+		return currentLang === 'es' ? `${base}/${path}` : `${base}/${currentLang}/${path}`;
+	};
 
 	useEffect(() => {
 		const timer = setInterval(() => setCurrentTime(new Date()), 60000);
@@ -133,10 +142,7 @@ export default function NewsPage() {
 		);
 
 		filtered.sort((a, b) => {
-			const dateA = new Date(a.fecha);
-			const dateB = new Date(b.fecha);
-			const diff = dateB.getTime() - dateA.getTime();
-			
+			const diff = new Date(b.fecha).getTime() - new Date(a.fecha).getTime();
 			if (sortBy === 'newest') return diff;
 			if (sortBy === 'oldest') return -diff;
 			if (sortBy === 'source') return simplifySourceName(a.fuente).localeCompare(simplifySourceName(b.fuente));
@@ -144,7 +150,7 @@ export default function NewsPage() {
 		});
 
 		setFilteredNews(filtered);
-		setDisplayCount(10);
+		setDisplayCount(5);
 	}, [searchQuery, sortBy, news]);
 
 	const handleSortChange = (newSort: string) => {
@@ -225,7 +231,7 @@ export default function NewsPage() {
 		);
 	};
 
-	const groupByDate = (articles: NewsArticle[]) => {
+	/*const groupByDate = (articles: NewsArticle[]) => {
 		const grouped: { [key: string]: NewsArticle[] } = {};
 		articles.forEach(article => {
 			const date = formatDate(article.fecha);
@@ -233,20 +239,23 @@ export default function NewsPage() {
 			grouped[date].push(article);
 		});
 		return grouped;
-	};
+	};*/
 
 	const featuredArticle = filteredNews[0];
-	const groupedNews = groupByDate(filteredNews.slice(1, displayCount));
+	//const groupedNews = groupByDate(filteredNews.slice(1, displayCount));
 
 	return (
 		<>
-			<SEO {...seoConfig} />
+			<SEO
+				{...seoConfig}
+				canonical={getCanonicalUrl()}
+			/>
 			<StructuredData
 				type="BreadcrumbList"
 				data={{
 					items: [
 						{ name: t('news.breadcrumbs.home'), url: 'https://hytaleguia.com' },
-						{ name: t('news.breadcrumbs.news'), url: 'https://hytaleguia.com/noticias' }
+						{ name: t('news.breadcrumbs.news'), url: getCanonicalUrl() }
 					]
 				}}
 			/>
@@ -279,7 +288,7 @@ export default function NewsPage() {
 								{lastCronRun && !isNaN(lastCronRun.getTime()) && (
 									<div className="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 px-4 py-2 rounded-full text-sm font-medium">
 										<svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-											<path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
+											<path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
 										</svg>
 										<span>{t('news.lastUpdate')}: {getTimeAgo(lastCronRun.toISOString())}</span>
 									</div>
@@ -287,7 +296,7 @@ export default function NewsPage() {
 
 								<div className="inline-flex items-center gap-2 bg-purple-500/10 border border-purple-500/30 text-purple-400 px-4 py-2 rounded-full text-sm font-medium">
 									<svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-										<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+										<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
 									</svg>
 									<span>{t('news.nextUpdate')}: {getNextRefresh()}</span>
 								</div>
@@ -302,11 +311,10 @@ export default function NewsPage() {
 								<div className="flex gap-3">
 									<div className="bg-white/5 h-10 w-32 rounded-lg animate-pulse"></div>
 									<div className="bg-white/5 h-10 w-40 rounded-lg animate-pulse"></div>
-									<div className="bg-white/5 h-10 w-36 rounded-lg animate-pulse"></div>
 								</div>
 							</div>
-							<div className="space-y-6">
-								{[...Array(5)].map((_, index) => <NewsSkeleton key={index} />)}
+							<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+								{[...Array(6)].map((_, i) => <NewsSkeleton key={i} />)}
 							</div>
 						</div>
 					) : (
@@ -321,14 +329,9 @@ export default function NewsPage() {
 										className="w-full bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-white placeholder-gray-500 focus:outline-none focus:border-[#00d2ff] transition"
 									/>
 									<svg className="absolute right-6 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-										<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+										<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
 									</svg>
-
-									<img
-										src="/News.png"
-										alt="Goblin reading news"
-										className="absolute -top-25 right-4 w-32 h-auto z-20 pointer-events-none select-none"
-									/>
+									<img src="/News.png" alt="Goblin reading news" className="absolute -top-25 right-4 w-32 h-auto z-20 pointer-events-none select-none" />
 								</div>
 
 								<div className="flex items-center gap-3 flex-wrap">
@@ -338,15 +341,11 @@ export default function NewsPage() {
 											key={sort}
 											onClick={() => handleSortChange(sort)}
 											disabled={sorting}
-											className={`px-4 py-2 rounded-lg text-sm font-medium transition cursor-pointer ${sortBy === sort
-												? 'bg-[#00d2ff] text-[#0b0d12]'
-												: 'bg-white/5 text-gray-400 hover:bg-white/10'
-												} ${sorting ? 'opacity-50 cursor-not-allowed' : ''}`}
+											className={`px-4 py-2 rounded-lg text-sm font-medium transition cursor-pointer ${sortBy === sort ? 'bg-[#00d2ff] text-[#0b0d12]' : 'bg-white/5 text-gray-400 hover:bg-white/10'} ${sorting ? 'opacity-50 cursor-not-allowed' : ''}`}
 										>
 											{t(`news.sortOptions.${sort}`)}
 										</button>
 									))}
-
 									{sorting && (
 										<span className="inline-flex items-center gap-2 text-[#00d2ff] text-sm">
 											<span className="w-2 h-2 bg-[#00d2ff] rounded-full animate-pulse"></span>
@@ -361,8 +360,8 @@ export default function NewsPage() {
 							</div>
 
 							{sorting ? (
-								<div className="max-w-5xl mx-auto space-y-6">
-									{[...Array(3)].map((_, index) => <NewsSkeleton key={index} />)}
+								<div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
+									{[...Array(6)].map((_, i) => <NewsSkeleton key={i} />)}
 								</div>
 							) : (
 								<div className="max-w-5xl mx-auto space-y-8">
@@ -372,15 +371,27 @@ export default function NewsPage() {
 										<>
 											{featuredArticle && (
 												<div
-													className="relative bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-8 cursor-pointer group overflow-hidden animate-fadeIn hover:border-[#00d2ff]/50 hover:bg-white/[0.07] transition-all duration-300"
+													className="relative bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden cursor-pointer group animate-fadeIn hover:border-[#00d2ff]/50 transition-all duration-300"
 													onClick={() => window.open(featuredArticle.url, '_blank')}
 												>
-													<div className="relative z-10">
+													{featuredArticle.image && (
+														<div className="relative h-64 overflow-hidden">
+															<img
+																src={featuredArticle.image}
+																alt={featuredArticle.titulo}
+																className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+																onError={(e) => e.currentTarget.style.display = 'none'}
+															/>
+															<div className="absolute inset-0 bg-gradient-to-t from-[#0b0d12] via-[#0b0d12]/50 to-transparent"></div>
+														</div>
+													)}
+
+													<div className="relative z-10 p-8">
 														<div className="flex items-start justify-between mb-4">
 															<div className="flex items-center gap-3">
 																<span className="bg-[#00d2ff]/10 border border-[#00d2ff]/30 text-[#00d2ff] text-xs font-bold px-4 py-2 rounded-full flex items-center gap-2">
 																	<svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-																		<path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+																		<path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
 																	</svg>
 																	{t('news.featured')}
 																</span>
@@ -403,7 +414,7 @@ export default function NewsPage() {
 															{highlightText(featuredArticle.titulo, searchQuery)}
 														</h2>
 
-														<p className="text-gray-300 text-lg mb-6 leading-relaxed">
+														<p className="text-gray-300 text-lg mb-6 leading-relaxed line-clamp-3">
 															{highlightText(featuredArticle.resumen, searchQuery)}
 														</p>
 
@@ -412,76 +423,71 @@ export default function NewsPage() {
 																<span>{t('news.readFull')}</span>
 																<span className="ml-2 group-hover:translate-x-2 transition-transform">→</span>
 															</div>
-															<ShareButton
-																title={featuredArticle.titulo}
-																text={featuredArticle.resumen}
-																url={featuredArticle.url}
-															/>
+															<ShareButton title={featuredArticle.titulo} text={featuredArticle.resumen} url={featuredArticle.url} />
 														</div>
 													</div>
 												</div>
 											)}
 
-											{Object.entries(groupedNews).map(([date, articles]) => (
-												<div key={date}>
-													<div className="flex items-center gap-4 mb-6">
-														<div className="flex-1 h-px bg-white/10"></div>
-														<span className="text-gray-400 text-sm font-medium px-4 py-1.5 bg-white/5 rounded-full">{date}</span>
-														<div className="flex-1 h-px bg-white/10"></div>
-													</div>
+											<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+												{filteredNews.slice(1, displayCount).map((article, index) => (
+													<article
+														key={index}
+														className="bg-white/5 border border-white/10 rounded-xl overflow-hidden hover:border-[#00d2ff]/50 hover:shadow-[0_0_30px_rgba(0,210,255,0.1)] transition-all duration-300 group cursor-pointer animate-fadeIn flex flex-col"
+														style={{ animationDelay: `${index * 30}ms` }}
+														onClick={() => window.open(article.url, '_blank')}
+													>
+														{article.image && (
+															<div className="relative h-48 overflow-hidden flex-shrink-0">
+																<img
+																	src={article.image}
+																	alt={article.titulo}
+																	className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+																	onError={(e) => e.currentTarget.parentElement!.style.display = 'none'}
+																/>
+															</div>
+														)}
 
-													<div className="space-y-6">
-														{articles.map((article, index) => (
-															<article
-																key={index}
-																className="bg-white/5 border border-white/10 rounded-xl p-6 hover:border-[#00d2ff]/50 hover:shadow-[0_0_30px_rgba(0,210,255,0.1)] transition-all duration-300 group cursor-pointer animate-fadeIn"
-																style={{ animationDelay: `${index * 50}ms` }}
-																onClick={() => window.open(article.url, '_blank')}
-															>
-																<div className="flex items-start justify-between mb-3">
-																	<div className="flex items-center gap-2">
-																		<span className="bg-[#00d2ff] text-[#0b0d12] text-xs font-bold px-3 py-1 rounded-full">
-																			{t('news.badge')}
+														<div className="p-6 flex flex-col flex-1">
+															<div className="flex items-center justify-between mb-3">
+																<div className="flex items-center gap-2">
+																	<span className="bg-[#00d2ff] text-[#0b0d12] text-xs font-bold px-3 py-1 rounded-full">
+																		{t('news.badge')}
+																	</span>
+																	{isNew(article.fecha) && (
+																		<span className="bg-emerald-500 text-white text-xs font-bold px-2 py-1 rounded-full animate-pulse">
+																			{t('news.new')}
 																		</span>
-																		{isNew(article.fecha) && (
-																			<span className="bg-emerald-500 text-white text-xs font-bold px-2 py-1 rounded-full animate-pulse">
-																				{t('news.new')}
-																			</span>
-																		)}
-																	</div>
-																	<div className="text-right text-sm">
-																		<div className="text-[#00d2ff] font-medium flex items-center gap-1.5 justify-end">
-																			<SourceIcon source={simplifySourceName(article.fuente)} />
-																			{simplifySourceName(article.fuente)}
-																		</div>
-																		<div className="text-gray-400 text-xs mt-1">{formatDate(article.fecha)}</div>
-																	</div>
+																	)}
 																</div>
-
-																<h2 className="text-2xl font-bold text-white mb-3 group-hover:text-[#00d2ff] transition">
-																	{highlightText(article.titulo, searchQuery)}
-																</h2>
-
-																<p className="text-gray-400 mb-4 line-clamp-3">
-																	{highlightText(article.resumen, searchQuery)}
-																</p>
-
-																<div className="flex items-center justify-between">
-																	<div className="flex items-center text-[#00d2ff] font-medium text-sm group-hover:text-[#e5c100] transition">
-																		<span>{t('news.readMore')}</span>
-																		<span className="ml-2">→</span>
+																<div className="text-right text-xs">
+																	<div className="text-[#00d2ff] font-medium flex items-center gap-1.5 justify-end">
+																		<SourceIcon source={simplifySourceName(article.fuente)} />
+																		{simplifySourceName(article.fuente)}
 																	</div>
-																	<ShareButton
-																		title={article.titulo}
-																		text={article.resumen}
-																		url={article.url}
-																	/>
+																	<div className="text-gray-400 mt-1">{formatDate(article.fecha)}</div>
 																</div>
-															</article>
-														))}
-													</div>
-												</div>
-											))}
+															</div>
+
+															<h2 className="text-xl font-bold text-white mb-2 group-hover:text-[#00d2ff] transition line-clamp-2">
+																{highlightText(article.titulo, searchQuery)}
+															</h2>
+
+															<p className="text-gray-400 text-sm mb-4 line-clamp-2 flex-1">
+																{highlightText(article.resumen, searchQuery)}
+															</p>
+
+															<div className="flex items-center justify-between pt-3 border-t border-white/10 mt-auto">
+																<div className="flex items-center text-[#00d2ff] font-medium text-sm group-hover:text-[#e5c100] transition">
+																	<span>{t('news.readMore')}</span>
+																	<span className="ml-2">→</span>
+																</div>
+																<ShareButton title={article.titulo} text={article.resumen} url={article.url} />
+															</div>
+														</div>
+													</article>
+												))}
+											</div>
 
 											{displayCount < filteredNews.length && (
 												<div className="text-center py-8">
@@ -508,7 +514,7 @@ export default function NewsPage() {
 						aria-label={t('news.scrollTop')}
 					>
 						<svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-							<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18"/>
+							<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
 						</svg>
 					</button>
 				)}

@@ -5,10 +5,19 @@ import Footer from '../components/Footer';
 import DiscordButton from '../components/DiscordButton';
 import SEO from '../components/SEO';
 import StructuredData from '../components/StructuredData';
+import { getSEOConfig } from '../utils/seoConfig';
 
 export default function TermsPage() {
-	const { t } = useTranslation();
+	const { t, i18n } = useTranslation();
+	const currentLang = i18n.language || 'es';
+	const seoConfig = getSEOConfig('/terminos-de-uso', currentLang);
 	const [showScrollTop, setShowScrollTop] = useState(false);
+
+	const getCanonicalUrl = () => {
+		const base = 'https://hytaleguia.com';
+		const path = 'terminos-de-uso';
+		return currentLang === 'es' ? `${base}/${path}` : `${base}/${currentLang}/${path}`;
+	};
 
 	useEffect(() => {
 		window.scrollTo(0, 0);
@@ -46,17 +55,13 @@ export default function TermsPage() {
 
 	return (
 		<>
-			<SEO
-				title={t('terms.seo.title')}
-				description={t('terms.seo.description')}
-				keywords={t('terms.seo.keywords')}
-			/>
+			<SEO {...seoConfig} canonical={getCanonicalUrl()} />
 			<StructuredData
 				type="BreadcrumbList"
 				data={{
 					items: [
 						{ name: t('terms.breadcrumbs.home'), url: 'https://hytaleguia.com' },
-						{ name: t('terms.breadcrumbs.terms'), url: 'https://hytaleguia.com/terminos-de-uso' }
+						{ name: t('terms.breadcrumbs.terms'), url: getCanonicalUrl() }
 					]
 				}}
 			/>
@@ -66,7 +71,6 @@ export default function TermsPage() {
 				<DiscordButton />
 
 				<main className="flex-1 container mx-auto px-4 py-24">
-					{/* Breadcrumbs */}
 					<div className="max-w-5xl mx-auto mb-6">
 						<div className="flex items-center gap-2 text-sm text-gray-400">
 							<a href="/" className="hover:text-[#00d2ff] transition cursor-pointer">{t('terms.breadcrumbs.home')}</a>
@@ -75,7 +79,6 @@ export default function TermsPage() {
 						</div>
 					</div>
 
-					{/* Header */}
 					<div className="max-w-5xl mx-auto mb-12 text-center">
 						<h1 className="text-5xl font-bold mb-4">
 							<span className="text-[#00d2ff]">{t('terms.title')}</span>
@@ -86,14 +89,12 @@ export default function TermsPage() {
 					</div>
 
 					<div className="max-w-5xl mx-auto">
-						{/* Project Info */}
 						<InfoBox>
 							<p className="text-white mb-3">
 								<strong>HytaleGuía</strong> {t('terms.projectDescription')}
 							</p>
 						</InfoBox>
 
-						{/* Fan Site Warning */}
 						<InfoBox warning>
 							<p className="text-yellow-400 font-bold mb-2">⚠️ {t('terms.fansite')}</p>
 							<p className="text-gray-300">
@@ -102,13 +103,11 @@ export default function TermsPage() {
 							</p>
 						</InfoBox>
 
-						{/* 1. Acceptance */}
 						<Section title={`1. ${t('terms.acceptance.title')}`}>
 							<p className="text-gray-400 mb-4">{t('terms.acceptance.text')}</p>
 							<p className="text-gray-400">{t('terms.acceptance.text2')}</p>
 						</Section>
 
-						{/* 2. Access and Registration */}
 						<Section title={`2. ${t('terms.access.title')}`}>
 							<SubSection title={`2.1 ${t('terms.access.general')}`}>
 								<ul className="list-disc list-inside text-gray-400 space-y-2">
@@ -129,7 +128,6 @@ export default function TermsPage() {
 							</SubSection>
 						</Section>
 
-						{/* 3. Prohibited Conduct */}
 						<Section title={`3. ${t('terms.conduct.title')}`}>
 							<p className="text-gray-400 mb-4">{t('terms.conduct.text')}</p>
 							<p className="text-gray-400 mb-3"><strong className="text-white">{t('terms.conduct.prohibited')}</strong></p>
@@ -145,7 +143,6 @@ export default function TermsPage() {
 							</p>
 						</Section>
 
-						{/* 4. Intellectual Property */}
 						<Section title={`4. ${t('terms.ip.title')}`}>
 							<SubSection title={`4.1 ${t('terms.ip.siteContent')}`}>
 								<p className="text-gray-400">{t('terms.ip.siteText')}</p>
@@ -168,7 +165,6 @@ export default function TermsPage() {
 							</SubSection>
 						</Section>
 
-						{/* 5. Doge AI */}
 						<Section title={`5. ${t('terms.ai.title')}`}>
 							<InfoBox>
 								<p className="text-white mb-3">
@@ -183,7 +179,6 @@ export default function TermsPage() {
 							</InfoBox>
 						</Section>
 
-						{/* 6. Monetization */}
 						<Section title={`6. ${t('terms.monetization.title')}`}>
 							<SubSection title={`6.1 ${t('terms.monetization.ads')}`}>
 								<p className="text-gray-400 mb-3">{t('terms.monetization.adsText')}</p>
@@ -197,13 +192,11 @@ export default function TermsPage() {
 							</SubSection>
 						</Section>
 
-						{/* 7. Minors */}
 						<Section title={`7. ${t('terms.minors.title')}`}>
 							<p className="text-gray-400 mb-3">{t('terms.minors.text')}</p>
 							<p className="text-gray-400"><strong className="text-white">{t('terms.minors.prohibited')}</strong> {t('terms.minors.prohibitedText')}</p>
 						</Section>
 
-						{/* 8. Copyright */}
 						<Section title={`8. ${t('terms.copyright.title')}`}>
 							<p className="text-gray-400 mb-3">{t('terms.copyright.text')}</p>
 							<p className="text-white mb-3">
@@ -217,7 +210,6 @@ export default function TermsPage() {
 							</ul>
 						</Section>
 
-						{/* 9. Liability */}
 						<Section title={`9. ${t('terms.liability.title')}`}>
 							<p className="text-gray-400 mb-3"><strong className="text-white">{t('terms.liability.notGuarantee')}</strong></p>
 							<ul className="list-disc list-inside text-gray-400 space-y-2 mb-4">
@@ -233,7 +225,6 @@ export default function TermsPage() {
 							</ul>
 						</Section>
 
-						{/* Development Warning */}
 						<InfoBox warning>
 							<p className="text-yellow-400 font-bold mb-3">⚠️ {t('terms.development.title')}</p>
 							<p className="text-gray-300 mb-3">{t('terms.development.text')}</p>
@@ -246,17 +237,14 @@ export default function TermsPage() {
 							</ul>
 						</InfoBox>
 
-						{/* 10. Modifications */}
 						<Section title={`10. ${t('terms.modifications.title')}`}>
 							<p className="text-gray-400">{t('terms.modifications.text')}</p>
 						</Section>
 
-						{/* 11. Jurisdiction */}
 						<Section title={`11. ${t('terms.jurisdiction.title')}`}>
 							<p className="text-gray-400">{t('terms.jurisdiction.text')}</p>
 						</Section>
 
-						{/* Contact */}
 						<div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-8 mt-12">
 							<h2 className="text-3xl font-bold text-[#00d2ff] mb-6">📧 {t('terms.contact.title')}</h2>
 							<p className="text-gray-400 mb-4">{t('terms.contact.text')}</p>
@@ -276,21 +264,21 @@ export default function TermsPage() {
 							</div>
 						</div>
 
-						{/* Review Note */}
 						<p className="text-center text-gray-400 text-sm italic mt-12">
 							{t('terms.reviewNote')}
 						</p>
 					</div>
 				</main>
 
-				{/* Scroll to top */}
 				{showScrollTop && (
 					<button
 						onClick={scrollToTop}
 						className="fixed bottom-8 right-8 bg-[#00d2ff] hover:bg-[#00a8cc] text-[#0b0d12] w-12 h-12 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-110 z-50 cursor-pointer"
-						aria-label="Volver arriba"
+						aria-label={t('terms.scrollTop')}
 					>
-						<span className="text-2xl">↑</span>
+						<svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18"/>
+						</svg>
 					</button>
 				)}
 

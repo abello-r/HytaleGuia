@@ -6,6 +6,7 @@ import DiscordButton from '../components/DiscordButton';
 import ShareButton from '../components/ShareButton';
 import SEO from '../components/SEO';
 import StructuredData from '../components/StructuredData';
+import { getSEOConfig } from '../utils/seoConfig';
 
 interface ModItem {
 	titulo: string;
@@ -49,6 +50,8 @@ function ModsSkeleton() {
 
 export default function ModsPage() {
 	const { t, i18n } = useTranslation();
+	const currentLang = i18n.language || 'es';
+	const seoConfig = getSEOConfig('/mods', currentLang);
 	const [mods, setMods] = useState<ModItem[]>([]);
 	const [filteredMods, setFilteredMods] = useState<ModItem[]>([]);
 	const [loading, setLoading] = useState(true);
@@ -59,6 +62,12 @@ export default function ModsPage() {
 	const [showScrollTop, setShowScrollTop] = useState(false);
 	const [currentTime, setCurrentTime] = useState(new Date());
 	const [lastCronRun, setLastCronRun] = useState<Date | null>(null);
+
+	const getCanonicalUrl = () => {
+		const base = 'https://hytaleguia.com';
+		const path = 'mods';
+		return currentLang === 'es' ? `${base}/${path}` : `${base}/${currentLang}/${path}`;
+	};
 
 	useEffect(() => {
 		const timer = setInterval(() => setCurrentTime(new Date()), 60000);
@@ -148,8 +157,7 @@ export default function ModsPage() {
 	const isNew = (dateString: string): boolean => {
 		const itemDate = new Date(dateString);
 		const diffTime = Math.abs(currentTime.getTime() - itemDate.getTime());
-		const diffHours = diffTime / (1000 * 60 * 60);
-		return diffHours <= 72;
+		return (diffTime / (1000 * 60 * 60)) <= 72;
 	};
 
 	const getSource = (downloadLinks: string[]): string => {
@@ -207,17 +215,13 @@ export default function ModsPage() {
 
 	return (
 		<>
-			<SEO
-				title={t('mods.seo.title')}
-				description={t('mods.seo.description')}
-				keywords={t('mods.seo.keywords')}
-			/>
+			<SEO {...seoConfig} canonical={getCanonicalUrl()} />
 			<StructuredData
 				type="BreadcrumbList"
 				data={{
 					items: [
-						{ name: 'Inicio', url: 'https://hytaleguia.com' },
-						{ name: 'Mods', url: 'https://hytaleguia.com/mods' }
+						{ name: t('mods.breadcrumbs.home'), url: 'https://hytaleguia.com' },
+						{ name: t('mods.breadcrumbs.mods'), url: getCanonicalUrl() }
 					]
 				}}
 			/>
@@ -311,10 +315,7 @@ export default function ModsPage() {
 											key={sort}
 											onClick={() => handleSortChange(sort)}
 											disabled={sorting}
-											className={`px-4 py-2 rounded-lg text-sm font-medium transition cursor-pointer ${sortBy === sort
-												? 'bg-[#00d2ff] text-[#0b0d12]'
-												: 'bg-white/5 text-gray-400 hover:bg-white/10'
-												} ${sorting ? 'opacity-50 cursor-not-allowed' : ''}`}
+											className={`px-4 py-2 rounded-lg text-sm font-medium transition cursor-pointer ${sortBy === sort ? 'bg-[#00d2ff] text-[#0b0d12]' : 'bg-white/5 text-gray-400 hover:bg-white/10'} ${sorting ? 'opacity-50 cursor-not-allowed' : ''}`}
 										>
 											{t(`mods.sortOptions.${sort}`)}
 										</button>
@@ -424,11 +425,7 @@ export default function ModsPage() {
 																	<span className="ml-1">→</span>
 																</div>
 
-																<ShareButton
-																	title={item.titulo}
-																	text={item.resumen}
-																	url={item.links_descarga[0]}
-																/>
+																<ShareButton title={item.titulo} text={item.resumen} url={item.links_descarga[0]} />
 															</div>
 														</div>
 													</article>

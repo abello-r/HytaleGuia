@@ -5,10 +5,19 @@ import Footer from '../components/Footer';
 import DiscordButton from '../components/DiscordButton';
 import SEO from '../components/SEO';
 import StructuredData from '../components/StructuredData';
+import { getSEOConfig } from '../utils/seoConfig';
 
 export default function PrivacyPage() {
-	const { t } = useTranslation();
+	const { t, i18n } = useTranslation();
+	const currentLang = i18n.language || 'es';
+	const seoConfig = getSEOConfig('/privacidad', currentLang);
 	const [showScrollTop, setShowScrollTop] = useState(false);
+
+	const getCanonicalUrl = () => {
+		const base = 'https://hytaleguia.com';
+		const path = 'privacidad';
+		return currentLang === 'es' ? `${base}/${path}` : `${base}/${currentLang}/${path}`;
+	};
 
 	useEffect(() => {
 		window.scrollTo(0, 0);
@@ -46,17 +55,13 @@ export default function PrivacyPage() {
 
 	return (
 		<>
-			<SEO
-				title={t('privacy.seo.title')}
-				description={t('privacy.seo.description')}
-				keywords={t('privacy.seo.keywords')}
-			/>
+			<SEO {...seoConfig} canonical={getCanonicalUrl()} />
 			<StructuredData
 				type="BreadcrumbList"
 				data={{
 					items: [
 						{ name: t('privacy.breadcrumbs.home'), url: 'https://hytaleguia.com' },
-						{ name: t('privacy.breadcrumbs.privacy'), url: 'https://hytaleguia.com/privacidad' }
+						{ name: t('privacy.breadcrumbs.privacy'), url: getCanonicalUrl() }
 					]
 				}}
 			/>
@@ -66,7 +71,6 @@ export default function PrivacyPage() {
 				<DiscordButton />
 
 				<main className="flex-1 container mx-auto px-4 py-24">
-					{/* Breadcrumbs */}
 					<div className="max-w-5xl mx-auto mb-6">
 						<div className="flex items-center gap-2 text-sm text-gray-400">
 							<a href="/" className="hover:text-[#00d2ff] transition cursor-pointer">{t('privacy.breadcrumbs.home')}</a>
@@ -75,7 +79,6 @@ export default function PrivacyPage() {
 						</div>
 					</div>
 
-					{/* Header */}
 					<div className="max-w-5xl mx-auto mb-12 text-center">
 						<h1 className="text-5xl font-bold mb-4">
 							<span className="text-[#00d2ff]">{t('privacy.title')}</span>
@@ -86,20 +89,17 @@ export default function PrivacyPage() {
 					</div>
 
 					<div className="max-w-5xl mx-auto">
-						{/* Intro */}
 						<InfoBox>
 							<p className="text-white">
 								<strong>HytaleGuía</strong> {t('privacy.intro')}
 							</p>
 						</InfoBox>
 
-						{/* GDPR Notice */}
 						<InfoBox warning>
 							<p className="text-yellow-400 font-bold mb-2">🛡️ {t('privacy.gdpr.title')}</p>
 							<p className="text-gray-300">{t('privacy.gdpr.text')}</p>
 						</InfoBox>
 
-						{/* 1. Responsible */}
 						<Section title={`1. ${t('privacy.responsible.title')}`}>
 							<p className="text-gray-400 mb-3">{t('privacy.responsible.text')}</p>
 							<div className="bg-white/5 border border-white/10 rounded-lg p-4">
@@ -110,7 +110,6 @@ export default function PrivacyPage() {
 							</div>
 						</Section>
 
-						{/* 2. Data Collection */}
 						<Section title={`2. ${t('privacy.collection.title')}`}>
 							<SubSection title={`2.1 ${t('privacy.collection.registration')}`}>
 								<p className="text-gray-400 mb-3">{t('privacy.collection.regText')}</p>
@@ -136,7 +135,6 @@ export default function PrivacyPage() {
 							</SubSection>
 						</Section>
 
-						{/* 3. Purpose */}
 						<Section title={`3. ${t('privacy.purpose.title')}`}>
 							<p className="text-gray-400 mb-3">{t('privacy.purpose.text')}</p>
 							<ul className="list-disc list-inside text-gray-400 space-y-2">
@@ -149,7 +147,6 @@ export default function PrivacyPage() {
 							</ul>
 						</Section>
 
-						{/* 4. Legal Basis */}
 						<Section title={`4. ${t('privacy.legal.title')}`}>
 							<ul className="list-disc list-inside text-gray-400 space-y-3">
 								<li><strong className="text-white">{t('privacy.legal.item1Title')}</strong> {t('privacy.legal.item1Text')}</li>
@@ -158,7 +155,6 @@ export default function PrivacyPage() {
 							</ul>
 						</Section>
 
-						{/* 5. Data Sharing */}
 						<Section title={`5. ${t('privacy.sharing.title')}`}>
 							<p className="text-gray-400 mb-4">{t('privacy.sharing.text')}</p>
 
@@ -174,7 +170,6 @@ export default function PrivacyPage() {
 							</SubSection>
 						</Section>
 
-						{/* 6. User Rights */}
 						<Section title={`6. ${t('privacy.rights.title')}`}>
 							<InfoBox>
 								<p className="text-white mb-3"><strong>{t('privacy.rights.gdprRights')}</strong></p>
@@ -195,7 +190,6 @@ export default function PrivacyPage() {
 							</p>
 						</Section>
 
-						{/* 7. Data Retention */}
 						<Section title={`7. ${t('privacy.retention.title')}`}>
 							<ul className="list-disc list-inside text-gray-400 space-y-2">
 								<li><strong className="text-white">{t('privacy.retention.accounts')}</strong> {t('privacy.retention.accountsText')}</li>
@@ -204,7 +198,6 @@ export default function PrivacyPage() {
 							</ul>
 						</Section>
 
-						{/* 8. Security */}
 						<Section title={`8. ${t('privacy.security.title')}`}>
 							<p className="text-gray-400 mb-3">{t('privacy.security.text')}</p>
 							<ul className="list-disc list-inside text-gray-400 space-y-2 mb-6">
@@ -219,24 +212,20 @@ export default function PrivacyPage() {
 							</InfoBox>
 						</Section>
 
-						{/* 9. Minors */}
 						<Section title={`9. ${t('privacy.minors.title')}`}>
 							<p className="text-gray-400 mb-3">{t('privacy.minors.text')}</p>
 							<p className="text-gray-400">{t('privacy.minors.parentsText')}</p>
 						</Section>
 
-						{/* 10. International Transfers */}
 						<Section title={`10. ${t('privacy.transfers.title')}`}>
 							<p className="text-gray-400 mb-3">{t('privacy.transfers.text')}</p>
 							<p className="text-gray-400">{t('privacy.transfers.providers')}</p>
 						</Section>
 
-						{/* 11. Changes */}
 						<Section title={`11. ${t('privacy.changes.title')}`}>
 							<p className="text-gray-400">{t('privacy.changes.text')}</p>
 						</Section>
 
-						{/* Contact */}
 						<div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-8 mt-12">
 							<h2 className="text-3xl font-bold text-[#00d2ff] mb-6">📧 {t('privacy.contact.title')}</h2>
 							<p className="text-gray-400 mb-4">{t('privacy.contact.text')}</p>
@@ -256,7 +245,6 @@ export default function PrivacyPage() {
 							</div>
 						</div>
 
-						{/* Related Links */}
 						<div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6 mt-6">
 							<p className="text-white mb-3"><strong>{t('privacy.related.title')}</strong></p>
 							<div className="flex flex-wrap gap-3">
@@ -269,21 +257,21 @@ export default function PrivacyPage() {
 							</div>
 						</div>
 
-						{/* Review Note */}
 						<p className="text-center text-gray-400 text-sm italic mt-12">
 							{t('privacy.reviewNote')}
 						</p>
 					</div>
 				</main>
 
-				{/* Scroll to top */}
 				{showScrollTop && (
 					<button
 						onClick={scrollToTop}
 						className="fixed bottom-8 right-8 bg-[#00d2ff] hover:bg-[#00a8cc] text-[#0b0d12] w-12 h-12 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-110 z-50 cursor-pointer"
-						aria-label="Volver arriba"
+						aria-label={t('privacy.scrollTop')}
 					>
-						<span className="text-2xl">↑</span>
+						<svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18"/>
+						</svg>
 					</button>
 				)}
 
