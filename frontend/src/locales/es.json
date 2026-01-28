@@ -6,7 +6,8 @@
 		"mods": "MODS",
 		"serverList": "SERVIDORES",
 		"devBadge": "La web está en desarrollo.",
-		"bugs": "BUGS"
+		"bugs": "BUGS",
+		"comingSoon": "PRÓXIMAMENTE"
 	},
 	"hero": {
 		"betaBadge": "BETA PRÓXIMAMENTE",
@@ -689,5 +690,44 @@
 		"weeksAgo": "Hace {{count}} semanas",
 		"monthsAgo": "Hace {{count}} meses",
 		"yearsAgo": "Hace {{count}} años"
+	},
+	"common": {
+		"loading": "Cargando..."
+	},
+	"profile": {
+		"welcome": "Bienvenido",
+		"accountInfo": "Información de la cuenta",
+		"fullName": "Nombre completo",
+		"username": "Usuario",
+		"memberSince": "Miembro desde",
+		"activity": "Actividad",
+		"comingSoon": "Próximamente podrás ver tu actividad aquí.",
+		"achievements": {
+			"title": "Logros",
+			"early_adopter": {
+				"name": "Early Adopter",
+				"description": "Te uniste durante la beta"
+			},
+			"first_comment": {
+				"name": "Primer Comentario",
+				"description": "Escribe tu primer comentario"
+			},
+			"mod_hunter": {
+				"name": "Cazador de Mods",
+				"description": "Descarga tu primer mod"
+			},
+			"bug_reporter": {
+				"name": "Cazador de Bugs",
+				"description": "Reporta tu primer bug"
+			},
+			"news_reader": {
+				"name": "Informado",
+				"description": "Lee 10 noticias"
+			},
+			"community_member": {
+				"name": "De la Comunidad",
+				"description": "Únete al Discord"
+			}
+		}
 	}
 }

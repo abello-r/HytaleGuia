@@ -16,35 +16,35 @@ export const SEO_CONFIGS: { [key: string]: MultiLangSEO } = {
 			title: 'Hytale Guía - La guía definitiva en español',
 			description: 'La comunidad hispana más grande de Hytale. Explora biomas, descubre crafteos, últimas noticias, mods y únete a la aventura en Orbis.',
 			keywords: 'hytale, hytale español, guía hytale, hytale wiki, comunidad hytale, noticias hytale',
-			ogImage: '/og-home.png',
+			ogImage: '/base.jpg',
 			ogType: 'website'
 		},
 		en: {
 			title: 'Hytale Guide - The Ultimate Guide',
 			description: 'The largest Hytale community. Explore biomes, discover crafting recipes, latest news, mods and join the adventure in Orbis.',
 			keywords: 'hytale, hytale guide, hytale wiki, hytale community, hytale news',
-			ogImage: '/og-home.png',
+			ogImage: '/base.jpg',
 			ogType: 'website'
 		},
 		fr: {
 			title: 'Hytale Guide - Le guide ultime',
 			description: 'La plus grande communauté Hytale. Explorez les biomes, découvrez le crafting, dernières nouvelles, mods et rejoignez l\'aventure dans Orbis.',
 			keywords: 'hytale, guide hytale, hytale wiki, communauté hytale, nouvelles hytale',
-			ogImage: '/og-home.png',
+			ogImage: '/base.jpg',
 			ogType: 'website'
 		},
 		pt: {
 			title: 'Hytale Guia - O guia definitivo',
 			description: 'A maior comunidade Hytale. Explore biomas, descubra crafting, últimas notícias, mods e junte-se à aventura em Orbis.',
 			keywords: 'hytale, guia hytale, hytale wiki, comunidade hytale, notícias hytale',
-			ogImage: '/og-home.png',
+			ogImage: '/base.jpg',
 			ogType: 'website'
 		},
 		it: {
 			title: 'Hytale Guida - La guida definitiva',
 			description: 'La più grande comunità Hytale. Esplora biomi, scopri crafting, ultime notizie, mod e unisciti all\'avventura in Orbis.',
 			keywords: 'hytale, guida hytale, hytale wiki, comunità hytale, notizie hytale',
-			ogImage: '/og-home.png',
+			ogImage: '/base.jpg',
 			ogType: 'website'
 		}
 	},
@@ -327,7 +327,6 @@ export const DEFAULT_SEO: MultiLangSEO = {
 	}
 };
 
-// Helper function to get SEO config for current language
 export const getSEOConfig = (path: string, language: string = 'es'): SEOConfig => {
 	const pageConfig = SEO_CONFIGS[path];
 	const defaultConfig = DEFAULT_SEO[language] || DEFAULT_SEO.es;

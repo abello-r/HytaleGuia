@@ -1,646 +1,733 @@
 {
-    "nav": {
-        "home": "HOME",
-        "news": "NEWS",
-        "guides": "GUIDES",
-        "mods": "MODS",
-        "serverList": "SERVERS",
-        "devBadge": "The website is under development."
-    },
-    "hero": {
-        "betaBadge": "BETA COMING SOON",
-        "title": "DISCOVER",
-        "titleHighlight": "HYTALE",
-        "subtitle": "The ultimate guide in English",
-        "description": "The definitive encyclopedia. Explore biomes, discover crafting, and join the largest Hytale community.",
-        "searchPlaceholder": "Ask Doge about Hytale...",
-        "searchButton": "SEARCH",
-        "searchHint": "Doge knows everything about crafting, biomes, building, combat, and Hytale secrets",
-        "chatActivePlaceholder": "Doge is ready to help. Use the floating button to talk to him.",
-        "chatActiveHint": "Click on the Doge button to continue the conversation"
-    },
-    "trending": {
-        "title": "Trending in",
-        "titleHighlight": "Orbis",
-        "readArticle": "Read Article",
-        "online": "Online",
-        "download": "Download",
-        "viewServer": "View Server",
-        "comingSoon": "Coming Soon",
-        "source": "Source",
-        "author": "Author"
-    },
-    "footer": {
-        "description": "All the resources you need in one place with daily updates.",
-        "quickLinks": "Quick Links",
-        "community": "Community",
-        "legal": "Legal",
-        "home": "Home",
-        "news": "News",
-        "guides": "Guides",
-        "mods": "Mods",
-        "serverList": "Servers",
-        "discord": "Discord",
-        "twitter": "Twitter",
-        "youtube": "YouTube",
-        "reddit": "Reddit",
-        "terms": "Terms of Use",
-        "privacy": "Privacy Policy",
-        "cookies": "Cookies",
-        "contact": "Contact",
-        "copyright": "© 2026 HytaleGuía. All rights reserved.",
-        "disclaimer": "HytaleGuía is an independent fansite not affiliated with Hypixel Studios. All Hytale content and trademarks belong to their respective owners.",
-        "madeWith": "All rights reserved."
-    },
-    "discord": {
-        "tooltip": "Join Discord"
-    },
-    "auth": {
-        "login": "LOGIN"
-    },
-    "news": {
-        "title": "All the",
-        "titleHighlight": "News",
-        "description": "All announcements, updates, and news about Hytale in one place. A centralized space to keep you up to date with the latest from Hytale, without needing to check multiple sources.",
-        "breadcrumbs": {
-            "home": "Home",
-            "news": "News"
-        },
-        "available": "Available news",
-        "lastUpdate": "Last update",
-        "nextUpdate": "Next update",
-        "searchPlaceholder": "Search news...",
-        "filterByDate": "Date",
-        "filterBySource": "Source",
-        "sortBy": "Sort by",
-        "dateFilters": {
-            "all": "All",
-            "7days": "Last 7 days",
-            "30days": "Last month"
-        },
-        "sortOptions": {
-            "newest": "Newest",
-            "oldest": "Oldest",
-            "source": "By source"
-        },
-        "allSources": "All",
-        "showing": "Showing",
-        "of": "of",
-        "results": "results",
-        "noResults": "No news found",
-        "featured": "NEWS OF THE DAY",
-        "new": "NEW",
-        "badge": "NEWS",
-        "readMore": "Read more",
-        "readFull": "Read full story",
-        "loadMore": "Load more news",
-        "scrollTop": "Back to top",
-        "sorting": "Sorting...",
-        "share": "Share",
-        "linkCopied": "Link copied",
-        "linkCopiedDesc": "The link has been copied to the clipboard.",
-        "timeIn": {
-            "minute": "In 1 minute",
-            "minutes": "In {{count}} minutes",
-            "hour": "In 1 hour",
-            "hours": "In {{count}} hours",
-            "hourAndMinutes": "In 1 hour and {{minutes}} minutes",
-            "hoursAndMinutes": "In {{hours}} hours and {{minutes}} minutes"
-        },
-        "timeAgo": {
-            "day": "{{count}} day ago",
-            "days": "{{count}} days ago",
-            "hour": "{{count}} hour ago",
-            "hours": "{{count}} hours ago",
-            "minute": "1 minute ago",
-            "minutes": "{{count}} minutes ago",
-            "justNow": "Just now"
-        }
-    },
-    "mods": {
-        "breadcrumbs": {
-            "home": "Home",
-            "mods": "Mods"
-        },
-        "title": "Explore",
-        "titleHighlight": "Mods",
-        "description": "Discover mods created by the Hytale community: new gameplay mechanics, quality of life improvements, additional content, and unique tools to enrich and personalize your adventure in the world of Orbis.",
-        "lastUpdate": "Last update",
-        "nextUpdate": "Next update",
-        "searchPlaceholder": "Search by name, author, version, or description...",
-        "sortBy": "Sort by",
-        "sortOptions": {
-            "newest": "Newest",
-            "oldest": "Oldest",
-            "title": "Title",
-            "author": "Author"
-        },
-        "sorting": "Sorting...",
-        "showing": "Showing",
-        "of": "of",
-        "results": "results",
-        "noResults": "No mods found with that search.",
-        "featured": "Featured Mod",
-        "new": "NEW",
-        "by": "by",
-        "download": "Download",
-        "loadMore": "Load more",
-        "scrollTop": "Back to top",
-        "available": "Available mods",
-        "timeIn": {
-            "minute": "In 1 minute",
-            "minutes": "In {{count}} minutes",
-            "hour": "In 1 hour",
-            "hours": "In {{count}} hours",
-            "hourAndMinutes": "In 1 hour and {{minutes}} minutes",
-            "hoursAndMinutes": "In {{hours}} hours and {{minutes}} minutes"
-        },
-        "badges": {
-            "mod": "MOD",
-            "author": "Author",
-            "version": "Version"
-        },
-        "addMod": {
-            "title": "Add Mod",
-            "description": "Created a mod? You'll be able to share it here soon",
-            "comingSoon": "Coming Soon"
-        },
-        "seo": {
-            "title": "Hytale Mods - HytaleGuía",
-            "description": "Explore and download community-created mods for Hytale. Improve your gaming experience with new mechanics, additional content, and unique tools.",
-            "keywords": "hytale mods, download mods, community mods, mods for hytale, best hytale mods"
-        },
-        "timeAgo": {
-            "day": "1 day ago",
-            "days": "{{count}} days ago",
-            "hour": "1 hour ago",
-            "hours": "{{count}} hours ago",
-            "minute": "1 minute ago",
-            "minutes": "{{count}} minutes ago",
-            "justNow": "Just now"
-        }
-    },
-    "notFound": {
-        "seo": {
-            "title": "Page Not Found - HytaleGuía",
-            "description": "The page you are looking for does not exist. Return to HytaleGuía to explore Hytale news, mods, and guides.",
-            "keywords": "404, page not found, error"
-        },
-        "title": "Page Not Found!",
-        "description": "It seems you've wandered too deep into the depths of Orbis.",
-        "backToHome": "Back to home"
-    },
-    "aiAssistant": {
-        "tooltip": "Doge AI"
-    },
-    "aiChat": {
-        "title": "Doge AI",
-        "subtitle": "Your specialized Hytale assistant",
-        "welcome": "Hello, adventurer!",
-        "description": "I am specially trained to answer all your questions about Hytale. Whether you need help with crafting, biomes, building, combat, or game secrets.",
-        "suggestedQuestions": "Suggested questions",
-        "suggestions": {
-            "crafting": "How do I make a Thorium sword?",
-            "biomes": "What biomes are in Hytale?",
-            "prefabs": "How to install a mod?",
-            "combat": "How much damage does a bow deal?"
-        },
-        "placeholder": "Ask about Hytale...",
-        "hint": "💡 Be specific for better results",
-        "devResponse": "Woof! You asked: \"{{query}}\". I'm still under development to give you full answers. 🐶"
-    },
-    "bugs": {
-        "breadcrumbs": {
-            "home": "Home",
-            "bugs": "Bug Tracker"
-        },
-        "title": "Bug",
-        "titleHighlight": "Tracker",
-        "description": "Full history of official Hytale errors and fixes. Up-to-date information on known bugs, applied patches, and the status of each report from official sources.",
-        "available": "tracked bugs",
-        "lastUpdate": "Last update",
-        "nextUpdate": "Next update",
-        "noResults": "No bugs found",
-        "readMore": "Read more",
-        "severity": {
-            "critical": "CRITICAL",
-            "high": "HIGH",
-            "medium": "MEDIUM",
-            "low": "LOW"
-        },
-        "status": {
-            "fixed": "FIXED",
-            "inProgress": "IN PROGRESS",
-            "reported": "REPORTED",
-            "known": "KNOWN ISSUE"
-        },
-        "reports": "reports",
-        "timeAgo": {
-            "today": "Today",
-            "yesterday": "Yesterday",
-            "daysAgo": "{{count}} days ago",
-            "weeksAgo": "{{count}} weeks ago",
-            "monthsAgo": "{{count}} months ago"
-        },
-        "timeIn": {
-            "minute": "In 1 minute",
-            "minutes": "In {{count}} minutes",
-            "hour": "In 1 hour",
-            "hours": "In {{count}} hours",
-            "hourAndMinutes": "In 1 hour and {{minutes}} minutes",
-            "hoursAndMinutes": "In {{hours}} hours and {{minutes}} minutes"
-        },
-        "seo": {
-            "title": "Bug Tracker - HytaleGuía",
-            "description": "Full history of official Hytale errors and fixes. Up-to-date information on known bugs, applied patches, and the status of each report from official sources.",
-            "keywords": "hytale bugs, hytale errors, hotfix, patches, known issues"
-        }
-    },
-    "terms": {
-        "breadcrumbs": {
-            "home": "Home",
-            "terms": "Terms of Use"
-        },
-        "title": "Terms of Use",
-        "lastUpdate": "Last update",
-        "date": "January 2026",
-        "projectDescription": "is a non-profit community project dedicated to providing information, guides, and resources about the video game Hytale.",
-        "fansite": "Unofficial Fan Site",
-        "trademark": "is a registered trademark of",
-        "notAffiliated": "This project is not affiliated with, sponsored, or endorsed by Hypixel Studios.",
-        "acceptance": {
-            "title": "Acceptance of Terms",
-            "text": "By accessing and using HytaleGuía, you accept these terms of use in their entirety.",
-            "text2": "If you do not agree with any of these terms, please do not use the site."
-        },
-        "access": {
-            "title": "Access and Registration",
-            "general": "General Access",
-            "item1": "Access to the site is free",
-            "item2": "Some features may require registration",
-            "item3": "We reserve the right to modify or suspend the service",
-            "registration": "User Registration",
-            "regText": "If you register, you agree to:",
-            "regItem1": "Provide true and up-to-date information",
-            "regItem2": "Not create multiple accounts for abusive purposes",
-            "regItem3": "Not impersonate third parties",
-            "regItem4": "Maintain the confidentiality of your credentials"
-        },
-        "conduct": {
-            "title": "User Conduct",
-            "text": "The user agrees to use the site in a lawful, respectful manner and in good faith.",
-            "prohibited": "The following is expressly prohibited:",
-            "item1": "Publishing offensive, violent, discriminatory, sexual, illegal, or hate-inciting content",
-            "item2": "Spreading malware, malicious links, cheats, exploits, or illegal tools",
-            "item3": "Spamming, unauthorized advertising, or fraud",
-            "item4": "Infringing intellectual or industrial property rights",
-            "item5": "Attempting to access restricted areas or manipulate the technical operation of the site",
-            "consequences": "Consequences:",
-            "consequencesText": "Content removal, suspension, or permanent expulsion"
-        },
-        "ip": {
-            "title": "Intellectual Property",
-            "siteContent": "Site Content",
-            "siteText": "All original content on HytaleGuía (texts, design, code) is protected by copyright.",
-            "hytaleContent": "Hytale Content",
-            "hytaleText": "The use of official Hytale material (images, trailers, screenshots) is exclusively for informational purposes and respecting the authorship of Hypixel Studios.",
-            "notRedistribute": "We do NOT redistribute:",
-            "redistributeItems": "game files, source code, or internal assets",
-            "userContent": "User Generated Content",
-            "userText": "By posting content on HytaleGuía:",
-            "userItem1": "You maintain ownership of your content",
-            "userItem2": "You authorize us to display, store, and moderate it",
-            "userItem3": "You are responsible for what you post"
-        },
-        "ai": {
-            "title": "Doge AI - Virtual Assistant",
-            "description": "is an assistance tool based on artificial intelligence for informational purposes only",
-            "limitations": "Limitations:",
-            "item1": "It is not an official Hytale service",
-            "item2": "We do not guarantee absolute accuracy of the answers",
-            "item3": "Answers are generated automatically"
-        },
-        "monetization": {
-            "title": "Advertising and Monetization",
-            "ads": "Ads",
-            "adsText": "This site may display advertising to cover basic server and maintenance costs.",
-            "adsItem1": "We have no control over the content of third-party ads",
-            "affiliates": "Affiliate Links",
-            "affiliatesText": "Some links may be affiliate links, generating a small commission at no additional cost to you."
-        },
-        "minors": {
-            "title": "Minors",
-            "text": "This site can be used by minors under the supervision of parents or legal guardians.",
-            "prohibited": "The following is prohibited:",
-            "prohibitedText": "Publishing personal data of minors or age-inappropriate content"
-        },
-        "copyright": {
-            "title": "Copyright and Content Removal",
-            "text": "If you believe that any published content violates your copyright, you can request its removal.",
-            "include": "The request must include:",
-            "item1": "Clear identification of the allegedly infringing content",
-            "item2": "Proof of ownership of the rights",
-            "item3": "Full contact information and a statement of good faith"
-        },
-        "liability": {
-            "title": "Limitation of Liability",
-            "notGuarantee": "We do not guarantee:",
-            "item1": "Uninterrupted availability of the site",
-            "item2": "Absence of technical errors",
-            "item3": "Compatibility with all devices",
-            "notResponsible": "We are not responsible for:",
-            "item4": "User-posted content",
-            "item5": "External links or third-party services",
-            "item6": "Decisions made based on the site's information"
-        },
-        "development": {
-            "title": "Project in Development",
-            "text": "This is a small, community project in an active development phase.",
-            "honest": "We are honest:",
-            "item1": "Revenue (if any) is minimal",
-            "item2": "Our goal is to inform, not to profit",
-            "item3": "We are in continuous improvement",
-            "item4": "We appreciate the community's understanding"
-        },
-        "modifications": {
-            "title": "Modifications",
-            "text": "We reserve the right to modify these terms at any time. Continued use of the site implies acceptance of the new terms."
-        },
-        "jurisdiction": {
-            "title": "Applicable Law and Jurisdiction",
-            "text": "These terms are governed by Spanish law. For conflicts, prior mediation is established before jurisdiction."
-        },
-        "contact": {
-            "title": "Contact",
-            "text": "For any questions regarding these terms:",
-            "general": "General Inquiries",
-            "legal": "Legal Matters"
-        },
-        "reviewNote": "This document may be updated. Check periodically to stay informed of changes.",
-        "seo": {
-            "title": "Terms of Use - HytaleGuía",
-            "description": "Terms of use and conditions for HytaleGuía. Read the rules and conditions for using our website and services.",
-            "keywords": "terms of use, conditions, rules, HytaleGuía, terms and conditions"
-        }
-    },
-    "privacy": {
-        "breadcrumbs": {
-            "home": "Home",
-            "privacy": "Privacy Policy"
-        },
-        "title": "Privacy Policy",
-        "lastUpdate": "Last update",
-        "date": "January 2026",
-        "intro": "respects your privacy and is committed to protecting your personal data. This policy explains what information we collect and how we use it.",
-        "gdpr": {
-            "title": "GDPR Compliance",
-            "text": "This policy complies with the General Data Protection Regulation (GDPR) of the European Union and Spanish data protection regulations."
-        },
-        "responsible": {
-            "title": "Data Controller",
-            "text": "The person responsible for processing your personal data is:",
-            "project": "Project:",
-            "contact": "Contact:"
-        },
-        "collection": {
-            "title": "Data We Collect",
-            "registration": "Registration Data",
-            "regText": "When you register, we collect:",
-            "regItem1": "Username",
-            "regItem2": "Email address",
-            "regItem3": "Password (encrypted)",
-            "navigation": "Navigation Data",
-            "navText": "We automatically collect:",
-            "navItem1": "IP address",
-            "navItem2": "Browser and device type",
-            "navItem3": "Pages visited and time spent",
-            "navItem4": "Cookies and similar technologies",
-            "content": "Generated Content",
-            "contentText": "Any content you publish (guides, comments, mods) is stored on our servers."
-        },
-        "purpose": {
-            "title": "Purpose of Processing",
-            "text": "We use your data to:",
-            "item1": "Manage your user account",
-            "item2": "Personalize your experience on the site",
-            "item3": "Improve our services through analysis",
-            "item4": "Communicate relevant information",
-            "item5": "Comply with legal obligations",
-            "item6": "Show relevant advertising (Google AdSense)"
-        },
-        "legal": {
-            "title": "Legal Basis",
-            "item1Title": "Consent:",
-            "item1Text": "By registering and using the site, you consent to the processing of your data",
-            "item2Title": "Execution of service:",
-            "item2Text": "We need your data to provide the service",
-            "item3Title": "Legitimate interest:",
-            "item3Text": "To improve the site and offer relevant content"
-        },
-        "sharing": {
-            "title": "Sharing Data with Third Parties",
-            "text": "We do not sell your personal data. We share information only with:",
-            "thirdParty": "Third Party Services",
-            "analytics": "Statistical analysis and site behavior",
-            "ads": "Personalized advertising",
-            "noSale": "We Do Not Sell Data",
-            "noSaleText": "We never sell, rent, or trade your personal data"
-        },
-        "rights": {
-            "title": "Your Rights (GDPR)",
-            "gdprRights": "According to the GDPR, you have the right to:",
-            "access": "Access:",
-            "accessText": "Obtain a copy of your personal data",
-            "rectification": "Rectification:",
-            "rectificationText": "Correct incorrect or incomplete data",
-            "deletion": "Erasure:",
-            "deletionText": "Request the deletion of your data ('right to be forgotten')",
-            "opposition": "Objection:",
-            "oppositionText": "Object to the processing of your data",
-            "portability": "Portability:",
-            "portabilityText": "Receive your data in a structured format",
-            "limitation": "Restriction:",
-            "limitationText": "Restrict processing in certain circumstances",
-            "howToExercise": "How to exercise your rights:",
-            "howToExerciseText": "Send an email to"
-        },
-        "retention": {
-            "title": "Data Retention",
-            "accounts": "User accounts:",
-            "accountsText": "Until you request deletion or after 2 years of inactivity",
-            "analytics": "Analytics data:",
-            "analyticsText": "14 months (Google Analytics configuration)",
-            "content": "Published content:",
-            "contentText": "Maintained as long as your account is active"
-        },
-        "security": {
-            "title": "Data Security",
-            "text": "We implement technical and organizational measures to protect your data:",
-            "item1": "SSL/HTTPS encryption in all communications",
-            "item2": "Passwords hashed with secure algorithms",
-            "item3": "Restricted access to personal data",
-            "item4": "Regular security monitoring",
-            "warning": "No System is 100% Secure",
-            "warningText": "While we take precautions, no method of transmission over the Internet is completely secure. We cannot guarantee absolute security."
-        },
-        "minors": {
-            "title": "Minors",
-            "text": "The site can be used by minors under the supervision of parents or guardians.",
-            "parentsText": "Parents can request deletion of minor's data by contacting us."
-        },
-        "transfers": {
-            "title": "International Transfers",
-            "text": "Some services (Google Analytics, AdSense) may transfer data outside the EU.",
-            "providers": "These providers comply with Privacy Shield or EU-approved contractual clauses."
-        },
-        "changes": {
-            "title": "Policy Changes",
-            "text": "We may update this policy. We will notify you of significant changes and update the 'last update' date."
-        },
-        "contact": {
-            "title": "Contact",
-            "text": "For any questions about privacy or to exercise your rights:",
-            "privacy": "Privacy and Data Protection",
-            "general": "General Inquiries"
-        },
-        "related": {
-            "title": "Related Documents:",
-            "terms": "Terms of Use",
-            "cookies": "Cookie Policy"
-        },
-        "reviewNote": "Check this policy periodically to stay informed about how we protect your information.",
-        "seo": {
-            "title": "Privacy Policy - HytaleGuía",
-            "description": "Privacy policy of HytaleGuía. Information on what data we collect, how we use it, and your rights under the GDPR.",
-            "keywords": "privacy policy, data protection, GDPR, privacy, personal data"
-        }
-    },
-    "cookies": {
-        "breadcrumbs": {
-            "home": "Home",
-            "cookies": "Cookie Policy"
-        },
-        "title": "Cookie Policy",
-        "lastUpdate": "Last update",
-        "date": "January 2026",
-        "intro": "uses cookies and similar technologies to improve your browsing experience. This policy explains what cookies are and how we use them.",
-        "what": {
-            "title": "What are Cookies?",
-            "text": "Cookies are small text files stored on your device when you visit a website.",
-            "text2": "They allow the website to remember your actions and preferences over a period of time."
-        },
-        "why": {
-            "title": "Why do we use Cookies?",
-            "item1": "Keep your session started",
-            "item2": "Remember your preferences",
-            "item3": "Analyze how you use the site to improve it",
-            "item4": "Personalize the advertising you see",
-            "item5": "Ensure site security"
-        },
-        "types": {
-            "title": "Types of Cookies we use",
-            "technical": {
-                "title": "Technical Cookies (Necessary)",
-                "purpose": "Purpose:",
-                "purposeText": "Essential for site operation",
-                "duration": "Duration:",
-                "durationText": "Session or persistent",
-                "examples": "Examples:",
-                "examplesText": "user session, language preferences"
-            },
-            "analytics": {
-                "title": "Analytics Cookies",
-                "purpose": "Purpose:",
-                "purposeText": "Collect information about how users use the site",
-                "provider": "Provider:",
-                "duration": "Duration:",
-                "durationText": "Up to 2 years",
-                "info": "More information:",
-                "infoText": "Google Analytics Privacy Policy"
-            },
-            "advertising": {
-                "title": "Advertising Cookies",
-                "purpose": "Purpose:",
-                "purposeText": "Show relevant ads and measure their effectiveness",
-                "provider": "Provider:",
-                "duration": "Duration:",
-                "durationText": "Up to 13 months",
-                "info": "More information:",
-                "infoText": "Google AdSense Privacy Policy"
-            },
-            "thirdParty": {
-                "title": "Third Party Cookies",
-                "text": "Some external services (such as analytics and advertising) may set their own cookies. We have no control over these third-party cookies."
-            }
-        },
-        "table": {
-            "title": "Detailed Cookie Table",
-            "cookie": "Cookie",
-            "purpose": "Purpose",
-            "type": "Type",
-            "duration": "Duration",
-            "row1Purpose": "Maintain user session",
-            "row1Type": "Technical",
-            "row1Duration": "Session",
-            "row2Purpose": "Distinguish users (Google Analytics)",
-            "row2Type": "Analytics",
-            "row2Duration": "2 years",
-            "row3Purpose": "Distinguish users (Google Analytics)",
-            "row3Type": "Analytics",
-            "row3Duration": "24 hours",
-            "row4Purpose": "Limit request speed",
-            "row4Type": "Analytics",
-            "row4Duration": "1 minute",
-            "row5Purpose": "Personalized advertising (Google Ads)",
-            "row5Type": "Advertising",
-            "row5Duration": "13 months"
-        },
-        "manage": {
-            "title": "How to Manage Cookies",
-            "text": "You can control and manage cookies in several ways:",
-            "browser": {
-                "title": "Browser Settings",
-                "text": "Most browsers allow you to:",
-                "chrome": "Settings > Privacy and security > Cookies",
-                "firefox": "Options > Privacy and security > Cookies",
-                "safari": "Preferences > Privacy > Cookies",
-                "edge": "Settings > Cookies and permissions"
-            },
-            "optout": {
-                "title": "Opt-out Tools",
-                "text": "You can disable specific cookies:",
-                "analyticsLink": "Google Analytics opt-out browser add-on",
-                "adsLink": "Google Ads settings"
-            },
-            "warning": {
-                "title": "Warning",
-                "text": "Disabling cookies may affect site functionality and your user experience."
-            }
-        },
-        "updates": {
-            "title": "Policy Update",
-            "text": "We may update this cookie policy. Check this page periodically to stay informed."
-        },
-        "moreInfo": {
-            "title": "More Information about Cookies",
-            "text": "For more information about cookies, visit:",
-            "googlePolicies": "Google Privacy Policies"
-        },
-        "contact": {
-            "title": "Contact",
-            "text": "If you have questions about our cookie policy:",
-            "email": "Email"
-        },
-        "related": {
-            "title": "Related Documents:",
-            "terms": "Terms of Use",
-            "privacy": "Privacy Policy"
-        },
-        "reviewNote": "This policy was last updated on the date indicated above.",
-        "seo": {
-            "title": "Cookie Policy - HytaleGuía",
-            "description": "Cookie policy of HytaleGuía. Information on what cookies we use, why, and how you can manage them.",
-            "keywords": "cookie policy, cookies, tracking, analytics, advertising, cookie management"
-        }
-    }
+	"nav": {
+		"home": "HOME",
+		"news": "NEWS",
+		"guides": "GUIDES",
+		"mods": "MODS",
+		"serverList": "SERVERS",
+		"devBadge": "Site under development.",
+		"bugs": "BUGS",
+		"comingSoon": "COMING SOON"
+	},
+	"hero": {
+		"betaBadge": "BETA COMING SOON",
+		"title": "DISCOVER",
+		"titleHighlight": "HYTALE",
+		"subtitle": "The ultimate guide in English",
+		"description": "The definitive encyclopedia. Explore biomes, discover crafting recipes, and join the largest Hytale community.",
+		"searchPlaceholder": "Ask Doge about Hytale...",
+		"searchButton": "SEARCH",
+		"searchHint": "Doge knows everything about crafting, biomes, building, combat, and Hytale secrets",
+		"chatActivePlaceholder": "Doge is ready to help. Use the floating button to talk to him.",
+		"chatActiveHint": "Click the Doge button to continue the conversation"
+	},
+	"trending": {
+		"title": "Trending in",
+		"titleHighlight": "Orbis",
+		"readArticle": "Read Article",
+		"online": "Online",
+		"download": "Download",
+		"viewServer": "View Server",
+		"comingSoon": "Coming Soon",
+		"source": "Source",
+		"author": "Author"
+	},
+	"footer": {
+		"description": "All the resources you need in one place with daily updates.",
+		"quickLinks": "Quick Links",
+		"community": "Community",
+		"legal": "Legal",
+		"home": "Home",
+		"news": "News",
+		"guides": "Guides",
+		"mods": "Mods",
+		"serverList": "Servers",
+		"discord": "Discord",
+		"twitter": "Twitter",
+		"youtube": "YouTube",
+		"reddit": "Reddit",
+		"terms": "Terms of Use",
+		"privacy": "Privacy Policy",
+		"cookies": "Cookies",
+		"contact": "Contact",
+		"copyright": "© 2026 HytaleGuide. All rights reserved.",
+		"disclaimer": "HytaleGuide is an independent fansite not affiliated with Hypixel Studios. All Hytale content and trademarks belong to their respective owners.",
+		"madeWith": "All rights reserved."
+	},
+	"discord": {
+		"tooltip": "Join Discord"
+	},
+	"auth": {
+		"login": "LOGIN"
+	},
+	"news": {
+		"title": "All the",
+		"titleHighlight": "News",
+		"description": "Every announcement, update, and novelty about Hytale in one place. A centralized space to keep you up to date with the latest from Hytale, without needing to check multiple sources.",
+		"breadcrumbs": {
+			"home": "Home",
+			"news": "News"
+		},
+		"available": "Available news",
+		"lastUpdate": "Last update",
+		"nextUpdate": "Next update",
+		"searchPlaceholder": "Search news...",
+		"filterByDate": "Date",
+		"filterBySource": "Source",
+		"sortBy": "Sort by",
+		"dateFilters": {
+			"all": "All",
+			"7days": "Last 7 days",
+			"30days": "Last month"
+		},
+		"sortOptions": {
+			"newest": "Newest",
+			"oldest": "Oldest",
+			"source": "By source"
+		},
+		"allSources": "All",
+		"showing": "Showing",
+		"of": "of",
+		"results": "results",
+		"noResults": "No news found",
+		"featured": "NEWS OF THE DAY",
+		"new": "NEW",
+		"badge": "NEWS",
+		"readMore": "Read more",
+		"readFull": "Read full article",
+		"loadMore": "Load more news",
+		"scrollTop": "Back to top",
+		"sorting": "Sorting...",
+		"share": "Share",
+		"linkCopied": "Link copied",
+		"linkCopiedDesc": "The link has been copied to the clipboard.",
+		"timeIn": {
+			"minute": "In 1 minute",
+			"minutes": "In {{count}} minutes",
+			"hour": "In 1 hour",
+			"hours": "In {{count}} hours",
+			"hourAndMinutes": "In 1 hour and {{minutes}} minutes",
+			"hoursAndMinutes": "In {{hours}} hours and {{minutes}} minutes"
+		},
+		"timeAgo": {
+			"day": "{{count}} day ago",
+			"days": "{{count}} days ago",
+			"hour": "{{count}} hour ago",
+			"hours": "{{count}} hours ago",
+			"minute": "1 minute ago",
+			"minutes": "{{count}} minutes ago",
+			"justNow": "Just now"
+		}
+	},
+	"mods": {
+		"breadcrumbs": {
+			"home": "Home",
+			"mods": "Mods"
+		},
+		"title": "Explore",
+		"titleHighlight": "Mods",
+		"description": "Discover mods created by the Hytale community: new gameplay mechanics, quality of life improvements, additional content, and unique tools to enrich and personalize your adventure in the world of Orbis.",
+		"lastUpdate": "Last update",
+		"nextUpdate": "Next update",
+		"searchPlaceholder": "Search by name, author, version, or description...",
+		"sortBy": "Sort by",
+		"sortOptions": {
+			"newest": "Newest",
+			"oldest": "Oldest",
+			"title": "Title",
+			"author": "Author"
+		},
+		"sorting": "Sorting...",
+		"showing": "Showing",
+		"of": "of",
+		"results": "results",
+		"noResults": "No mods found with that search.",
+		"featured": "Featured Mod",
+		"new": "NEW",
+		"by": "by",
+		"download": "Download",
+		"loadMore": "Load more",
+		"scrollTop": "Back to top",
+		"available": "Available mods",
+		"timeIn": {
+			"minute": "In 1 minute",
+			"minutes": "In {{count}} minutes",
+			"hour": "In 1 hour",
+			"hours": "In {{count}} hours",
+			"hourAndMinutes": "In 1 hour and {{minutes}} minutes",
+			"hoursAndMinutes": "In {{hours}} hours and {{minutes}} minutes"
+		},
+		"badges": {
+			"mod": "MOD",
+			"author": "Author",
+			"version": "Version"
+		},
+		"addMod": {
+			"title": "Add Mod",
+			"description": "Created a mod? You'll soon be able to share it here",
+			"comingSoon": "Coming Soon"
+		},
+		"seo": {
+			"title": "Hytale Mods - HytaleGuide",
+			"description": "Explore and download community-created mods for Hytale. Enhance your gameplay experience with new mechanics, additional content, and unique tools.",
+			"keywords": "hytale mods, download mods, community mods, mods for hytale, best hytale mods"
+		},
+		"timeAgo": {
+			"day": "1 day ago",
+			"days": "{{count}} days ago",
+			"hour": "1 hour ago",
+			"hours": "{{count}} hours ago",
+			"minute": "1 minute ago",
+			"minutes": "{{count}} minutes ago",
+			"justNow": "Just now"
+		}
+	},
+	"notFound": {
+		"seo": {
+			"title": "Page Not Found - HytaleGuide",
+			"description": "The page you are looking for does not exist. Return to HytaleGuide to explore news, mods, and guides for Hytale.",
+			"keywords": "404, page not found, error"
+		},
+		"title": "Page Not Found!",
+		"description": "It seems you've ventured too deep into the depths of Orbis.",
+		"backToHome": "Back to home"
+	},
+	"aiAssistant": {
+		"tooltip": "Doge AI"
+	},
+	"aiChat": {
+		"title": "Doge AI",
+		"subtitle": "Your specialized Hytale assistant",
+		"welcome": "Hello, adventurer!",
+		"description": "I am specially trained to answer all your questions about Hytale. Whether you need help with crafting, biomes, building, combat, or game secrets.",
+		"suggestedQuestions": "Suggested questions",
+		"suggestions": {
+			"crafting": "How do I make a Thorium sword?",
+			"biomes": "What biomes are there in Hytale?",
+			"prefabs": "How do I install a mod?",
+			"combat": "How much damage does a bow do?"
+		},
+		"placeholder": "Ask about Hytale...",
+		"hint": "💡 Be specific for better results",
+		"devResponse": "Woof! You asked: \"{{query}}\". I'm still under development to give you full answers. 🐶"
+	},
+	"bugs": {
+		"breadcrumbs": {
+			"home": "Home",
+			"bugs": "Bug Tracker"
+		},
+		"title": "Bug",
+		"titleHighlight": "Tracker",
+		"description": "Full history of official Hytale bugs and fixes. Up-to-date information on known bugs, applied patches, and the status of each report from official sources.",
+		"available": "Tracked bugs",
+		"showing": "Showing",
+		"of": "of",
+		"results": "results",
+		"loadMore": "Load more",
+		"scrollTop": "Back to top",
+		"lastUpdate": "Last update",
+		"nextUpdate": "Next update",
+		"noResults": "No bugs found",
+		"readMore": "Read more",
+		"updated": "Update date",
+		"searchPlaceholder": "Search bugs...",
+		"source": "Source",
+		"severity": {
+			"critical": "CRITICAL",
+			"high": "HIGH",
+			"medium": "MEDIUM",
+			"low": "LOW",
+			"label": "Severity"
+		},
+		"status": {
+			"fixed": "FIXED",
+			"inProgress": "IN PROGRESS",
+			"reported": "REPORTED",
+			"known": "KNOWN ISSUE"
+		},
+		"reports": "reports",
+		"timeAgo": {
+			"day": "1 day ago",
+			"days": "{{count}} days ago",
+			"hour": "1 hour ago",
+			"hours": "{{count}} hours ago",
+			"minute": "1 minute ago",
+			"minutes": "{{count}} minutes ago",
+			"justNow": "Just now"
+		},
+		"timeIn": {
+			"minute": "In 1 minute",
+			"minutes": "In {{count}} minutes",
+			"hour": "In 1 hour",
+			"hours": "In {{count}} hours",
+			"hourAndMinutes": "In 1 hour and {{minutes}} minutes",
+			"hoursAndMinutes": "In {{hours}} hours and {{minutes}} minutes"
+		},
+		"seo": {
+			"title": "Bug Tracker - HytaleGuide",
+			"description": "Full history of official Hytale bugs and fixes. Up-to-date information on known bugs, applied patches, and the status of each report from official sources.",
+			"keywords": "hytale bugs, hytale errors, hotfix, patches, known issues"
+		},
+		"sortBy": "Sort by",
+		"sortOptions": {
+			"newest": "Newest",
+			"oldest": "Oldest"
+		}
+	},
+	"terms": {
+		"breadcrumbs": {
+			"home": "Home",
+			"terms": "Terms of Use"
+		},
+		"title": "Terms of Use",
+		"lastUpdate": "Last update",
+		"date": "January 2026",
+		"projectDescription": "is a non-profit community project dedicated to providing information, guides, and resources about the video game Hytale.",
+		"fansite": "Unofficial Fan Site",
+		"trademark": "is a registered trademark of",
+		"notAffiliated": "This project is not affiliated, sponsored, or approved by Hypixel Studios.",
+		"acceptance": {
+			"title": "Acceptance of Terms",
+			"text": "By accessing and using HytaleGuide, you accept these terms of use in their entirety.",
+			"text2": "If you do not agree with any of these terms, please do not use the site."
+		},
+		"access": {
+			"title": "Access and Registration",
+			"general": "General Access",
+			"item1": "Access to the site is free",
+			"item2": "Some features may require registration",
+			"item3": "We reserve the right to modify or suspend the service",
+			"registration": "User Registration",
+			"regText": "If you register, you agree to:",
+			"regItem1": "Provide true and up-to-date information",
+			"regItem2": "Not create multiple accounts for abusive purposes",
+			"regItem3": "Not impersonate third parties",
+			"regItem4": "Maintain the confidentiality of your credentials"
+		},
+		"conduct": {
+			"title": "User Conduct",
+			"text": "The user agrees to use the site in a lawful, respectful manner and in good faith.",
+			"prohibited": "The following is expressly prohibited:",
+			"item1": "Posting offensive, violent, discriminatory, sexual, illegal content or content that incites hatred",
+			"item2": "Spreading malware, malicious links, cheats, exploits, or illegal tools",
+			"item3": "Spamming, unauthorized advertising, or fraud",
+			"item4": "Infringing intellectual or industrial property rights",
+			"item5": "Attempting to access restricted areas or manipulate the site's technical operation",
+			"consequences": "Consequences:",
+			"consequencesText": "Content removal, suspension, or permanent ban"
+		},
+		"ip": {
+			"title": "Intellectual Property",
+			"siteContent": "Site Content",
+			"siteText": "All original content on HytaleGuide (text, design, code) is protected by copyright.",
+			"hytaleContent": "Hytale Content",
+			"hytaleText": "The use of official Hytale material (images, trailers, screenshots) is done exclusively for informational purposes, respecting Hypixel Studios' authorship.",
+			"notRedistribute": "We do NOT redistribute:",
+			"redistributeItems": "game files, source code, or internal assets",
+			"userContent": "User Generated Content",
+			"userText": "By posting content on HytaleGuide:",
+			"userItem1": "You retain ownership of your content",
+			"userItem2": "You authorize us to display, store, and moderate it",
+			"userItem3": "You are responsible for what you post"
+		},
+		"ai": {
+			"title": "Doge AI - Virtual Assistant",
+			"description": "is an AI-based assistance tool for purely informational purposes",
+			"limitations": "Limitations:",
+			"item1": "It is not an official Hytale service",
+			"item2": "We do not guarantee absolute accuracy of the answers",
+			"item3": "Responses are generated automatically"
+		},
+		"monetization": {
+			"title": "Advertising and Monetization",
+			"ads": "Advertisements",
+			"adsText": "This site may display ads to cover basic server and maintenance costs.",
+			"adsItem1": "We have no control over the content of third-party ads",
+			"affiliates": "Affiliate Links",
+			"affiliatesText": "Some links may be affiliate links, generating a small commission at no additional cost to you."
+		},
+		"minors": {
+			"title": "Minors",
+			"text": "This site may be used by minors under the supervision of parents or legal guardians.",
+			"prohibited": "The following is prohibited:",
+			"prohibitedText": "Posting personal data of minors or content inappropriate for their age"
+		},
+		"copyright": {
+			"title": "Copyright and Content Removal",
+			"text": "If you believe any published content violates your copyright, you can request its removal.",
+			"include": "The request must include:",
+			"item1": "Clear identification of the allegedly infringing content",
+			"item2": "Proof of ownership of the rights",
+			"item3": "Full contact details and a statement of good faith"
+		},
+		"liability": {
+			"title": "Limitation of Liability",
+			"notGuarantee": "We do not guarantee:",
+			"item1": "Uninterrupted availability of the site",
+			"item2": "Absence of technical errors",
+			"item3": "Compatibility with all devices",
+			"notResponsible": "We are not responsible for:",
+			"item4": "Content posted by users",
+			"item5": "External links or third-party services",
+			"item6": "Decisions made based on site information"
+		},
+		"development": {
+			"title": "Project in Development",
+			"text": "This is a small community project in active development phase.",
+			"honest": "We are honest:",
+			"item1": "Revenue (if any) is minimal",
+			"item2": "Our goal is to inform, not to profit",
+			"item3": "We are in continuous improvement",
+			"item4": "We appreciate the community's understanding"
+		},
+		"modifications": {
+			"title": "Modifications",
+			"text": "We reserve the right to modify these terms at any time. Continued use of the site implies acceptance of the new terms."
+		},
+		"jurisdiction": {
+			"title": "Governing Law and Jurisdiction",
+			"text": "These terms are governed by Spanish law. For conflicts, prior mediation is established before jurisdiction."
+		},
+		"contact": {
+			"title": "Contact",
+			"text": "For any queries related to these terms:",
+			"general": "General Inquiries",
+			"legal": "Legal Matters"
+		},
+		"reviewNote": "This document may be updated. Check periodically to stay informed of changes.",
+		"seo": {
+			"title": "Terms of Use - HytaleGuide",
+			"description": "Terms of use and conditions for HytaleGuide. Read the rules and conditions for using our website and services.",
+			"keywords": "terms of use, conditions, rules, HytaleGuide, terms and conditions"
+		}
+	},
+	"privacy": {
+		"breadcrumbs": {
+			"home": "Home",
+			"privacy": "Privacy Policy"
+		},
+		"title": "Privacy Policy",
+		"lastUpdate": "Last update",
+		"date": "January 2026",
+		"intro": "respects your privacy and is committed to protecting your personal data. This policy explains what information we collect and how we use it.",
+		"gdpr": {
+			"title": "GDPR Compliance",
+			"text": "This policy complies with the General Data Protection Regulation (GDPR) of the European Union and Spanish data protection regulations."
+		},
+		"responsible": {
+			"title": "Data Controller",
+			"text": "The controller responsible for processing your personal data is:",
+			"project": "Project:",
+			"contact": "Contact:"
+		},
+		"collection": {
+			"title": "Data We Collect",
+			"registration": "Registration Data",
+			"regText": "When you register, we collect:",
+			"regItem1": "Username",
+			"regItem2": "Email address",
+			"regItem3": "Password (encrypted)",
+			"navigation": "Browsing Data",
+			"navText": "We automatically collect:",
+			"navItem1": "IP address",
+			"navItem2": "Browser and device type",
+			"navItem3": "Pages visited and duration of visit",
+			"navItem4": "Cookies and similar technologies",
+			"content": "Generated Content",
+			"contentText": "Any content you post (guides, comments, mods) is stored on our servers."
+		},
+		"purpose": {
+			"title": "Purpose of Processing",
+			"text": "We use your data to:",
+			"item1": "Manage your user account",
+			"item2": "Personalize your site experience",
+			"item3": "Improve our services through analysis",
+			"item4": "Communicate relevant information",
+			"item5": "Comply with legal obligations",
+			"item6": "Display relevant advertising (Google AdSense)"
+		},
+		"legal": {
+			"title": "Legal Basis",
+			"item1Title": "Consent:",
+			"item1Text": "By registering and using the site, you consent to the processing of your data",
+			"item2Title": "Contract execution:",
+			"item2Text": "We need your data to provide the service",
+			"item3Title": "Legitimate interest:",
+			"item3Text": "To improve the site and offer relevant content"
+		},
+		"sharing": {
+			"title": "Sharing Data with Third Parties",
+			"text": "We do not sell your personal data. We share information only with:",
+			"thirdParty": "Third-Party Services",
+			"analytics": "Statistical analysis and site behavior",
+			"ads": "Personalized advertising",
+			"noSale": "We Do Not Sell Data",
+			"noSaleText": "We never sell, rent, or trade your personal data"
+		},
+		"rights": {
+			"title": "Your Rights (GDPR)",
+			"gdprRights": "Under GDPR, you have the right to:",
+			"access": "Access:",
+			"accessText": "Obtain a copy of your personal data",
+			"rectification": "Rectification:",
+			"rectificationText": "Correct incorrect or incomplete data",
+			"deletion": "Deletion:",
+			"deletionText": "Request the deletion of your data ('right to be forgotten')",
+			"opposition": "Opposition:",
+			"oppositionText": "Object to the processing of your data",
+			"portability": "Portability:",
+			"portabilityText": "Receive your data in a structured format",
+			"limitation": "Limitation:",
+			"limitationText": "Restrict processing in certain circumstances",
+			"howToExercise": "How to exercise your rights:",
+			"howToExerciseText": "Send an email to"
+		},
+		"retention": {
+			"title": "Data Retention",
+			"accounts": "User accounts:",
+			"accountsText": "Until you request deletion or after 2 years of inactivity",
+			"analytics": "Analytics data:",
+			"analyticsText": "14 months (Google Analytics setting)",
+			"content": "Published content:",
+			"contentText": "Maintained while your account is active"
+		},
+		"security": {
+			"title": "Data Security",
+			"text": "We implement technical and organizational measures to protect your data:",
+			"item1": "SSL/HTTPS encryption for all communications",
+			"item2": "Passwords hashed with secure algorithms",
+			"item3": "Restricted access to personal data",
+			"item4": "Regular security monitoring",
+			"warning": "No System is 100% Secure",
+			"warningText": "While we take precautions, no method of transmission over the Internet is completely secure. We cannot guarantee absolute security."
+		},
+		"minors": {
+			"title": "Minors",
+			"text": "The site may be used by minors under parental or guardian supervision.",
+			"parentsText": "Parents can request the removal of data from minors by contacting us."
+		},
+		"transfers": {
+			"title": "International Transfers",
+			"text": "Some services (Google Analytics, AdSense) may transfer data outside the EU.",
+			"providers": "These providers comply with Privacy Shield or EU-approved contractual clauses."
+		},
+		"changes": {
+			"title": "Changes to the Policy",
+			"text": "We may update this policy. We will notify you of significant changes and update the 'last update' date."
+		},
+		"contact": {
+			"title": "Contact",
+			"text": "For any questions regarding privacy or to exercise your rights:",
+			"privacy": "Privacy and Data Protection",
+			"general": "General Inquiries"
+		},
+		"related": {
+			"title": "Related Documents:",
+			"terms": "Terms of Use",
+			"cookies": "Cookie Policy"
+		},
+		"reviewNote": "Check this policy periodically to stay informed about how we protect your information.",
+		"seo": {
+			"title": "Privacy Policy - HytaleGuide",
+			"description": "Privacy policy for HytaleGuide. Information on what data we collect, how we use it, and your rights under GDPR.",
+			"keywords": "privacy policy, data protection, GDPR, privacy, personal data"
+		}
+	},
+	"cookies": {
+		"breadcrumbs": {
+			"home": "Home",
+			"cookies": "Cookie Policy"
+		},
+		"title": "Cookie Policy",
+		"lastUpdate": "Last update",
+		"date": "January 2026",
+		"intro": "uses cookies and similar technologies to improve your browsing experience. This policy explains what cookies are and how we use them.",
+		"what": {
+			"title": "What are Cookies?",
+			"text": "Cookies are small text files stored on your device when you visit a website.",
+			"text2": "They allow the website to remember your actions and preferences over a period of time."
+		},
+		"why": {
+			"title": "Why do we use Cookies?",
+			"item1": "Keep your session logged in",
+			"item2": "Remember your preferences",
+			"item3": "Analyze how you use the site to improve it",
+			"item4": "Personalize the ads you see",
+			"item5": "Ensure site security"
+		},
+		"types": {
+			"title": "Types of Cookies We Use",
+			"technical": {
+				"title": "Technical Cookies (Necessary)",
+				"purpose": "Purpose:",
+				"purposeText": "Essential for site operation",
+				"duration": "Duration:",
+				"durationText": "Session or persistent",
+				"examples": "Examples:",
+				"examplesText": "user session, language preferences"
+			},
+			"analytics": {
+				"title": "Analytics Cookies",
+				"purpose": "Purpose:",
+				"purposeText": "Collect information about how users use the site",
+				"provider": "Provider:",
+				"duration": "Duration:",
+				"durationText": "Up to 2 years",
+				"info": "More information:",
+				"infoText": "Google Analytics Privacy Policy"
+			},
+			"advertising": {
+				"title": "Advertising Cookies",
+				"purpose": "Purpose:",
+				"purposeText": "Display relevant ads and measure their effectiveness",
+				"provider": "Provider:",
+				"duration": "Duration:",
+				"durationText": "Up to 13 months",
+				"info": "More information:",
+				"infoText": "Google AdSense Privacy Policy"
+			},
+			"thirdParty": {
+				"title": "Third-Party Cookies",
+				"text": "Some external services (like analytics and advertising) may set their own cookies. We have no control over these third-party cookies."
+			}
+		},
+		"table": {
+			"title": "Detailed Cookie Table",
+			"cookie": "Cookie",
+			"purpose": "Purpose",
+			"type": "Type",
+			"duration": "Duration",
+			"row1Purpose": "Maintain user session",
+			"row1Type": "Technical",
+			"row1Duration": "Session",
+			"row2Purpose": "Distinguish users (Google Analytics)",
+			"row2Type": "Analytics",
+			"row2Duration": "2 years",
+			"row3Purpose": "Distinguish users (Google Analytics)",
+			"row3Type": "Analytics",
+			"row3Duration": "24 hours",
+			"row4Purpose": "Throttle request rate",
+			"row4Type": "Analytics",
+			"row4Duration": "1 minute",
+			"row5Purpose": "Personalized advertising (Google Ads)",
+			"row5Type": "Advertising",
+			"row5Duration": "13 months"
+		},
+		"manage": {
+			"title": "How to Manage Cookies",
+			"text": "You can control and manage cookies in several ways:",
+			"browser": {
+				"title": "Browser Settings",
+				"text": "Most browsers allow you to:",
+				"chrome": "Settings > Privacy and security > Cookies",
+				"firefox": "Options > Privacy and security > Cookies",
+				"safari": "Preferences > Privacy > Cookies",
+				"edge": "Settings > Cookies and site permissions"
+			},
+			"optout": {
+				"title": "Opt-out Tools",
+				"text": "You can disable specific cookies:",
+				"analyticsLink": "Google Analytics Opt-out Browser Add-on",
+				"adsLink": "Google Ad Settings"
+			},
+			"warning": {
+				"title": "Warning",
+				"text": "Disabling cookies may affect site functionality and your user experience."
+			}
+		},
+		"updates": {
+			"title": "Policy Update",
+			"text": "We may update this cookie policy. Check this page periodically to stay informed."
+		},
+		"moreInfo": {
+			"title": "More Info about Cookies",
+			"text": "For more information about cookies, visit:",
+			"googlePolicies": "Google Privacy & Terms"
+		},
+		"contact": {
+			"title": "Contact",
+			"text": "If you have questions about our cookie policy:",
+			"email": "Email"
+		},
+		"related": {
+			"title": "Related Documents:",
+			"terms": "Terms of Use",
+			"privacy": "Privacy Policy"
+		},
+		"reviewNote": "This policy was last updated on the date indicated above.",
+		"seo": {
+			"title": "Cookie Policy - HytaleGuide",
+			"description": "Cookie policy for HytaleGuide. Information on which cookies we use, why, and how you can manage them.",
+			"keywords": "cookie policy, cookies, tracking, analytics, advertising, cookie management"
+		}
+	},
+	"cookieBanner": {
+		"title": "Cookies and Privacy",
+		"description": "We use cookies to enhance your experience and measure site usage. You can accept, reject, or configure your preferences.",
+		"learnMore": "View cookie policy",
+		"accept": "Accept",
+		"reject": "Reject",
+		"configure": "Configure",
+		"save": "Save",
+		"settingsHint": "Enable only what you want to allow. Technical cookies are necessary and always active.",
+		"analytics": "Analytics (Google Analytics)",
+		"ads": "Advertising (AdSense / Google Ads)",
+		"note": "You can change your decision at any time from the Cookies page."
+	},
+	"hytaleStatus": {
+		"checking": "Checking...",
+		"online": "Hytale Online",
+		"offline": "Hytale Offline"
+	},
+	"officialBlog": {
+		"sectionTitle": "OFFICIAL HYTALE NEWS",
+		"officialNews": "HYPIXEL STUDIOS",
+		"badge": "OFFICIAL",
+		"readMore": "Read more",
+		"today": "Today",
+		"yesterday": "Yesterday",
+		"daysAgo": "{{count}} days ago",
+		"weeksAgo": "{{count}} weeks ago",
+		"monthsAgo": "{{count}} months ago",
+		"yearsAgo": "{{count}} years ago"
+	},
+	"common": {
+		"loading": "Loading..."
+	},
+	"profile": {
+		"welcome": "Welcome",
+		"accountInfo": "Account information",
+		"fullName": "Full name",
+		"username": "Username",
+		"memberSince": "Member since",
+		"activity": "Activity",
+		"comingSoon": "You will soon be able to see your activity here.",
+		"achievements": {
+			"title": "Achievements",
+			"early_adopter": {
+				"name": "Early Adopter",
+				"description": "You joined during the beta"
+			},
+			"first_comment": {
+				"name": "First Comment",
+				"description": "Write your first comment"
+			},
+			"mod_hunter": {
+				"name": "Mod Hunter",
+				"description": "Download your first mod"
+			},
+			"bug_reporter": {
+				"name": "Bug Hunter",
+				"description": "Report your first bug"
+			},
+			"news_reader": {
+				"name": "Informed",
+				"description": "Read 10 news articles"
+			},
+			"community_member": {
+				"name": "Community Member",
+				"description": "Join the Discord"
+			}
+		}
+	}
 }

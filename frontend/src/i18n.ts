@@ -9,20 +9,25 @@ import it from './locales/it.json';
 import pt from './locales/pt.json';
 
 i18n
-  .use(LanguageDetector)
-  .use(initReactI18next)
-  .init({
-    resources: {
-      es: { translation: es },
-      en: { translation: en },
-      fr: { translation: fr },
-      it: { translation: it },
-      pt: { translation: pt }
-    },
-    fallbackLng: 'es',
-    interpolation: {
-      escapeValue: false
-    }
-  });
+	.use(LanguageDetector)
+	.use(initReactI18next)
+	.init({
+		resources: {
+			es: { translation: es },
+			en: { translation: en },
+			fr: { translation: fr },
+			it: { translation: it },
+			pt: { translation: pt }
+		},
+		lng: localStorage.getItem('i18nextLng') || 'es',
+		fallbackLng: 'es',
+		detection: {
+			order: ['localStorage', 'navigator'],
+			caches: ['localStorage']
+		},
+		interpolation: {
+			escapeValue: false
+		}
+	});
 
 export default i18n;
