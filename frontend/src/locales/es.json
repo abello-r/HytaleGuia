@@ -695,42 +695,6 @@
 	"common": {
 		"loading": "Cargando..."
 	},
-	"profile": {
-		"welcome": "Bienvenido",
-		"accountInfo": "Información de la cuenta",
-		"fullName": "Nombre completo",
-		"username": "Usuario",
-		"memberSince": "Miembro desde",
-		"activity": "Actividad",
-		"comingSoon": "Próximamente podrás ver tu actividad aquí.",
-		"achievements": {
-			"title": "Logros",
-			"early_adopter": {
-				"name": "Early Adopter",
-				"description": "Te uniste durante la beta"
-			},
-			"first_comment": {
-				"name": "Primer Comentario",
-				"description": "Escribe tu primer comentario"
-			},
-			"mod_hunter": {
-				"name": "Cazador de Mods",
-				"description": "Descarga tu primer mod"
-			},
-			"bug_reporter": {
-				"name": "Cazador de Bugs",
-				"description": "Reporta tu primer bug"
-			},
-			"news_reader": {
-				"name": "Informado",
-				"description": "Lee 10 noticias"
-			},
-			"community_member": {
-				"name": "De la Comunidad",
-				"description": "Únete al Discord"
-			}
-		}
-	},
 	"achievements": {
 		"title": "Mis Logros",
 		"subtitle": "Tu progreso en HytaleGuía",

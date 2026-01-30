@@ -690,42 +690,6 @@
 	"common": {
 		"loading": "Chargement..."
 	},
-	"profile": {
-		"welcome": "Bienvenue",
-		"accountInfo": "Infos du compte",
-		"fullName": "Nom complet",
-		"username": "Utilisateur",
-		"memberSince": "Membre depuis",
-		"activity": "Activité",
-		"comingSoon": "Vous pourrez bientôt voir votre activité ici.",
-		"achievements": {
-			"title": "Hauts faits",
-			"early_adopter": {
-				"name": "Pionnier",
-				"description": "A rejoint durant la bêta"
-			},
-			"first_comment": {
-				"name": "Premier commentaire",
-				"description": "Écrivez votre premier commentaire"
-			},
-			"mod_hunter": {
-				"name": "Chasseur de mods",
-				"description": "Téléchargez votre premier mod"
-			},
-			"bug_reporter": {
-				"name": "Chasseur de bugs",
-				"description": "Signalez votre premier bug"
-			},
-			"news_reader": {
-				"name": "Informé",
-				"description": "Lisez 10 actualités"
-			},
-			"community_member": {
-				"name": "De la communauté",
-				"description": "Rejoignez le Discord"
-			}
-		}
-	},
 	"achievements": {
 		"title": "Mes Hauts faits",
 		"subtitle": "Votre progression sur HytaleGuía",
