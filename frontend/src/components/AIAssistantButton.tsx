@@ -19,7 +19,6 @@ export default function AIAssistantButton({ onClick }: AIAssistantButtonProps) {
 					className="w-8 h-8 object-cover scale-x-[-1]"
 				/>
 
-				{/* Tooltip al hover */}
 				<div className="absolute right-full mr-3 top-1/2 -translate-y-1/2 bg-[#0b0d12] text-white px-3 py-2 rounded-lg text-sm font-medium whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none shadow-xl">
 					{t('aiAssistant.tooltip')}
 				</div>

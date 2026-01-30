@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next';
 
 export default function Footer() {
 	const { t } = useTranslation();
+	const year = new Date().getFullYear();
 
 	return (
 		<footer className="relative bg-[#0b0d12] border-t border-white/10">
@@ -10,19 +11,13 @@ export default function Footer() {
 					<div className="col-span-2 md:col-span-1 mb-4 md:mb-0">
 						<a href="/" className="flex items-center space-x-2 mb-4 cursor-pointer w-fit">
 							<div className="w-8 h-8 md:w-10 md:h-10 bg-gradient-to-br from-[#00d2ff] to-[#0099cc] rounded flex items-center justify-center overflow-hidden">
-								<img 
-									src="/logo-96.png" 
-									alt="Hytale Guía Logo" 
-									className="w-full h-full object-cover"
-								/>
+								<img src="/logo-96.png" alt="Hytale Guía Logo" className="w-full h-full object-cover" />
 							</div>
 							<span className="text-white font-bold text-lg md:text-xl">
 								HYTALE<span className="text-[#00d2ff]"> GUÍA</span>
 							</span>
 						</a>
-						<p className="text-[#a0a0a0] text-sm leading-relaxed">
-							{t('footer.description')}
-						</p>
+						<p className="text-[#a0a0a0] text-sm leading-relaxed">{t('footer.description')}</p>
 					</div>
 
 					<div>
@@ -63,12 +58,10 @@ export default function Footer() {
 					/>
 
 					<p className="text-sm">
-						<span className="text-[#00d2ff] font-semibold">© 2026 HytaleGuía.</span>{' '}
+						<span className="text-[#00d2ff] font-semibold">© {year} HytaleGuía.</span>{' '}
 						<span className="text-[#a0a0a0]">{t('footer.madeWith')}</span>
 					</p>
-					<p className="text-[#a0a0a0] text-xs mt-2 px-4 md:px-0">
-						{t('footer.disclaimer')}
-					</p>
+					<p className="text-[#a0a0a0] text-xs mt-2 px-4 md:px-0">{t('footer.disclaimer')}</p>
 				</div>
 			</div>
 		</footer>

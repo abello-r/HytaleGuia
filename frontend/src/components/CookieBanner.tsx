@@ -17,8 +17,7 @@ export default function CookieBanner({ onConsentChange }: CookieBannerProps) {
 	const [ads, setAds] = useState(existingConsent?.ads ?? false);
 
 	useEffect(() => {
-		const consent = getCookieConsent();
-		if (!consent) setIsVisible(true);
+		if (!getCookieConsent()) setIsVisible(true);
 	}, []);
 
 	const acceptAll = () => {
@@ -42,8 +41,10 @@ export default function CookieBanner({ onConsentChange }: CookieBannerProps) {
 	if (!isVisible) return null;
 
 	return (
-		<div className="fixed right-4 bottom-4 z-[120]">
-			<div className="w-[320px] max-w-[92vw] overflow-hidden rounded-2xl border border-white/20 bg-white/10 backdrop-blur-2xl shadow-[0_20px_60px_rgba(0,0,0,0.45)]">
+		<div className="fixed inset-0 md:inset-auto md:right-4 md:bottom-4 z-[120] flex items-center justify-center md:block">
+			<div className="absolute inset-0 bg-black/50 md:hidden" onClick={rejectAll} />
+			
+			<div className="relative w-[320px] max-w-[92vw] overflow-hidden rounded-2xl border border-white/20 bg-[#0b0d12]/95 md:bg-white/10 backdrop-blur-2xl shadow-[0_20px_60px_rgba(0,0,0,0.45)]">
 				<div className="p-4 text-center">
 					<p className="text-white font-semibold mb-2">{t('cookieBanner.title')}</p>
 
@@ -86,14 +87,14 @@ export default function CookieBanner({ onConsentChange }: CookieBannerProps) {
 						<div className="flex gap-2 justify-center">
 							<button
 								onClick={rejectAll}
-								className="flex-1 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 text-white/70 hover:text-white px-4 py-1.5 rounded-[8px] transition cursor-pointer"
+								className="flex-1 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 text-white/70 hover:text-white px-4 py-1.5 rounded-lg transition cursor-pointer"
 							>
 								{t('cookieBanner.reject')}
 							</button>
 
 							<button
 								onClick={() => setIsConfigOpen((v) => !v)}
-								className="flex-1 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#00d2ff]/40 text-white/70 hover:text-white px-4 py-1.5 rounded-[8px] transition cursor-pointer"
+								className="flex-1 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#00d2ff]/40 text-white/70 hover:text-white px-4 py-1.5 rounded-lg transition cursor-pointer"
 							>
 								{t('cookieBanner.configure')}
 							</button>
@@ -101,15 +102,13 @@ export default function CookieBanner({ onConsentChange }: CookieBannerProps) {
 
 						<button
 							onClick={isConfigOpen ? saveSettings : acceptAll}
-							className="bg-[#00d2ff] hover:bg-[#00a8cc] text-[#0b0d12] font-semibold px-4 py-1.5 rounded-[8px] transition cursor-pointer"
+							className="bg-[#00d2ff] hover:bg-[#00a8cc] text-[#0b0d12] font-semibold px-4 py-1.5 rounded-lg transition cursor-pointer"
 						>
 							{isConfigOpen ? t('cookieBanner.save') : t('cookieBanner.accept')}
 						</button>
 					</div>
 
-					<p className="text-[11px] text-white/30 mt-3">
-						{t('cookieBanner.note')}
-					</p>
+					<p className="text-[11px] text-white/30 mt-3">{t('cookieBanner.note')}</p>
 				</div>
 
 				<div className="h-[2px] w-full bg-gradient-to-r from-transparent via-[#00d2ff]/40 to-transparent" />

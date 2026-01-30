@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@clerk/clerk-react": "^5.59.6",
+    "@clerk/localizations": "^3.35.3",
     "i18next": "^25.7.4",
     "i18next-browser-languagedetector": "^8.2.0",
     "react": "^19.2.0",

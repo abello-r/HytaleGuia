@@ -7,7 +7,8 @@
 		"serverList": "SERVIDORES",
 		"devBadge": "La web está en desarrollo.",
 		"bugs": "BUGS",
-		"comingSoon": "PRÓXIMAMENTE"
+		"comingSoon": "PRÓXIMAMENTE",
+		"achievements": "Recompensas"
 	},
 	"hero": {
 		"betaBadge": "BETA PRÓXIMAMENTE",
@@ -727,6 +728,50 @@
 			"community_member": {
 				"name": "De la Comunidad",
 				"description": "Únete al Discord"
+			}
+		}
+	},
+	"achievements": {
+		"title": "Mis Logros",
+		"subtitle": "Tu progreso en HytaleGuía",
+		"progress": "Progreso total",
+		"unlocked": "desbloqueados",
+		"tabs": {
+			"achievements": "Logros",
+			"leaderboard": "Ranking"
+		},
+		"leaderboard": {
+			"empty": "Aún no hay usuarios en el ranking",
+			"you": "Tú",
+			"user": "Usuario",
+			"unlocked": "logros"
+		},
+		"newUnlock": "Logro desbloqueado",
+		"hint": "Completa acciones en HytaleGuía para desbloquear más logros",
+		"items": {
+			"early_adopter": {
+				"name": "Pionero",
+				"description": "Te uniste durante la beta"
+			},
+			"first_comment": {
+				"name": "Primer Comentario",
+				"description": "Escribe tu primer comentario"
+			},
+			"mod_hunter": {
+				"name": "Cazador de Mods",
+				"description": "Descarga 5 mods"
+			},
+			"bug_reporter": {
+				"name": "Cazador de Bugs",
+				"description": "Reporta tu primer bug"
+			},
+			"news_reader": {
+				"name": "Informado",
+				"description": "Lee 10 noticias"
+			},
+			"community_member": {
+				"name": "Miembro Activo",
+				"description": "Únete a la comunidad Discord"
 			}
 		}
 	}

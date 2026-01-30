@@ -12,17 +12,18 @@ export default function NotFoundPage() {
 	const currentLang = i18n.language || 'es';
 	const seoConfig = getSEOConfig('/404', currentLang);
 
+	const getCanonicalUrl = () => {
+		const base = 'https://hytaleguia.com';
+		return currentLang === 'es' ? `${base}/404` : `${base}/${currentLang}/404`;
+	};
+
 	useEffect(() => {
 		window.scrollTo(0, 0);
 	}, []);
 
-	const handleGoHome = () => {
-		navigate('/');
-	};
-
 	return (
 		<>
-			<SEO {...seoConfig} />
+			<SEO {...seoConfig} canonical={getCanonicalUrl()} />
 
 			<div className="min-h-screen bg-[#0b0d12] flex flex-col">
 				<div className="relative min-h-screen flex flex-col">
@@ -30,7 +31,7 @@ export default function NotFoundPage() {
 						className="absolute inset-0 bg-cover bg-center"
 						style={{ backgroundImage: 'url("/404.jpg")' }}
 					>
-						<div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-[#0b0d12]"></div>
+						<div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-[#0b0d12]" />
 					</div>
 
 					<Header />
@@ -46,13 +47,11 @@ export default function NotFoundPage() {
 							</p>
 
 							<button
-								onClick={handleGoHome}
-								className="bg-white/10 hover:bg-white/15 backdrop-blur-md border border-white/20 hover:border-[#ffffff]/50 text-white font-bold px-12 py-4 rounded-xl transition-all duration-300 transform hover:scale-105 text-lg cursor-pointer mx-auto flex items-center justify-center"
+								onClick={() => navigate('/')}
+								className="bg-white/10 hover:bg-white/15 backdrop-blur-md border border-white/20 hover:border-white/50 text-white font-bold px-12 py-4 rounded-xl transition-all duration-300 hover:scale-105 text-lg cursor-pointer mx-auto flex items-center justify-center gap-2"
 							>
-								<span className="flex items-center justify-center gap-2">
-									<span>←</span>
-									<span>{t('notFound.backToHome')}</span>
-								</span>
+								<span>←</span>
+								<span>{t('notFound.backToHome')}</span>
 							</button>
 						</div>
 					</main>
@@ -61,5 +60,5 @@ export default function NotFoundPage() {
 				<Footer />
 			</div>
 		</>
-	);
+	)
 }

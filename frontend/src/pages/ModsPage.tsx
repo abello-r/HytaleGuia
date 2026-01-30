@@ -1,31 +1,32 @@
-import { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
-import DiscordButton from '../components/DiscordButton';
-import ShareButton from '../components/ShareButton';
-import SEO from '../components/SEO';
-import StructuredData from '../components/StructuredData';
-import { getSEOConfig } from '../utils/seoConfig';
+import { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import Header from '../components/Header'
+import Footer from '../components/Footer'
+import DiscordButton from '../components/DiscordButton'
+import ShareButton from '../components/ShareButton'
+import SEO from '../components/SEO'
+import StructuredData from '../components/StructuredData'
+import { getSEOConfig } from '../utils/seoConfig'
+import { useTrackAchievement } from '../context/AchievementsContext'
 
 interface ModItem {
-	titulo: string;
-	descripcion: string;
-	resumen: string;
-	autor: string;
-	version: string;
-	fecha_publicacion: string;
-	links_descarga: string[];
+	titulo: string
+	descripcion: string
+	resumen: string
+	autor: string
+	version: string
+	fecha_publicacion: string
+	links_descarga: string[]
 }
 
 interface ModsResponse {
-	success: boolean;
+	success: boolean
 	data: {
-		mods: ModItem[];
-		total: number;
-		lastCronRun: string | null;
-	};
-	timestamp: string;
+		mods: ModItem[]
+		total: number
+		lastCronRun: string | null
+	}
+	timestamp: string
 }
 
 function ModsSkeleton() {
@@ -45,132 +46,138 @@ function ModsSkeleton() {
 				</div>
 			</div>
 		</div>
-	);
+	)
 }
 
 export default function ModsPage() {
-	const { t, i18n } = useTranslation();
-	const currentLang = i18n.language || 'es';
-	const seoConfig = getSEOConfig('/mods', currentLang);
-	const [mods, setMods] = useState<ModItem[]>([]);
-	const [filteredMods, setFilteredMods] = useState<ModItem[]>([]);
-	const [loading, setLoading] = useState(true);
-	const [sorting, setSorting] = useState(false);
-	const [searchQuery, setSearchQuery] = useState('');
-	const [sortBy, setSortBy] = useState('newest');
-	const [displayCount, setDisplayCount] = useState(8);
-	const [showScrollTop, setShowScrollTop] = useState(false);
-	const [currentTime, setCurrentTime] = useState(new Date());
-	const [lastCronRun, setLastCronRun] = useState<Date | null>(null);
+	const { t, i18n } = useTranslation()
+	const { trackModDownload } = useTrackAchievement()
+	const currentLang = i18n.language || 'es'
+	const seoConfig = getSEOConfig('/mods', currentLang)
+	const [mods, setMods] = useState<ModItem[]>([])
+	const [filteredMods, setFilteredMods] = useState<ModItem[]>([])
+	const [loading, setLoading] = useState(true)
+	const [sorting, setSorting] = useState(false)
+	const [searchQuery, setSearchQuery] = useState('')
+	const [sortBy, setSortBy] = useState('newest')
+	const [displayCount, setDisplayCount] = useState(8)
+	const [showScrollTop, setShowScrollTop] = useState(false)
+	const [currentTime, setCurrentTime] = useState(new Date())
+	const [lastCronRun, setLastCronRun] = useState<Date | null>(null)
 
 	const getCanonicalUrl = () => {
-		const base = 'https://hytaleguia.com';
-		const path = 'mods';
-		return currentLang === 'es' ? `${base}/${path}` : `${base}/${currentLang}/${path}`;
-	};
+		const base = 'https://hytaleguia.com'
+		const path = 'mods'
+		return currentLang === 'es' ? `${base}/${path}` : `${base}/${currentLang}/${path}`
+	}
+
+	const handleModDownload = (url: string) => {
+		window.open(url, '_blank')
+		trackModDownload()
+	}
 
 	useEffect(() => {
-		const timer = setInterval(() => setCurrentTime(new Date()), 60000);
-		return () => clearInterval(timer);
-	}, []);
+		const timer = setInterval(() => setCurrentTime(new Date()), 60000)
+		return () => clearInterval(timer)
+	}, [])
 
 	useEffect(() => {
 		async function fetchAllMods() {
 			try {
-				const response = await fetch('/api/mods/all');
-				const result: ModsResponse = await response.json();
+				const response = await fetch('/api/mods/all')
+				const result: ModsResponse = await response.json()
 
 				if (result.success) {
-					setMods(result.data.mods);
-					setFilteredMods(result.data.mods);
+					setMods(result.data.mods)
+					setFilteredMods(result.data.mods)
 					if (result.data.lastCronRun) {
-						setLastCronRun(new Date(result.data.lastCronRun));
+						setLastCronRun(new Date(result.data.lastCronRun))
 					}
 				}
 			} catch (error) {
-				console.error('Error fetching mods:', error);
+				console.error('Error fetching mods:', error)
 			} finally {
-				setLoading(false);
+				setLoading(false)
 			}
 		}
 
-		fetchAllMods();
-	}, []);
+		fetchAllMods()
+	}, [])
 
 	useEffect(() => {
-		const handleScroll = () => setShowScrollTop(window.scrollY > 500);
-		window.addEventListener('scroll', handleScroll);
-		return () => window.removeEventListener('scroll', handleScroll);
-	}, []);
+		const handleScroll = () => setShowScrollTop(window.scrollY > 500)
+		window.addEventListener('scroll', handleScroll)
+		return () => window.removeEventListener('scroll', handleScroll)
+	}, [])
 
 	const handleSortChange = (newSort: string) => {
-		setSorting(true);
-		setSortBy(newSort);
-		setTimeout(() => setSorting(false), 300);
-	};
+		setSorting(true)
+		setSortBy(newSort)
+		setTimeout(() => setSorting(false), 300)
+	}
 
 	const getTimeAgo = (dateString: string): string => {
-		const date = new Date(dateString);
-		const diffMs = currentTime.getTime() - date.getTime();
-		const diffMinutes = Math.floor(diffMs / (1000 * 60));
-		const diffHours = Math.floor(diffMinutes / 60);
-		const diffDays = Math.floor(diffHours / 24);
+		const date = new Date(dateString)
+		const diffMs = currentTime.getTime() - date.getTime()
+		const diffMinutes = Math.floor(diffMs / (1000 * 60))
+		const diffHours = Math.floor(diffMinutes / 60)
+		const diffDays = Math.floor(diffHours / 24)
 
-		if (diffDays > 0) return diffDays === 1 ? t('mods.timeAgo.day', { count: diffDays }) : t('mods.timeAgo.days', { count: diffDays });
-		if (diffHours > 0) return diffHours === 1 ? t('mods.timeAgo.hour', { count: diffHours }) : t('mods.timeAgo.hours', { count: diffHours });
-		if (diffMinutes === 1) return t('mods.timeAgo.minute');
-		if (diffMinutes > 0) return t('mods.timeAgo.minutes', { count: diffMinutes });
-		return t('mods.timeAgo.justNow');
-	};
+		if (diffDays > 0) return diffDays === 1 ? t('mods.timeAgo.day', { count: diffDays }) : t('mods.timeAgo.days', { count: diffDays })
+		if (diffHours > 0) return diffHours === 1 ? t('mods.timeAgo.hour', { count: diffHours }) : t('mods.timeAgo.hours', { count: diffHours })
+		if (diffMinutes === 1) return t('mods.timeAgo.minute')
+		if (diffMinutes > 0) return t('mods.timeAgo.minutes', { count: diffMinutes })
+		return t('mods.timeAgo.justNow')
+	}
 
 	const formatDate = (dateString: string) => {
 		try {
-			const date = new Date(dateString);
+			const date = new Date(dateString)
 			const locales: { [key: string]: string } = {
 				es: 'es-ES', en: 'en-US', fr: 'fr-FR', it: 'it-IT', pt: 'pt-PT'
-			};
-			const locale = locales[i18n.language] || 'en-US';
-			return date.toLocaleDateString(locale, { year: 'numeric', month: 'short', day: 'numeric' });
+			}
+			const locale = locales[i18n.language] || 'en-US'
+			return date.toLocaleDateString(locale, { year: 'numeric', month: 'short', day: 'numeric' })
 		} catch {
-			return dateString;
+			return dateString
 		}
-	};
+	}
 
 	const getNextRefresh = (): string => {
-		const hours = currentTime.getHours();
-		const cronHours = [5, 10, 15, 20, 23];
-		let nextHour = cronHours.find(h => h > hours) || cronHours[0] + 24;
+		const hours = currentTime.getHours()
+		const cronHours = [5, 10, 15, 20, 23]
+		let nextHour = cronHours.find(h => h > hours) || cronHours[0] + 24
 
-		const next = new Date(currentTime);
-		next.setHours(nextHour % 24, 0, 0, 0);
-		if (nextHour >= 24) next.setDate(next.getDate() + 1);
+		const next = new Date(currentTime)
+		next.setHours(nextHour % 24, 0, 0, 0)
+		if (nextHour >= 24) next.setDate(next.getDate() + 1)
 
-		const diffMs = next.getTime() - currentTime.getTime();
-		const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
-		const diffMinutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+		const diffMs = next.getTime() - currentTime.getTime()
+		const diffHours = Math.floor(diffMs / (1000 * 60 * 60))
+		const diffMinutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60))
 
-		if (diffHours === 0) return diffMinutes === 1 ? t('mods.timeIn.minute') : t('mods.timeIn.minutes', { count: diffMinutes });
-		if (diffMinutes === 0) return diffHours === 1 ? t('mods.timeIn.hour') : t('mods.timeIn.hours', { count: diffHours });
-		return diffHours === 1 ? t('mods.timeIn.hourAndMinutes', { minutes: diffMinutes }) : t('mods.timeIn.hoursAndMinutes', { hours: diffHours, minutes: diffMinutes });
-	};
+		if (diffHours === 0) return diffMinutes === 1 ? t('mods.timeIn.minute') : t('mods.timeIn.minutes', { count: diffMinutes })
+		if (diffMinutes === 0) return diffHours === 1 ? t('mods.timeIn.hour') : t('mods.timeIn.hours', { count: diffHours })
+		return diffHours === 1 ? t('mods.timeIn.hourAndMinutes', { minutes: diffMinutes }) : t('mods.timeIn.hoursAndMinutes', { hours: diffHours, minutes: diffMinutes })
+	}
 
 	const isNew = (dateString: string): boolean => {
-		const itemDate = new Date(dateString);
-		const diffTime = Math.abs(currentTime.getTime() - itemDate.getTime());
-		return (diffTime / (1000 * 60 * 60)) <= 72;
-	};
+		const itemDate = new Date(dateString)
+		const diffTime = Math.abs(currentTime.getTime() - itemDate.getTime())
+		return (diffTime / (1000 * 60 * 60)) <= 72
+	}
 
 	const getSource = (downloadLinks: string[]): string => {
-		if (!downloadLinks || downloadLinks.length === 0) return 'Unknown';
+		if (!downloadLinks || downloadLinks.length === 0) return 'Unknown'
 
 		try {
-			const url = new URL(downloadLinks[0]);
-			const hostname = url.hostname.replace('www.', '');
-			return hostname.split('.')[0].charAt(0).toUpperCase() + hostname.split('.')[0].slice(1);
+			const url = new URL(downloadLinks[0])
+			const hostname = url.hostname.replace('www.', '')
+			return hostname.split('.')[0].charAt(0).toUpperCase() + hostname.split('.')[0].slice(1)
 		} catch {
-			return 'Unknown';
+			return 'Unknown'
 		}
-	};
+	}
 
 	const getGradient = (title: string): string => {
 		const gradients = [
@@ -180,10 +187,10 @@ export default function ModsPage() {
 			'from-orange-500/20 to-red-500/20',
 			'from-indigo-500/20 to-purple-500/20',
 			'from-yellow-500/20 to-orange-500/20',
-		];
-		const index = title.charCodeAt(0) % gradients.length;
-		return gradients[index];
-	};
+		]
+		const index = title.charCodeAt(0) % gradients.length
+		return gradients[index]
+	}
 
 	useEffect(() => {
 		let filtered = mods.filter(item =>
@@ -192,26 +199,26 @@ export default function ModsPage() {
 			item.resumen.toLowerCase().includes(searchQuery.toLowerCase()) ||
 			item.descripcion.toLowerCase().includes(searchQuery.toLowerCase()) ||
 			item.autor.toLowerCase().includes(searchQuery.toLowerCase())
-		);
+		)
 
 		filtered.sort((a, b) => {
-			const diff = new Date(b.fecha_publicacion).getTime() - new Date(a.fecha_publicacion).getTime();
-			return sortBy === 'newest' ? diff : -diff;
-		});
+			const diff = new Date(b.fecha_publicacion).getTime() - new Date(a.fecha_publicacion).getTime()
+			return sortBy === 'newest' ? diff : -diff
+		})
 
-		setFilteredMods(filtered);
-		setDisplayCount(5);
-	}, [searchQuery, sortBy, mods]);
+		setFilteredMods(filtered)
+		setDisplayCount(5)
+	}, [searchQuery, sortBy, mods])
 
 	const highlightText = (text: string, query: string) => {
-		if (!query) return text;
-		const parts = text.split(new RegExp(`(${query})`, 'gi'));
+		if (!query) return text
+		const parts = text.split(new RegExp(`(${query})`, 'gi'))
 		return parts.map((part, index) =>
 			part.toLowerCase() === query.toLowerCase()
 				? <mark key={index} className="bg-yellow-400 text-[#0b0d12] px-1 rounded">{part}</mark>
 				: part
-		);
-	};
+		)
+	}
 
 	return (
 		<>
@@ -371,7 +378,7 @@ export default function ModsPage() {
 														key={index}
 														className="bg-white/5 border border-white/10 rounded-xl overflow-hidden hover:border-[#00d2ff]/50 hover:shadow-[0_0_30px_rgba(0,210,255,0.1)] hover:scale-[1.02] transition-all duration-300 group cursor-pointer h-[420px] flex flex-col animate-fadeIn"
 														style={{ animationDelay: `${(index + 1) * 30}ms` }}
-														onClick={() => window.open(item.links_descarga[0], '_blank')}
+														onClick={() => handleModDownload(item.links_descarga[0])}
 													>
 														<div className={`aspect-video bg-gradient-to-br ${getGradient(item.titulo)} relative overflow-hidden`}>
 															<div className="absolute inset-0 flex items-center justify-center">
@@ -465,5 +472,5 @@ export default function ModsPage() {
 				<Footer />
 			</div>
 		</>
-	);
+	)
 }

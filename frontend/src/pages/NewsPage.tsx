@@ -1,31 +1,32 @@
-import { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
-import DiscordButton from '../components/DiscordButton';
-import ShareButton from '../components/ShareButton';
-import SEO from '../components/SEO';
-import StructuredData from '../components/StructuredData';
-import { getSEOConfig } from '../utils/seoConfig';
+import { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import Header from '../components/Header'
+import Footer from '../components/Footer'
+import DiscordButton from '../components/DiscordButton'
+import ShareButton from '../components/ShareButton'
+import SEO from '../components/SEO'
+import StructuredData from '../components/StructuredData'
+import { getSEOConfig } from '../utils/seoConfig'
+import { useTrackAchievement } from '../context/AchievementsContext'
 
 interface NewsArticle {
-	titulo: string;
-	resumen: string;
-	fecha: string;
-	fuente: string;
-	url: string;
-	image?: string;
-	fileDate: string;
+	titulo: string
+	resumen: string
+	fecha: string
+	fuente: string
+	url: string
+	image?: string
+	fileDate: string
 }
 
 interface NewsResponse {
-	success: boolean;
+	success: boolean
 	data: {
-		news: NewsArticle[];
-		total: number;
-		lastCronRun: string | null;
-	};
-	timestamp: string;
+		news: NewsArticle[]
+		total: number
+		lastCronRun: string | null
+	}
+	timestamp: string
 }
 
 const SOURCE_ICONS: { [key: string]: string } = {
@@ -36,8 +37,7 @@ const SOURCE_ICONS: { [key: string]: string } = {
 	'GamesRadar': 'gamepad',
 	'PC Gamer': 'desktop',
 	'Windows Central': 'windows'
-};
-
+}
 
 function NewsSkeleton() {
 	return (
@@ -55,11 +55,11 @@ function NewsSkeleton() {
 				</div>
 			</div>
 		</div>
-	);
+	)
 }
 
 function SourceIcon({ source }: { source: string }) {
-	const iconType = SOURCE_ICONS[source] || 'newspaper';
+	const iconType = SOURCE_ICONS[source] || 'newspaper'
 
 	const icons = {
 		gamepad: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z" />,
@@ -68,127 +68,132 @@ function SourceIcon({ source }: { source: string }) {
 		desktop: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />,
 		soccer: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />,
 		windows: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
-	};
+	}
 
 	return (
 		<svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 			{icons[iconType as keyof typeof icons] || icons.newspaper}
 		</svg>
-	);
+	)
 }
 
 export default function NewsPage() {
-	const { t, i18n } = useTranslation();
-	const currentLang = i18n.language || 'es';
-	const seoConfig = getSEOConfig('/noticias', currentLang);
+	const { t, i18n } = useTranslation()
+	const { trackNewsRead } = useTrackAchievement()
+	const currentLang = i18n.language || 'es'
+	const seoConfig = getSEOConfig('/noticias', currentLang)
 
-
-	const [news, setNews] = useState<NewsArticle[]>([]);
-	const [filteredNews, setFilteredNews] = useState<NewsArticle[]>([]);
-	const [loading, setLoading] = useState(true);
-	const [sorting, setSorting] = useState(false);
-	const [searchQuery, setSearchQuery] = useState('');
-	const [sortBy, setSortBy] = useState('newest');
-	const [displayCount, setDisplayCount] = useState(10);
-	const [showScrollTop, setShowScrollTop] = useState(false);
-	const [currentTime, setCurrentTime] = useState(new Date());
-	const [lastCronRun, setLastCronRun] = useState<Date | null>(null);
+	const [news, setNews] = useState<NewsArticle[]>([])
+	const [filteredNews, setFilteredNews] = useState<NewsArticle[]>([])
+	const [loading, setLoading] = useState(true)
+	const [sorting, setSorting] = useState(false)
+	const [searchQuery, setSearchQuery] = useState('')
+	const [sortBy, setSortBy] = useState('newest')
+	const [displayCount, setDisplayCount] = useState(10)
+	const [showScrollTop, setShowScrollTop] = useState(false)
+	const [currentTime, setCurrentTime] = useState(new Date())
+	const [lastCronRun, setLastCronRun] = useState<Date | null>(null)
 
 	const getCanonicalUrl = () => {
-		const base = 'https://hytaleguia.com';
-		const path = 'noticias';
-		return currentLang === 'es' ? `${base}/${path}` : `${base}/${currentLang}/${path}`;
-	};
+		const base = 'https://hytaleguia.com'
+		const path = 'noticias'
+		return currentLang === 'es' ? `${base}/${path}` : `${base}/${currentLang}/${path}`
+	}
+
+	const handleNewsRead = (url: string) => {
+		window.open(url, '_blank')
+		trackNewsRead()
+	}
 
 	useEffect(() => {
-		const timer = setInterval(() => setCurrentTime(new Date()), 60000);
-		return () => clearInterval(timer);
-	}, []);
+		const timer = setInterval(() => setCurrentTime(new Date()), 60000)
+		return () => clearInterval(timer)
+	}, [])
 
 	useEffect(() => {
 		async function fetchAllNews() {
 			try {
-				const response = await fetch('/api/news/all');
-				const result: NewsResponse = await response.json();
+				const response = await fetch('/api/news/all')
+				const result: NewsResponse = await response.json()
 
 				if (result.success) {
-					setNews(result.data.news);
-					setFilteredNews(result.data.news);
+					setNews(result.data.news)
+					setFilteredNews(result.data.news)
 					if (result.data.lastCronRun) {
-						setLastCronRun(new Date(result.data.lastCronRun));
+						setLastCronRun(new Date(result.data.lastCronRun))
 					}
 				}
 			} catch (error) {
-				console.error('Error fetching news:', error);
+				console.error('Error fetching news:', error)
 			} finally {
-				setLoading(false);
+				setLoading(false)
 			}
 		}
 
-		fetchAllNews();
-	}, []);
+		fetchAllNews()
+	}, [])
 
 	useEffect(() => {
-		const handleScroll = () => setShowScrollTop(window.scrollY > 500);
-		window.addEventListener('scroll', handleScroll);
-		return () => window.removeEventListener('scroll', handleScroll);
-	}, []);
+		const handleScroll = () => setShowScrollTop(window.scrollY > 500)
+		window.addEventListener('scroll', handleScroll)
+		return () => window.removeEventListener('scroll', handleScroll)
+	}, [])
 
 	useEffect(() => {
 		let filtered = news.filter(article =>
 			!searchQuery ||
 			article.titulo.toLowerCase().includes(searchQuery.toLowerCase()) ||
 			article.resumen.toLowerCase().includes(searchQuery.toLowerCase())
-		);
+		)
 
 		filtered.sort((a, b) => {
-			const diff = new Date(b.fecha).getTime() - new Date(a.fecha).getTime();
-			if (sortBy === 'newest') return diff;
-			if (sortBy === 'oldest') return -diff;
-			if (sortBy === 'source') return simplifySourceName(a.fuente).localeCompare(simplifySourceName(b.fuente));
-			return 0;
-		});
+			const diff = new Date(b.fecha).getTime() - new Date(a.fecha).getTime()
+			if (sortBy === 'newest') return diff
+			if (sortBy === 'oldest') return -diff
+			if (sortBy === 'source') return simplifySourceName(a.fuente).localeCompare(simplifySourceName(b.fuente))
+			return 0
+		})
 
-		setFilteredNews(filtered);
-		setDisplayCount(5);
-	}, [searchQuery, sortBy, news]);
+		setFilteredNews(filtered)
+		setDisplayCount(5)
+	}, [searchQuery, sortBy, news])
 
 	const handleSortChange = (newSort: string) => {
-		setSorting(true);
-		setSortBy(newSort);
-		setTimeout(() => setSorting(false), 300);
-	};
+		setSorting(true)
+		setSortBy(newSort)
+		setTimeout(() => setSorting(false), 300)
+	}
 
 	const getTimeAgo = (dateString: string): string => {
-		const diffMs = currentTime.getTime() - new Date(dateString).getTime();
-		const diffMinutes = Math.floor(diffMs / (1000 * 60));
-		const diffHours = Math.floor(diffMinutes / 60);
-		const diffDays = Math.floor(diffHours / 24);
+		const diffMs = currentTime.getTime() - new Date(dateString).getTime()
+		const diffMinutes = Math.floor(diffMs / (1000 * 60))
+		const diffHours = Math.floor(diffMinutes / 60)
+		const diffDays = Math.floor(diffHours / 24)
 
-		if (diffDays > 0) return diffDays === 1 ? t('news.timeAgo.day', { count: diffDays }) : t('news.timeAgo.days', { count: diffDays });
-		if (diffHours > 0) return diffHours === 1 ? t('news.timeAgo.hour', { count: diffHours }) : t('news.timeAgo.hours', { count: diffHours });
-		if (diffMinutes === 1) return t('news.timeAgo.minute');
-		if (diffMinutes > 0) return t('news.timeAgo.minutes', { count: diffMinutes });
-		return t('news.timeAgo.justNow');
-	};
+		if (diffDays > 0) return diffDays === 1 ? t('news.timeAgo.day', { count: diffDays }) : t('news.timeAgo.days', { count: diffDays })
+		if (diffHours > 0) return diffHours === 1 ? t('news.timeAgo.hour', { count: diffHours }) : t('news.timeAgo.hours', { count: diffHours })
+		if (diffMinutes === 1) return t('news.timeAgo.minute')
+		if (diffMinutes > 0) return t('news.timeAgo.minutes', { count: diffMinutes })
+		return t('news.timeAgo.justNow')
+	}
 
 	const getNextRefresh = (): string => {
-		const hours = currentTime.getHours();
-		const cronHours = [5, 10, 15, 20, 23];
-		let nextHour = cronHours.find(h => h > hours) || cronHours[0] + 24;
+		const hours = currentTime.getHours()
+		const cronHours = [5, 10, 15, 20, 23]
+		let nextHour = cronHours.find(h => h > hours) || cronHours[0] + 24
 
-		const next = new Date(currentTime);
-		next.setHours(nextHour % 24, 0, 0, 0);
-		if (nextHour >= 24) next.setDate(next.getDate() + 1);
+		const next = new Date(currentTime)
+		next.setHours(nextHour % 24, 0, 0, 0)
+		if (nextHour >= 24) next.setDate(next.getDate() + 1)
 
-		const diffMs = next.getTime() - currentTime.getTime();
-		const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
-		const diffMinutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+		const diffMs = next.getTime() - currentTime.getTime()
+		const diffHours = Math.floor(diffMs / (1000 * 60 * 60))
+		const diffMinutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60))
 
-		if (diffHours === 0) return diffMinutes === 1 ? t('news.timeIn.minute') : t('news.timeIn.minutes', { count: diffMinutes });
-		if (diffMinutes === 0) return diffHours === 1 ? t('news.timeIn.hour') : t('news.timeIn.hours', { count: diffHours });
-		return diffHours === 1 ? t('news.timeIn.hourAndMinutes', { minutes: diffMinutes }) : t('news.timeIn.hoursAndMinutes', { hours: diffHours, minutes: diffMinutes });
-	};
+		if (diffHours === 0) return diffMinutes === 1 ? t('news.timeIn.minute') : t('news.timeIn.minutes', { count: diffMinutes })
+		if (diffMinutes === 0) return diffHours === 1 ? t('news.timeIn.hour') : t('news.timeIn.hours', { count: diffHours })
+		return diffHours === 1 ? t('news.timeIn.hourAndMinutes', { minutes: diffMinutes }) : t('news.timeIn.hoursAndMinutes', { hours: diffHours, minutes: diffMinutes })
+	}
 
 	const simplifySourceName = (source: string): string => {
 		const sourceMap: { [key: string]: string } = {
@@ -200,49 +205,38 @@ export default function NewsPage() {
 			'GamesRadar': 'GamesRadar',
 			'PC Gamer': 'PC Gamer',
 			'Windows Central': 'Windows Central'
-		};
-		return sourceMap[source] || source;
-	};
+		}
+		return sourceMap[source] || source
+	}
 
 	const formatDate = (dateString: string) => {
 		try {
 			const locales: { [key: string]: string } = {
 				es: 'es-ES', en: 'en-US', fr: 'fr-FR', it: 'it-IT', pt: 'pt-PT'
-			};
-			const locale = locales[i18n.language] || 'en-US';
-			return new Date(dateString).toLocaleDateString(locale, { year: 'numeric', month: 'long', day: 'numeric' });
+			}
+			const locale = locales[i18n.language] || 'en-US'
+			return new Date(dateString).toLocaleDateString(locale, { year: 'numeric', month: 'long', day: 'numeric' })
 		} catch {
-			return dateString;
+			return dateString
 		}
-	};
+	}
 
 	const isNew = (dateString: string): boolean => {
-		const diffTime = Math.abs(currentTime.getTime() - new Date(dateString).getTime());
-		return (diffTime / (1000 * 60 * 60)) <= 24;
-	};
+		const diffTime = Math.abs(currentTime.getTime() - new Date(dateString).getTime())
+		return (diffTime / (1000 * 60 * 60)) <= 24
+	}
 
 	const highlightText = (text: string, query: string) => {
-		if (!query) return text;
-		const parts = text.split(new RegExp(`(${query})`, 'gi'));
+		if (!query) return text
+		const parts = text.split(new RegExp(`(${query})`, 'gi'))
 		return parts.map((part, index) =>
 			part.toLowerCase() === query.toLowerCase()
 				? <mark key={index} className="bg-yellow-400 text-[#0b0d12] px-1 rounded">{part}</mark>
 				: part
-		);
-	};
+		)
+	}
 
-	/*const groupByDate = (articles: NewsArticle[]) => {
-		const grouped: { [key: string]: NewsArticle[] } = {};
-		articles.forEach(article => {
-			const date = formatDate(article.fecha);
-			if (!grouped[date]) grouped[date] = [];
-			grouped[date].push(article);
-		});
-		return grouped;
-	};*/
-
-	const featuredArticle = filteredNews[0];
-	//const groupedNews = groupByDate(filteredNews.slice(1, displayCount));
+	const featuredArticle = filteredNews[0]
 
 	return (
 		<>
@@ -372,7 +366,7 @@ export default function NewsPage() {
 											{featuredArticle && (
 												<div
 													className="relative bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden cursor-pointer group animate-fadeIn hover:border-[#00d2ff]/50 transition-all duration-300"
-													onClick={() => window.open(featuredArticle.url, '_blank')}
+													onClick={() => handleNewsRead(featuredArticle.url)}
 												>
 													{featuredArticle.image && (
 														<div className="relative h-64 overflow-hidden">
@@ -435,7 +429,7 @@ export default function NewsPage() {
 														key={index}
 														className="bg-white/5 border border-white/10 rounded-xl overflow-hidden hover:border-[#00d2ff]/50 hover:shadow-[0_0_30px_rgba(0,210,255,0.1)] transition-all duration-300 group cursor-pointer animate-fadeIn flex flex-col"
 														style={{ animationDelay: `${index * 30}ms` }}
-														onClick={() => window.open(article.url, '_blank')}
+														onClick={() => handleNewsRead(article.url)}
 													>
 														{article.image && (
 															<div className="relative h-48 overflow-hidden flex-shrink-0">
@@ -522,5 +516,5 @@ export default function NewsPage() {
 				<Footer />
 			</div>
 		</>
-	);
+	)
 }

@@ -6,6 +6,7 @@ const newsRoutes = require('./routes/news');
 const modsRoutes = require('./routes/mods');
 const bugsRoutes = require('./routes/bugs');
 const hytaleRoutes = require('./routes/hytale');
+const achievementsRoutes = require('./routes/achievements');
 
 const app = express();
 connectDB();
@@ -33,6 +34,7 @@ app.use('/api/news', newsRoutes);
 app.use('/api/mods', modsRoutes);
 app.use('/api/bugs', bugsRoutes);
 app.use('/api/hytale', hytaleRoutes);
+app.use('/api/achievements', achievementsRoutes);
 
 // 404 handler
 app.use((req, res) => {

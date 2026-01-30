@@ -13,161 +13,128 @@ interface TrendingTopic {
 	author?: string;
 }
 
-function truncateText(text: string = '', maxLength: number): string {
-	if (!text) return 'No description available';
-	if (text.length <= maxLength) return text;
-	return text.substring(0, maxLength).trim() + '...';
-}
+const truncate = (text: string = '', max: number): string => 
+	text ? (text.length <= max ? text : text.substring(0, max).trim() + '...') : 'No description available';
+
+const SkeletonCard = () => (
+	<div className="bg-white/5 border-2 border-white/10 rounded-2xl overflow-hidden animate-pulse">
+		<div className="h-36 md:h-48 bg-white/10" />
+		<div className="p-4 md:p-6 space-y-3">
+			<div className="h-5 w-16 bg-white/10 rounded-full" />
+			<div className="h-6 w-3/4 bg-white/10 rounded" />
+			<div className="space-y-2">
+				<div className="h-4 w-full bg-white/10 rounded" />
+				<div className="h-4 w-2/3 bg-white/10 rounded" />
+			</div>
+			<div className="h-4 w-24 bg-white/10 rounded mt-4" />
+		</div>
+	</div>
+);
 
 export default function TrendingSection() {
 	const { t } = useTranslation();
-	const [trendingTopics, setTrendingTopics] = useState<TrendingTopic[]>([]);
+	const [topics, setTopics] = useState<TrendingTopic[]>([]);
 	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
-		async function fetchTrendingData() {
+		async function fetchData() {
 			try {
-				const response = await fetch('/api/trending/latest');
-				if (!response.ok) {
-					throw new Error('Failed to fetch trending data');
-				}
-				const result = await response.json();
+				const res = await fetch('/api/trending/latest');
+				if (!res.ok) throw new Error('Failed to fetch');
+				const { success, data } = await res.json();
+				if (!success) throw new Error('Invalid response');
 
-				if (!result.success) {
-					throw new Error(result.message || 'Invalid response');
-				}
+				const { blogs, bugs, mods } = data;
+				const items: TrendingTopic[] = [];
 
-				const { blogs, bugs, mods } = result.data;
-				const topics: TrendingTopic[] = [];
-
-				if (blogs && Array.isArray(blogs) && blogs.length > 0 && blogs[0]?.output?.noticias?.length > 0) {
-					const noticia = blogs[0].output.noticias[0];
-					topics.push({
+				if (blogs?.[0]?.output?.noticias?.[0]) {
+					const n = blogs[0].output.noticias[0];
+					items.push({
 						id: 1,
-						title: truncateText(noticia.titulo, 60),
-						description: truncateText(noticia.resumen, 120),
+						title: truncate(n.titulo, 60),
+						description: truncate(n.resumen, 120),
 						badge: 'NEWS',
 						badgeColor: 'bg-[#00d2ff]',
 						image: '/news_paper.jpeg',
-						url: noticia.url
+						url: n.url
 					});
 				}
 
-				if (bugs && Array.isArray(bugs) && bugs.length > 0 && bugs[0]?.bugs?.length > 0) {
-					const bug = bugs[0].bugs[0];
-					topics.push({
+				if (bugs?.[0]?.bugs?.[0]) {
+					const b = bugs[0].bugs[0];
+					items.push({
 						id: 2,
-						title: truncateText(bug.titulo, 60),
-						description: truncateText(bug.resumen, 120),
+						title: truncate(b.titulo, 60),
+						description: truncate(b.resumen, 120),
 						badge: 'BUG',
 						badgeColor: 'bg-red-500',
 						image: '/bugs.jpg',
-						url: bug.full_link
+						url: b.full_link
 					});
 				}
 
-				if (mods && Array.isArray(mods) && mods.length > 0 && mods[0]?.mods?.length > 0) {
-					const mod = mods[0].mods[0];
-					const downloadUrl = Array.isArray(mod.links_descarga) 
-						? mod.links_descarga[0] 
-						: mod.links_descarga;
-					
-					topics.push({
+				if (mods?.[0]?.mods?.[0]) {
+					const m = mods[0].mods[0];
+					items.push({
 						id: 3,
-						title: truncateText(mod.titulo, 60),
-						description: truncateText(mod.resumen || mod.descripcion, 120),
+						title: truncate(m.titulo, 60),
+						description: truncate(m.resumen || m.descripcion, 120),
 						badge: 'MOD',
 						badgeColor: 'bg-purple-500',
 						image: '/mods.jpeg',
-						url: downloadUrl,
-						author: mod.autor
+						url: Array.isArray(m.links_descarga) ? m.links_descarga[0] : m.links_descarga,
+						author: m.autor
 					});
 				}
 
-				while (topics.length < 4) {
-					topics.push({
-						id: 4 + topics.length - 3,
-						title: "Saturno - Hytale Server",
-						description: "Join Saturno, the premier Hytale server offering unique gameplay, active community events, and a friendly atmosphere. Dive into an unforgettable Hytale experience today!",
+				while (items.length < 4) {
+					items.push({
+						id: 4 + items.length - 3,
+						title: 'Saturno - Hytale Server',
+						description: 'Join Saturno, the premier Hytale server offering unique gameplay, active community events, and a friendly atmosphere.',
 						badge: 'SERVER',
 						badgeColor: 'bg-[#e5c100]',
 						image: '/servers.jpeg'
 					});
 				}
 
-				setTrendingTopics(topics);
+				setTopics(items);
 			} catch (err) {
-				console.error('Error fetching trending data:', err);
+				console.error('Error fetching trending:', err);
 			} finally {
 				setLoading(false);
 			}
 		}
-
-		fetchTrendingData();
+		fetchData();
 	}, []);
 
-	if (loading) {
-		return (
-			<div className="relative bg-[#0b0d12] py-16 pt-32">
-				<div className="container mx-auto px-4">
-					<div className="flex items-center justify-center">
-						<div className="text-white">
-							<div className="animate-pulse flex space-x-4">
-								<div className="flex-1 space-y-4 py-1">
-									<div className="h-4 bg-gray-700 rounded w-3/4 mx-auto"></div>
-									<div className="space-y-2">
-										<div className="h-4 bg-gray-700 rounded"></div>
-										<div className="h-4 bg-gray-700 rounded w-5/6 mx-auto"></div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		);
-	}
-
-	if (trendingTopics.length === 0) {
-		return (
-			<div className="relative bg-[#0b0d12] py-16 pt-32">
-				<div className="container mx-auto px-4">
-					<div className="flex items-center justify-center space-x-3 mb-12">
-						<h2 className="text-4xl font-bold text-white">
-							{t('trending.title')} <span className="text-[#00d2ff]">{t('trending.titleHighlight')}</span>
-						</h2>
-					</div>
-					<div className="text-center text-gray-400">
-						No content available
-					</div>
-				</div>
-			</div>
-		);
-	}
-
 	return (
-		<div className="relative bg-[#0b0d12] py-16 pt-32">
+		<div className="relative bg-[#0b0d12] py-12 md:py-16 pt-12 md:pt-32">
 			<div className="container mx-auto px-4">
-				<div className="flex items-center justify-center space-x-3 mb-12">
-					<h2 className="text-4xl font-bold text-white">
-						{t('trending.title')} <span className="text-[#00d2ff]">{t('trending.titleHighlight')}</span>
-					</h2>
-				</div>
+				<h2 className="text-2xl md:text-4xl font-bold text-white text-center mb-8 md:mb-12">
+					{t('trending.title')} <span className="text-[#00d2ff]">{t('trending.titleHighlight')}</span>
+				</h2>
 
-				<div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
-					{trendingTopics.map((topic, index) => (
-						<TrendingCard
-							key={topic.id}
-							title={topic.title}
-							description={topic.description}
-							badge={topic.badge}
-							badgeColor={topic.badgeColor}
-							image={topic.image}
-							url={topic.url}
-							author={topic.author}
-							isLast={index === trendingTopics.length - 1}
-						/>
-					))}
+				<div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6 max-w-7xl mx-auto">
+					{loading ? (
+						[...Array(4)].map((_, i) => <SkeletonCard key={i} />)
+					) : topics.length === 0 ? (
+						<div className="col-span-full text-center text-gray-400">No content available</div>
+					) : (
+						topics.map((topic, i) => (
+							<TrendingCard
+								key={topic.id}
+								title={topic.title}
+								description={topic.description}
+								badge={topic.badge}
+								badgeColor={topic.badgeColor}
+								image={topic.image}
+								url={topic.url}
+								author={topic.author}
+								isLast={i === topics.length - 1}
+							/>
+						))
+					)}
 				</div>
 			</div>
 		</div>
