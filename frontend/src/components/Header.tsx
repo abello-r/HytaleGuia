@@ -34,10 +34,10 @@ export default function Header() {
 		{ path: '/noticias', label: 'nav.news' },
 		{ path: '/mods', label: 'nav.mods' },
 		{ path: '/bugs', label: 'nav.bugs' },
+		{ path: '/guias', label: 'nav.guides' },
 	];
 
 	const disabledLinks = [
-		{ label: 'nav.guides' },
 		{ label: 'nav.serverList' },
 	];
 

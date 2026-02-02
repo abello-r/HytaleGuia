@@ -20,6 +20,7 @@ const userAchievementsSchema = new mongoose.Schema({
 	achievements: {
 		early_adopter: { type: achievementSchema, default: () => ({ unlocked: true, unlockedAt: new Date() }) },
 		first_comment: { type: achievementSchema, default: () => ({}) },
+		first_like: { type: achievementSchema, default: () => ({}) },
 		mod_hunter: { type: achievementSchema, default: () => ({}) },
 		bug_reporter: { type: achievementSchema, default: () => ({}) },
 		news_reader: { type: achievementSchema, default: () => ({}) },

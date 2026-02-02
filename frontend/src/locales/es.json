@@ -710,6 +710,11 @@
 			"user": "Usuario",
 			"unlocked": "logros"
 		},
+		"first_like": {
+      		"title": "Primer Like",
+      		"description": "Da like a tu primera guía",
+      		"unlockedMessage": "¡Has dado tu primer like!"
+    	},	
 		"newUnlock": "Logro desbloqueado",
 		"hint": "Completa acciones en HytaleGuía para desbloquear más logros",
 		"items": {
@@ -736,7 +741,165 @@
 			"community_member": {
 				"name": "Miembro Activo",
 				"description": "Únete a la comunidad Discord"
+			},
+			"first_like": {
+        		"name": "Primer Like",
+        		"description": "Da like a tu primera guía"
+      		}
+		}
+	},
+	"guides": {
+		"title": "Guías de",
+		"titleHighlight": "Hytale",
+		"description": "Guías creadas por la comunidad para dominar todos los aspectos del juego.",
+		"breadcrumbs": {
+			"home": "Inicio",
+			"guides": "Guías"
+		},
+		"available": "guías disponibles",
+		"createGuide": "Crear guía",
+		"loginToCreate": "Inicia sesión para crear",
+		"searchPlaceholder": "Buscar guías...",
+		"sortBy": "Ordenar",
+		"sortOptions": {
+			"recent": "Recientes",
+			"popular": "Populares"
+		},
+		"toast": {
+    		"commentAdded": "Comentario publicado",
+    		"commentDeleted": "Comentario eliminado",
+    		"commentError": "Error al publicar comentario",
+    		"deleteError": "Error al eliminar",
+    		"linkCopied": "Enlace copiado"
+  		},
+		"categories": {
+			"all": "Todas",
+			"crafteo": "Crafteo",
+			"combate": "Combate",
+			"construccion": "Construcción",
+			"exploracion": "Exploración",
+			"mods": "Mods",
+			"otros": "Otros"
+		},
+		"noResults": "No hay guías disponibles",
+		"beFirst": "¡Sé el primero en crear una guía!",
+		"showing": "Mostrando",
+		"of": "de",
+		"results": "resultados",
+		"loadMore": "Cargar más",
+		"scrollTop": "Volver arriba",
+		"readMore": "Leer más",
+		"addGuide": {
+			"title": "Crear Guía",
+			"description": "¿Tienes conocimientos que compartir? Crea tu propia guía",
+			"loginRequired": "Inicia sesión para crear tu propia guía",
+			"action": "Escribir guía",
+			"login": "Iniciar sesión"
+		},
+		"pagination": {
+			"prev": "Anterior",
+			"next": "Siguiente"
+		},
+		"likes": "Likes",
+		"like": "Me gusta",
+		"share": "Compartir",
+		"likeHint": "Like",
+		"loginToLike": "Inicia sesión para dar like",
+		"backToGuides": "Volver",
+		"detail": {
+			"today": "Hoy",
+			"yesterday": "Ayer",
+			"daysAgo": "Hace {{count}} días",
+			"weeksAgo": "Hace {{count}} semanas",
+			"views": "Vistas",
+			"gallery": "Galería",
+			"remaining": "restantes",
+      		"adSpace": "Publicidad",
+      		"exploreMore": "Explorar más guías"
+		},
+		"edit": "Editar guía",
+		"delete": "Eliminar guía",
+		"deleteModal": {
+			"title": "¿Eliminar guía?",
+			"message": "Esta acción no se puede deshacer. La guía y todos sus comentarios serán eliminados permanentemente.",
+			"cancel": "Cancelar",
+			"confirm": "Eliminar",
+			"deleting": "Eliminando..."
+		},
+		"comments": {
+			"title": "Comentarios",
+			"placeholder": "Escribe un comentario...",
+			"send": "Enviar",
+			"sending": "Enviando...",
+			"empty": "No hay comentarios aún. ¡Sé el primero!",
+			"loginRequired": "Inicia sesión para comentar",
+			"login": "Iniciar sesión",
+			"justNow": "ahora"
+		},
+		"editor": {
+			"createTitle": "Crear nueva guía",
+			"createDescription": "Comparte tu conocimiento con la comunidad de Hytale",
+			"editTitle": "Editar guía",
+			"editDescription": "Modifica el contenido de tu guía",
+			"basicInfo": "Información básica",
+			"contentSection": "Contenido de la guía",
+			"imagesSection": "Imágenes",
+			"title": "Título",
+			"titlePlaceholder": "Ej: Cómo farmear recursos rápidamente en Hytale",
+			"description": "Descripción corta",
+			"descriptionPlaceholder": "Resumen breve de tu guía (aparece en las tarjetas de vista previa)",
+			"category": "Categoría",
+			"content": "Contenido",
+			"contentPlaceholder": "Escribe el contenido de tu guía aquí...\n\nPuedes usar Markdown para dar formato:\n- **texto en negrita**\n- _texto en cursiva_\n- ## Títulos\n- Listas con -\n- [enlaces](url)\n- `código`",
+			"characters": "caracteres",
+			"tags": "Etiquetas",
+			"tagsPlaceholder": "recursos, farmeo, principiantes",
+			"tagsHint": "Separadas por comas, máximo 5 etiquetas",
+			"coverImage": "Imagen de portada",
+			"coverImageHint": "URL de una imagen (opcional)",
+			"images": "Imágenes adicionales",
+			"imagesHint": "Máximo 5MB por imagen. Formatos: JPG, PNG, GIF, WebP",
+			"addImage": "Añadir imagen",
+			"upload": "Subir",
+			"uploadError": "Error al subir la imagen. Inténtalo de nuevo.",
+			"cancel": "Cancelar",
+			"publish": "Publicar guía",
+			"publishing": "Publicando...",
+			"publishSuccess": "¡Guía publicada con éxito!",
+			"save": "Guardar cambios",
+			"saving": "Guardando...",
+			"saveSuccess": "¡Cambios guardados!",
+			"requiredFields": "Por favor completa todos los campos obligatorios",
+			"contentTooLong": "El contenido excede el límite de caracteres",
+			"error": "Error al guardar la guía. Inténtalo de nuevo.",
+			"markdownSupported": "Markdown soportado",
+			"words": "palabras",
+			"toolbar": {
+				"bold": "Negrita",
+				"italic": "Cursiva",
+				"strikethrough": "Tachado",
+				"heading": "Título",
+				"quote": "Cita",
+				"code": "Código",
+				"codeblock": "Bloque de código",
+				"link": "Enlace",
+				"image": "Imagen",
+				"list": "Lista",
+				"orderedList": "Lista numerada",
+				"divider": "Separador",
+				"preview": "Vista previa",
+				"edit": "Editar",
+				"color": "Color de texto",
+				"selectColor": "Selecciona un color",
+				"colorHint": "Selecciona texto antes de elegir color",
+				"fullscreen": "Pantalla completa",
+				"exitFullscreen": "Salir"
 			}
+		},
+		"seo": {
+			"title": "Guías de Hytale - HytaleGuía",
+			"description": "Descubre guías creadas por la comunidad de Hytale. Aprende sobre crafteo, combate, construcción, exploración y mucho más.",
+			"keywords": "guías hytale, tutoriales hytale, crafteo hytale, combate hytale"
 		}
 	}
 }

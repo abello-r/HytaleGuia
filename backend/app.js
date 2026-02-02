@@ -1,3 +1,4 @@
+const path = require('path');
 const express = require('express');
 const cors = require('cors');
 const connectDB = require('./config/database');
@@ -7,6 +8,8 @@ const modsRoutes = require('./routes/mods');
 const bugsRoutes = require('./routes/bugs');
 const hytaleRoutes = require('./routes/hytale');
 const achievementsRoutes = require('./routes/achievements');
+const guidesRoutes = require('./routes/guides')
+
 
 const app = express();
 connectDB();
@@ -33,6 +36,8 @@ app.use('/api/trending', trendingRoutes);
 app.use('/api/news', newsRoutes);
 app.use('/api/mods', modsRoutes);
 app.use('/api/bugs', bugsRoutes);
+app.use('/api/guides', guidesRoutes);
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')))
 app.use('/api/hytale', hytaleRoutes);
 app.use('/api/achievements', achievementsRoutes);
 

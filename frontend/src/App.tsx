@@ -29,6 +29,12 @@ import type { CookieConsent } from './utils/cookieConsent'
 import { getCookieConsent } from './utils/cookieConsent'
 import { AchievementsProvider } from './context/AchievementsContext';
 
+
+import GuidesPage from './pages/GuidesPage'
+import GuideDetailPage from './pages/GuideDetailPage'
+import CreateGuidePage from './pages/CreateGuidePage'
+import EditGuidePage from './pages/EditGuidePage'
+
 const GA_MEASUREMENT_ID = 'G-06EYV38MQG'
 
 function PageTracker({ analyticsEnabled }: { analyticsEnabled: boolean }) {
@@ -108,6 +114,10 @@ function App() {
 						<Route path="/noticias" element={<NewsPage />} />
 						<Route path="/mods" element={<ModsPage />} />
 						<Route path="/bugs" element={<BugsPage />} />
+						<Route path="/guias" element={<GuidesPage />} />
+						<Route path="/guias/nueva" element={<CreateGuidePage />} />
+						<Route path="/guias/:slug" element={<GuideDetailPage />} />
+						<Route path="/guias/:slug/editar" element={<EditGuidePage />} />
 						<Route path="/terminos-de-uso" element={<TermsPage />} />
 						<Route path="/cookies" element={<CookiesPage />} />
 						<Route path="/privacidad" element={<PrivacyPage />} />

@@ -9,6 +9,11 @@ const ACHIEVEMENTS_CONFIG = {
 		requiredProgress: 1,
 		trigger: 'comment_created',
 	},
+	first_like: {
+		id: 'first_like',
+		requiredProgress: 1,
+		trigger: 'guide_liked',
+	},
 	mod_hunter: {
 		id: 'mod_hunter',
 		requiredProgress: 5,
@@ -29,16 +34,16 @@ const ACHIEVEMENTS_CONFIG = {
 		requiredProgress: 1,
 		trigger: 'discord_joined',
 	},
-};
+}
 
 const shouldUnlock = (achievementId, currentProgress) => {
-	const config = ACHIEVEMENTS_CONFIG[achievementId];
-	if (!config) return false;
-	return currentProgress >= config.requiredProgress;
-};
+	const config = ACHIEVEMENTS_CONFIG[achievementId]
+	if (!config) return false
+	return currentProgress >= config.requiredProgress
+}
 
-const getAllAchievementIds = () => Object.keys(ACHIEVEMENTS_CONFIG);
-const getAchievementConfig = (achievementId) => ACHIEVEMENTS_CONFIG[achievementId];
+const getAllAchievementIds = () => Object.keys(ACHIEVEMENTS_CONFIG)
+const getAchievementConfig = (achievementId) => ACHIEVEMENTS_CONFIG[achievementId]
 
 module.exports = {
 	ACHIEVEMENTS_CONFIG,
@@ -46,4 +51,3 @@ module.exports = {
 	getAllAchievementIds,
 	getAchievementConfig,
 }
-

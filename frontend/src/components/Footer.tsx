@@ -24,9 +24,9 @@ export default function Footer() {
 						<h3 className="text-white font-bold mb-3 md:mb-4 text-sm md:text-base">{t('footer.quickLinks')}</h3>
 						<ul className="space-y-2">
 							<li><a href="/noticias" className="text-[#a0a0a0] hover:text-[#00d2ff] transition text-sm cursor-pointer">{t('footer.news')}</a></li>
-							<li><a href="#" className="text-[#a0a0a0] hover:text-[#00d2ff] transition text-sm cursor-pointer">{t('footer.guides')}</a></li>
+							<li><a href="/guias" className="text-[#a0a0a0] hover:text-[#00d2ff] transition text-sm cursor-pointer">{t('footer.guides')}</a></li>
 							<li><a href="/mods" className="text-[#a0a0a0] hover:text-[#00d2ff] transition text-sm cursor-pointer">{t('footer.mods')}</a></li>
-							<li><a href="#" className="text-[#a0a0a0] hover:text-[#00d2ff] transition text-sm cursor-pointer">{t('footer.serverList')}</a></li>
+							<li><a href="/servidores" className="text-[#a0a0a0] hover:text-[#00d2ff] transition text-sm cursor-pointer">{t('footer.serverList')}</a></li>
 							<li><a href="/bugs" className="text-[#a0a0a0] hover:text-[#00d2ff] transition text-sm cursor-pointer">Bugs</a></li>
 						</ul>
 					</div>
