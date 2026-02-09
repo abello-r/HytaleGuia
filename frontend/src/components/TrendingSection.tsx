@@ -13,8 +13,13 @@ interface TrendingTopic {
 	author?: string;
 }
 
-const truncate = (text: string = '', max: number): string => 
+const truncate = (text: string = '', max: number): string =>
 	text ? (text.length <= max ? text : text.substring(0, max).trim() + '...') : 'No description available';
+
+const pickRandom = <T,>(arr?: T[]): T | null => {
+	if (!Array.isArray(arr) || arr.length === 0) return null;
+	return arr[Math.floor(Math.random() * arr.length)];
+};
 
 const SkeletonCard = () => (
 	<div className="bg-white/5 border-2 border-white/10 rounded-2xl overflow-hidden animate-pulse">
@@ -47,8 +52,9 @@ export default function TrendingSection() {
 				const { blogs, bugs, mods } = data;
 				const items: TrendingTopic[] = [];
 
-				if (blogs?.[0]?.output?.noticias?.[0]) {
-					const n = blogs[0].output.noticias[0];
+				const newsList = blogs?.[0]?.output?.noticias;
+				const n = pickRandom(newsList);
+				if (n) {
 					items.push({
 						id: 1,
 						title: truncate(n.titulo, 60),
@@ -60,8 +66,9 @@ export default function TrendingSection() {
 					});
 				}
 
-				if (bugs?.[0]?.bugs?.[0]) {
-					const b = bugs[0].bugs[0];
+				const bugsList = bugs?.[0]?.bugs;
+				const b = pickRandom(bugsList);
+				if (b) {
 					items.push({
 						id: 2,
 						title: truncate(b.titulo, 60),
@@ -73,8 +80,10 @@ export default function TrendingSection() {
 					});
 				}
 
-				if (mods?.[0]?.mods?.[0]) {
-					const m = mods[0].mods[0];
+				const modsList = mods?.[0]?.mods;
+				const m = pickRandom(modsList);
+				if (m) {
+					const dl = Array.isArray(m.links_descarga) ? m.links_descarga[0] : m.links_descarga;
 					items.push({
 						id: 3,
 						title: truncate(m.titulo, 60),
@@ -82,14 +91,14 @@ export default function TrendingSection() {
 						badge: 'MOD',
 						badgeColor: 'bg-purple-500',
 						image: '/mods.jpeg',
-						url: Array.isArray(m.links_descarga) ? m.links_descarga[0] : m.links_descarga,
+						url: dl,
 						author: m.autor
 					});
 				}
 
 				while (items.length < 4) {
 					items.push({
-						id: 4 + items.length - 3,
+						id: 100 + items.length,
 						title: 'Saturno - Hytale Server',
 						description: 'Join Saturno, the premier Hytale server offering unique gameplay, active community events, and a friendly atmosphere.',
 						badge: 'SERVER',
@@ -98,7 +107,7 @@ export default function TrendingSection() {
 					});
 				}
 
-				setTopics(items);
+				setTopics(items.slice(0, 4));
 			} catch (err) {
 				console.error('Error fetching trending:', err);
 			} finally {

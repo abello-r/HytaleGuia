@@ -8,6 +8,8 @@ import DiscordButton from '../components/DiscordButton'
 import SEO from '../components/SEO'
 import ShareButton from '../components/ShareButton'
 import AchievementToast from '../components/AchievementToast'
+import AchievementsModal from '../components/AchievementsModal'
+import { useAchievementsContext } from '../context/AchievementsContext'
 
 interface Comment { _id: string; authorId: string; authorName: string; authorImage: string | null; content: string; createdAt: string }
 interface Guide { _id: string; slug: string; title: string; description: string; content: string; category: string; tags: string[]; coverImage: string | null; images: string[]; author: { id: string; name: string; image: string | null }; stats: { views: number; likes: number; comments: number }; comments: Comment[]; isLiked: boolean; isOwner: boolean; publishedAt: string }
@@ -103,6 +105,7 @@ export default function GuideDetailPage() {
 	const { user, isSignedIn } = useUser()
 	const navigate = useNavigate()
 	const currentLang = i18n.language || 'es'
+	const { refreshAchievements } = useAchievementsContext()
 
 	const [guide, setGuide] = useState<Guide | null>(null)
 	const [loading, setLoading] = useState(true)
@@ -117,6 +120,7 @@ export default function GuideDetailPage() {
 	const [showScrollTop, setShowScrollTop] = useState(false)
 	const [toasts, setToasts] = useState<Toast[]>([])
 	const [unlockedAchievement, setUnlockedAchievement] = useState<string | null>(null)
+	const [showAchievementsModal, setShowAchievementsModal] = useState(false)
 
 	const addToast = (message: string, type: 'success' | 'error') => { const id = Date.now(); setToasts(prev => [...prev, { id, message, type }]); setTimeout(() => removeToast(id), 4000) }
 	const removeToast = (id: number) => setToasts(prev => prev.filter(t => t.id !== id))
@@ -157,6 +161,7 @@ export default function GuideDetailPage() {
 				setIsLiked(result.data.liked)
 				setLikesCount(result.data.likes)
 				if (result.data.unlockedAchievements?.length > 0) {
+					refreshAchievements()
 					setUnlockedAchievement(result.data.unlockedAchievements[0])
 				}
 			}
@@ -171,14 +176,37 @@ export default function GuideDetailPage() {
 			const response = await fetch(`/api/guides/${slug}/comments`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ userId: user.id, userName: user.username || user.firstName || 'Usuario', userImage: user.imageUrl, content: commentText.trim() }) })
 			const result = await response.json()
 			if (result.success) {
-				const newComment = { _id: result.data._id, authorId: result.data.authorId, authorName: result.data.authorName, authorImage: result.data.authorImage, content: result.data.content, createdAt: result.data.createdAt }
-				setGuide({ ...guide, comments: [...guide.comments, newComment], stats: { ...guide.stats, comments: guide.stats.comments + 1 } })
+				const submittedContent = commentText.trim()
+
+				const newComment: Comment = {
+					_id: result.data?._id || result.data?.comment?._id || `tmp_${Date.now()}`,
+					authorId: result.data?.authorId || user.id,
+					authorName: result.data?.authorName || user.username || user.firstName || 'Usuario',
+					authorImage: result.data?.authorImage || user.imageUrl || null,
+					content: result.data?.content || result.data?.comment?.content || submittedContent,
+					createdAt: result.data?.createdAt || result.data?.comment?.createdAt || new Date().toISOString()
+				}
+
+				setGuide(prev => {
+					if (!prev) return prev
+					return {
+						...prev,
+						comments: [...prev.comments, newComment],
+						stats: { ...prev.stats, comments: prev.stats.comments + 1 }
+					}
+				})
+
 				setCommentText('')
 				addToast(t('guides.toast.commentAdded'), 'success')
+
 				if (result.data.unlockedAchievements?.length > 0) {
+					refreshAchievements()
 					setUnlockedAchievement(result.data.unlockedAchievements[0])
 				}
-			} else addToast(t('guides.toast.commentError'), 'error')
+			} else {
+				addToast(t('guides.toast.commentError'), 'error')
+			}
+
 		} catch { addToast(t('guides.toast.commentError'), 'error') }
 		finally { setSubmitting(false) }
 	}
@@ -254,7 +282,8 @@ export default function GuideDetailPage() {
 		<>
 			<SEO title={`${guide.title} - HytaleGuía`} description={guide.description} keywords={guide.tags.join(', ')} canonical={getCanonicalUrl()} ogType="article" />
 			<ToastContainer toasts={toasts} onRemove={removeToast} />
-			<AchievementToast achievementId={unlockedAchievement} onClose={() => setUnlockedAchievement(null)} />
+			<AchievementToast achievementId={unlockedAchievement} onClose={() => setUnlockedAchievement(null)} onOpenModal={() => setShowAchievementsModal(true)} />
+			<AchievementsModal isOpen={showAchievementsModal} onClose={() => setShowAchievementsModal(false)} />
 
 			<div className="fixed top-0 left-0 right-0 z-[60] h-1 bg-white/5">
 				<div className="h-full bg-gradient-to-r from-[#00d2ff] to-[#00d2ff]/70 transition-all duration-150 ease-out" style={{ width: `${readingProgress}%` }} />

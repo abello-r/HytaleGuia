@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 interface AchievementToastProps {
 	achievementId: string | null
 	onClose: () => void
+	onOpenModal?: () => void
 }
 
 const TOAST_DURATION = 5000
@@ -18,7 +19,7 @@ const achievementIcons: Record<string, JSX.Element> = {
 	community_member: <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>,
 }
 
-export default function AchievementToast({ achievementId, onClose }: AchievementToastProps) {
+export default function AchievementToast({ achievementId, onClose, onOpenModal }: AchievementToastProps) {
 	const { t } = useTranslation()
 	const [isVisible, setIsVisible] = useState(false)
 	const [progress, setProgress] = useState(100)
@@ -42,11 +43,19 @@ export default function AchievementToast({ achievementId, onClose }: Achievement
 		}
 	}, [achievementId, onClose])
 
+	const handleClick = () => {
+		setIsVisible(false)
+		setTimeout(() => {
+			onClose()
+			onOpenModal?.()
+		}, 300)
+	}
+
 	if (!achievementId) return null
 
 	return (
 		<div className={`fixed top-4 right-4 z-[150] transition-all duration-300 ${isVisible ? 'translate-x-0 opacity-100' : 'translate-x-full opacity-0'}`}>
-			<div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl overflow-hidden shadow-2xl min-w-[300px]">
+			<div onClick={handleClick} className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl overflow-hidden shadow-2xl min-w-[300px] cursor-pointer hover:bg-white/15 transition">
 				<div className="p-4 flex items-center gap-4">
 					<div className="w-12 h-12 rounded-xl bg-[#00d2ff]/20 backdrop-blur-sm border border-[#00d2ff]/30 flex items-center justify-center text-[#00d2ff]">
 						{achievementIcons[achievementId]}
@@ -55,7 +64,7 @@ export default function AchievementToast({ achievementId, onClose }: Achievement
 						<p className="text-xs text-[#00d2ff] font-medium mb-1">{t('achievements.newUnlock')}</p>
 						<p className="text-white font-bold">{t(`achievements.items.${achievementId}.name`)}</p>
 					</div>
-					<button onClick={() => { setIsVisible(false); setTimeout(onClose, 300) }} className="text-white/40 hover:text-white transition cursor-pointer p-1">
+					<button onClick={(e) => { e.stopPropagation(); setIsVisible(false); setTimeout(onClose, 300) }} className="text-white/40 hover:text-white transition cursor-pointer p-1">
 						<svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
 					</button>
 				</div>
